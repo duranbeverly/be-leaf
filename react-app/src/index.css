@@ -1,1 +1,142 @@
 /* TODO Add site wide styles */
+@import url('https://fonts.googleapis.com/css2?family=Lustria&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    width: 28rem;
+}
+
+
+.form-title {
+    font-family: 'Lustria', serif;
+    color: #224229;
+    font-size: 32px;
+    margin: 1rem 0;
+}
+
+.form-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11px;
+    color: #224229;
+    font-weight: 500;
+
+}
+
+.form-input {
+    width: 100%;
+    height: 3.8rem;
+    margin: .5rem 0 1rem 0;
+    border: 1px solid #EDEBE6;
+    background: white;
+    color: #224229;
+    padding: 0 1rem;
+}
+
+.form-input:focus {
+    outline: 2px solid #17702a;
+
+    /* Set the outline color to green when the input is focused */
+}
+
+
+.form-button {
+    width: 100%;
+    height: 3.5rem;
+    border-radius: 25px;
+    border: none;
+    background-color: #224229;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+
+.session-nav {
+    display: flex;
+    width: 28rem;
+    justify-content: space-around;
+
+    border-bottom: 1px solid #224229;
+}
+
+.login-nav {
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+    color: #224229;
+}
+
+.signup-nav {
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+    color: #224229;
+    text-decoration: none;
+}
+
+.login-div {
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    padding: 1rem 0;
+    color: #224229;
+    cursor: pointer;
+}
+
+.signup-div {
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    padding: 1rem 0;
+    color: #224229;
+    cursor: pointer;
+}
+
+.session-nav .active {
+    font-weight: bold;
+    border-bottom: 2px solid #224229;
+}
+
+a {
+    text-decoration: none;
+}
+
+a::after {
+    text-decoration: none;
+}
+
+.footer {
+    width: 100%;
+    height: 5rem;
+    position: fixed;
+    bottom: 0;
+    background-color: #224229;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.developer-name {
+    font-family: 'Raleway', sans-serif;
+    font-size: 12px;
+    color: white;
+}
+
+.social-icon {
+    width: 25px;
+}
+
+.social-media-div {
+    display: flex;
+    gap: 1rem;
+}

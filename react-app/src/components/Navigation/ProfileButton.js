@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
+import { NavLink } from 'react-router-dom';
 import { logout } from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
@@ -10,39 +11,49 @@ function ProfileButton({ user }) {
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
-  const openMenu = () => {
-    if (showMenu) return;
-    setShowMenu(true);
-  };
 
-  useEffect(() => {
-    if (!showMenu) return;
+  const handleSubmit = () => {
 
-    const closeMenu = (e) => {
-      if (!ulRef.current.contains(e.target)) {
-        setShowMenu(false);
-      }
-    };
+  }
+  // const openMenu = () => {
+  //   if (showMenu) return;
+  //   setShowMenu(true);
+  // };
 
-    document.addEventListener("click", closeMenu);
+  // useEffect(() => {
+  //   if (!showMenu) return;
 
-    return () => document.removeEventListener("click", closeMenu);
-  }, [showMenu]);
+  //   const closeMenu = (e) => {
+  //     if (!ulRef.current.contains(e.target)) {
+  //       setShowMenu(false);
+  //     }
+  //   };
 
-  const handleLogout = (e) => {
-    e.preventDefault();
-    dispatch(logout());
-  };
+  //   document.addEventListener("click", closeMenu);
 
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
-  const closeMenu = () => setShowMenu(false);
+  //   return () => document.removeEventListener("click", closeMenu);
+  // }, [showMenu]);
+
+  // const handleLogout = (e) => {
+  //   e.preventDefault();
+  //   dispatch(logout());
+  // };
+
+  // const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  // const closeMenu = () => setShowMenu(false);
 
   return (
-    <>
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
-      </button>
-      <ul className={ulClassName} ref={ulRef}>
+    <div className="right-nav-buttons">
+      <NavLink className='profile-button' exact to='/login'><i className="fa-regular fa-user" /></NavLink>
+      <OpenModalButton
+        className={'profile-button'}
+        buttonText={< i className="fa-regular fa-basket-shopping-simple" />}
+      />
+
+      {/* <button className="profile-button" onClick={openMenu}>
+        <i className="fa-regular fa-user" />
+      </button> */}
+      {/* <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
             <li>{user.username}</li>
@@ -66,8 +77,8 @@ function ProfileButton({ user }) {
             />
           </>
         )}
-      </ul>
-    </>
+      </ul> */}
+    </div>
   );
 }
 
