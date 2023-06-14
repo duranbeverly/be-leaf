@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
     # relationships
     plants = db.relationship("Plant", back_populates="users")
     reviews = db.relationship("Review", back_populates="users")
-    carts = db.relationship("Cart", back_populates="users")
+    carts = db.relationship("Cart", uselist=False, back_populates="users")
     user_favorites = db.relationship(
         "Plant",
         secondary=favorites,
@@ -37,10 +37,12 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password, password)
 
     def to_dict(self):
+        cart = self.carts.to_dict()
+
         return {
             'id': self.id,
-            'first_name': self.username,
+            'first_name': self.first_name,
             'last_name': self.last_name,
             'email': self.email,
-            'cart': self.cart.to_dict()
+            'cart': cart
         }

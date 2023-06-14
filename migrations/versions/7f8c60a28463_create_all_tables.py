@@ -1,19 +1,19 @@
 """create all tables
 
-Revision ID: 29dc192a1e0f
+Revision ID: 7f8c60a28463
 Revises:
-Create Date: 2023-06-13 19:18:46.426047
+Create Date: 2023-06-14 16:00:15.706110
 
 """
 from alembic import op
 import sqlalchemy as sa
-import os
 
+import os
 environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = '29dc192a1e0f'
+revision = '7f8c60a28463'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -30,6 +30,8 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
+
+
     if environment == "production":
         op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
 
@@ -42,11 +44,13 @@ def upgrade():
     sa.Column('quantity', sa.Integer(), nullable=False),
     sa.Column('is_giant', sa.Boolean(), nullable=False),
     sa.Column('is_pet_friendly', sa.Boolean(), nullable=False),
-    sa.Column('preview_image', sa.String(), nullable=False),
+    sa.Column('preview_image', sa.String(length=500), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+
+
     if environment == "production":
         op.execute(f"ALTER TABLE plants SET SCHEMA {SCHEMA};")
 
@@ -60,6 +64,8 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+
+
     if environment == "production":
         op.execute(f"ALTER TABLE carts SET SCHEMA {SCHEMA};")
 
@@ -70,6 +76,7 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('user_id', 'plant_id')
     )
+
     if environment == "production":
         op.execute(f"ALTER TABLE favorites SET SCHEMA {SCHEMA};")
 
@@ -81,8 +88,9 @@ def upgrade():
     sa.ForeignKeyConstraint(['plant_id'], ['plants.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    if environment == "plant_images":
-        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE plant_images SET SCHEMA {SCHEMA};")
 
     op.create_table('reviews',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -96,8 +104,10 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+
     if environment == "production":
         op.execute(f"ALTER TABLE reviews SET SCHEMA {SCHEMA};")
+
     # ### end Alembic commands ###
 
 

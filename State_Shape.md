@@ -6,8 +6,8 @@
     "cart": {"plantsById": {...info}}
 },
 "plants" : {
-    "allPlantsById":{...info, "imagesById":{}},
-    "currentPlant":{...info, "imagesById":{}}
+    "allPlantsById":{...info, "imagesById":[]},
+    "currentPlant":{...info, "imagesById":[]}
     },
 "reviews": {
     "allReviews": {},
@@ -62,6 +62,7 @@
             "quantity": 4,
             "is_giant:" True,
             "is_pet_friendly": False,
+            "images":[ 1: {}, 2: {}],
             "created_At": time
         },
     },
@@ -74,6 +75,7 @@
             "quantity": 4,
             "is_giant:" True,
             "is_pet_friendly": False,
+            "images":[ 1: {}, 2: {}],
             "created_At": time
         },
     }
