@@ -5,3 +5,56 @@
 .hidden {
   display: none;
 }
+
+.green-top {
+  height: 2rem;
+  background-color: #224229;
+}
+
+
+.site-name {
+  text-decoration: none;
+  font-size: 32px;
+  font-family: 'Raleway', sans-serif;
+  color: #224229;
+  font-weight: 500;
+}
+
+.nav-bar {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.mid-navbar {
+  display: flex;
+  font-family: 'Raleway', sans-serif;
+  font-size: 16px;
+  color: #224229;
+  gap: 3rem;
+  font-weight: 500;
+}
+
+.profile-button {
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.fa-user {
+  font-size: 18px;
+  color: #224229;
+  background-color: none;
+}
+
+.fa-basket-shopping-simple {
+  font-size: 18px;
+  color: #224229;
+  background-color: none;
+}
+
+.right-nav-buttons {
+  display: flex;
+  gap: .5rem;
+}
