@@ -26,15 +26,16 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
+  background-color: #FCF9F3;
 }
 
 .mid-navbar {
   display: flex;
   font-family: 'Raleway', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   color: #224229;
   gap: 3rem;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .profile-button {

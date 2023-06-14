@@ -8,16 +8,16 @@ function Navigation({ isLoaded }) {
 	const sessionUser = useSelector(state => state.session.user);
 
 	return (
-		<>
+		<div>
 			<div className='green-top'></div>
 			<ul className='nav-bar'>
 				<NavLink className='nav-list-left' exact to="/">
 					<p className="site-name" >be-leaf</p>
 				</NavLink>
 				<li className='mid-navbar'>
-					<p>All Plants</p>
-					<p>Pet-Friendly Plants</p>
-					<p>Giant Plants</p>
+					<p>ALL PLANTS</p>
+					<p>PET-FRIENDLY PLANTS</p>
+					<p>GIANT PLANTS</p>
 				</li>
 				{isLoaded && (
 					<li>
@@ -26,7 +26,7 @@ function Navigation({ isLoaded }) {
 				)}
 			</ul>
 
-		</>
+		</div>
 	);
 }
 
