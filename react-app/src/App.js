@@ -18,17 +18,20 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      <Footer />
+
       {isLoaded && (
         <Switch>
           <Route exact path="/">
             <SplashPage />
+            <Footer />
           </Route>
           <Route exact path="/login" >
             <LoginFormPage />
+            <Footer />
           </Route>
           <Route exact path="/signup">
             <SignupFormPage />
+            <Footer />
           </Route>
         </Switch>
       )}
