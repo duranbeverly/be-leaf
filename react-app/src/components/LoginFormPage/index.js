@@ -43,7 +43,7 @@ function LoginFormPage() {
         </div>
         <NavLink
           className={`signup-div ${activeButton === 'signup' ? 'active' : ""}`}
-          exact to="/signup"  
+          exact to="/signup"
         >
           <p className="signup-nav" >Sign up</p>
         </NavLink>
@@ -52,7 +52,7 @@ function LoginFormPage() {
         <h1 className="form-title">Log In</h1>
         <ul>
           {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
+            <li className="errors" key={idx}>{error}</li>
           ))}
         </ul>
         <label className="form-label">

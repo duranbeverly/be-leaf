@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import SplashPage from "./components/SplashPage";
+import PlantList from "./components/PlantList";
 import Footer from "./components/Footer";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
@@ -32,6 +33,9 @@ function App() {
           <Route exact path="/signup">
             <SignupFormPage />
             <Footer />
+          </Route>
+          <Route exact path="/plants">
+            <PlantList />
           </Route>
         </Switch>
       )}

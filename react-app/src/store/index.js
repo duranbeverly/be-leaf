@@ -5,6 +5,7 @@ import plants from './plants'
 
 const rootReducer = combineReducers({
   session,
+  plants
 });
 
 

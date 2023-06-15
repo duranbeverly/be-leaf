@@ -38,6 +38,7 @@ class Plant(db.Model):
             "name": self.name,
             "description": self.description,
             "user_id": self.user_id,
+            "first_name": self.users.first_name,
             "price": self.price,
             "quantity": self.quantity,
             "is_giant": self.is_giant,

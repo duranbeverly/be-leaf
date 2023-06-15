@@ -7,19 +7,46 @@ import './PlantList.css'
 export default function PlantList() {
     const dispatch = useDispatch();
     let [isLoading, setIsLoading] = useState(true)
-    let plants = Object.values(useSelector((state) => state.plants))
 
     useEffect(() => {
-        dispatch(fetchPlants())
-    }, [])
+        dispatch(fetchPlants()).then(() => setIsLoading(false))
+    }, [dispatch])
 
+    let plants = (useSelector((state) => state.plants.all_plants))
     if (isLoading) {
         return <div className="plant-index-container"></div>
     }
+
+
+    console.log("Here are supposed to be the plants: ========= ================= ", plants)
     return (
         <div className="plant-index-container">
             <h1 className="plant-index-title">Indoor Plants</h1>
+            <div className="all-plant-cards">
+                {plants && Object.values(plants).map(plant => {
+                    let image = plant.preview_image
+                    let name = plant.name
+                    let user = plant.first_name
+                    let price = plant.price
 
+                    return (
+                        <div className="plant-card" key={plant.id} >
+                            <NavLink className="plant-index-card" to={`/api/plants/${plant.id}`}>
+                                <div className="img-container">
+                                    <img alt={plant.name} src={image} className="plant-index-img"></img>
+                                </div>
+                                <div className="plant-index-top">
+                                    <p className="plant-index-name">{plant.name}</p>
+                                    <p className="plant-index-price">{`$${price}`}</p>
+                                </div>
+                                <p className="plant-index-username">{user}</p>
+                            </NavLink>
+                        </div>
+                    )
+                })}
+
+
+            </div>
         </div>
     )
 }

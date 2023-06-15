@@ -18,12 +18,12 @@ def get_all_plants():
     """
     plants = Plant.query.all()
 
-    res = {"plants": {}}
+    res = {"all_plants": {}}
 
     for plant in plants:
         plant= plant.to_dict()
         id = plant["id"]
-        res["plants"][id] = plant
+        res["all_plants"][id] = plant
 
 
     return res

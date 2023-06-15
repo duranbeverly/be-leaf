@@ -11,7 +11,7 @@ def seed_plants():
             "quantity": 5,
             "is_giant": False,
             "is_pet_friendly": True,
-            "preview_image": "https://s3.console.aws.amazon.com/s3/object/be-leaf?region=us-east-1&prefix=plant.jpg"
+            "preview_image": "https://be-leaf.s3.amazonaws.com/plant.jpg"
         },
         {
             "name": "Plant 2",
@@ -21,7 +21,7 @@ def seed_plants():
             "quantity": 3,
             "is_giant": True,
             "is_pet_friendly": False,
-            "preview_image": "https://s3.console.aws.amazon.com/s3/object/be-leaf?region=us-east-1&prefix=plant10.jpg"
+            "preview_image": "https://be-leaf.s3.amazonaws.com/plant10.jpg"
         },
         {
             "name": "Plant 3",
@@ -31,7 +31,7 @@ def seed_plants():
             "quantity": 8,
             "is_giant": False,
             "is_pet_friendly": True,
-            "preview_image": "https://s3.console.aws.amazon.com/s3/object/be-leaf?region=us-east-1&prefix=plant11.jpg"
+            "preview_image": "https://be-leaf.s3.amazonaws.com/plant11.jpg"
         },
         {
             "name": "Plant 4",
@@ -41,7 +41,7 @@ def seed_plants():
             "quantity": 2,
             "is_giant": False,
             "is_pet_friendly": True,
-            "preview_image": "https://s3.console.aws.amazon.com/s3/object/be-leaf?region=us-east-1&prefix=plant12.jpg"
+            "preview_image": "https://be-leaf.s3.amazonaws.com/plant12.jpg"
         },
         {
             "name": "Plant 5",
@@ -51,7 +51,7 @@ def seed_plants():
             "quantity": 4,
             "is_giant": True,
             "is_pet_friendly": False,
-            "preview_image": "https://s3.console.aws.amazon.com/s3/object/be-leaf?region=us-east-1&prefix=plant13.jpg"
+            "preview_image": "https://be-leaf.s3.amazonaws.com/plant13.jpg"
         },
         {
             "name": "Plant 6",
@@ -61,7 +61,7 @@ def seed_plants():
             "quantity": 6,
             "is_giant": False,
             "is_pet_friendly": True,
-            "preview_image": "https://s3.console.aws.amazon.com/s3/object/be-leaf?region=us-east-1&prefix=plant14.jpg"
+            "preview_image": "https://be-leaf.s3.amazonaws.com/plant14.jpg"
         },
         {
             "name": "Plant 7",
@@ -71,7 +71,7 @@ def seed_plants():
             "quantity": 1,
             "is_giant": True,
             "is_pet_friendly": False,
-            "preview_image": "https://s3.console.aws.amazon.com/s3/object/be-leaf?region=us-east-1&prefix=plant15.jpg"
+            "preview_image": "https://be-leaf.s3.amazonaws.com/plant15.jpg"
         },
         {
             "name": "Plant 8",
@@ -81,7 +81,7 @@ def seed_plants():
             "quantity": 3,
             "is_giant": False,
             "is_pet_friendly": True,
-            "preview_image": "https://s3.console.aws.amazon.com/s3/object/be-leaf?region=us-east-1&prefix=plant16.jpg"
+            "preview_image": "https://be-leaf.s3.amazonaws.com/plant16.jpg"
         },
         {
             "name": "Plant 9",
@@ -91,7 +91,7 @@ def seed_plants():
             "quantity": 5,
             "is_giant": False,
             "is_pet_friendly": True,
-            "preview_image": "https://s3.console.aws.amazon.com/s3/object/be-leaf?region=us-east-1&prefix=plant17.jpg"
+            "preview_image": "https://be-leaf.s3.amazonaws.com/plant17.jpg"
         },
         {
             "name": "Plant 10",
@@ -101,7 +101,7 @@ def seed_plants():
             "quantity": 2,
             "is_giant": True,
             "is_pet_friendly": False,
-            "preview_image": "https://s3.console.aws.amazon.com/s3/object/be-leaf?region=us-east-1&prefix=plant2.jpg"
+            "preview_image": "https://be-leaf.s3.amazonaws.com/plant2.jpg"
         }
     ] :
         db.session.add(Plant(**plant))
