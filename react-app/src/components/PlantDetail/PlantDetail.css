@@ -1,0 +1,201 @@
+.wrapper {
+    padding: 1rem;
+    background-color: #FCF9F3;
+}
+
+.plant-detail-wrapper {
+    display: flex;
+
+}
+
+.plant-detail-top {
+    display: flex;
+    gap: 1rem;
+    height: 4rem;
+    border-top: 1px solid #D9DBD2;
+    border-bottom: 1px solid #D9DBD2;
+    margin-bottom: 1rem;
+    align-items: center;
+
+}
+
+.plant-detail-header {
+    font-family: "Raleway", sans-serif;
+    font-size: 16px;
+    color: #224229;
+    font-weight: 500;
+}
+
+.plant-detail-name {
+    font-family: "Raleway", sans-serif;
+    font-size: 16px;
+    color: #224229;
+    font-weight: 500;
+}
+
+.plant-detail-heading-division {
+    font-family: "Raleway", sans-serif;
+    font-size: 16px;
+    color: #224229;
+    font-weight: 500;
+}
+
+.plant-detail-bottom {
+    display: flex;
+    justify-content: space-around;
+}
+
+.plant-detail-pic-div {
+    width: 40%;
+}
+
+.plant-detail-main-pic {
+    overflow: hidden;
+}
+
+.img {
+    width: 10rem;
+    height: 10rem;
+}
+
+.plant-detail-main-pic img {
+    width: 100%;
+}
+
+.plant-detail-info {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+
+/* inside the details side of the page */
+
+.plant-detail-subheader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.side-title {
+    font-family: "Lustria", serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: #224229;
+}
+
+.price {
+    font-family: "Lustria", serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: #224229;
+}
+
+.plant-detail-description {
+    font-family: "Raleway", sans-serif;
+    font-size: 15px;
+    color: #224229;
+}
+
+.plant-detail-pot-colors {
+    display: flex;
+    gap: 2rem;
+    font-size: 12px;
+    font-family: "Raleway", sans-serif;
+}
+
+
+.make-colors-small {
+    width: 10rem;
+}
+
+.stone {
+    width: 42px;
+    height: 42px;
+    background-color: #E6E8EA;
+    border-radius: 35px;
+}
+
+.charcoal {
+    width: 42px;
+    height: 42px;
+    background-color: #3B4037;
+    border-radius: 35px;
+}
+
+.slate {
+    width: 42px;
+    height: 42px;
+    background-color: #B7C7CD;
+    border-radius: 35px;
+}
+
+.plant-detail-stone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    gap: .2rem;
+}
+
+.plant-detail-charcoal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    gap: .2rem;
+}
+
+.plant-detail-slate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    gap: .2rem;
+}
+
+.plant-detail-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.cart-button {
+    width: 287px;
+    height: 57px;
+    border-radius: 35px;
+    border: none;
+    background-color: #224229;
+    color: white;
+    font-family: "Raleway", sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+
+}
+
+.input-cart {
+    border-radius: 35px;
+    width: 100px;
+    height: 57px;
+    border: 1px solid #DEE0D7;
+    font-family: "Raleway", sans-serif;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.fa-minus {
+    font-size: 14px;
+    color: #224229;
+    cursor: pointer;
+}
+
+.fa-plus {
+    font-size: 14px;
+    color: #224229;
+    cursor: pointer;
+}
+
+.num {
+    padding-bottom: .2rem;
+}

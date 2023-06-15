@@ -44,6 +44,5 @@ class Plant(db.Model):
             "is_giant": self.is_giant,
             "is_pet_friendly": self.is_pet_friendly,
             "preview_image": self.preview_image,
-            "images": [image.to_dict() for image in self.images],
             "created_at": self.created_at.strftime('%B %d, %Y')
         }

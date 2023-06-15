@@ -32,7 +32,7 @@ export default function PlantList() {
 
                     return (
                         <div className="plant-card" key={plant.id} >
-                            <NavLink className="plant-index-card" to={`/api/plants/${plantId}`}>
+                            <NavLink className="plant-index-card" to={`/plants/${plantId}`}>
                                 <div className="img-container">
                                     <img alt={name} src={image} className="plant-index-img"></img>
                                 </div>

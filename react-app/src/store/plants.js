@@ -106,38 +106,36 @@ const initialState = {
 export default function reducer(state = initialState, action) {
     console.log("my current state: ======================= ", state)
     console.log("the action coming in ", action)
-    // const newState = { ...state, all_plants: { ...state.all_plants }, current_plant: { ...state.current_plant } }
+
     switch (action.type) {
-        case GET_PLANTS:
-            let newState = { ...state }
-            newState.all_plants = { ...action.payload.all_plants }
-            // newState.all_plants = { ...action.payload.all_plants }
-            // let newImages = []
-            // let images = action.payload.all_plants.images
-            // for (let image in images) {
-            //     newImages.push(image["id"] = image)
-            // }
-            // newState.all_plants.images = newImages
-            console.log("this is the new state: ", newState)
-            return newState
-        case GET_CURR_PLANT:
-            let newState2 = { ...state }
-            newState2.current_plant = { ...newState2.current_plant, ...action.payload.current_plant }
-            // let newImage = []
-            // let images2 = action.payload.current_plant.images
-            // for (let image in images2) {
-            //     newImage.push(image["id"] = image)
-            // }
-            // newState.current_plants.images = newImage
-            return newState2
-        case CREATE_PLANT:
-            let newState3 = { ...state }
-            newState3.all_plants[action.payload.id] = { ...action.payload.current_plant }
-            console.log("this is the new state: ", newState3)
-            return newState3
+        case GET_PLANTS: {
+            const allPlants = { ...action.payload.all_plants };
+            return {
+                ...state,
+                all_plants: allPlants
+            };
+        }
+        case GET_CURR_PLANT: {
+            const currentPlant = { ...action.payload.current_plant };
+            return {
+                ...state,
+                current_plant: currentPlant
+            };
+        }
+        case CREATE_PLANT: {
+            const newState = {
+                ...state,
+                all_plants: {
+                    ...state.all_plants,
+                    [action.payload.current_plant.id]: {
+                        ...action.payload.current_plant
+                    }
+                }
+            };
+            console.log("this is the new state: ", newState);
+            return newState;
+        }
         default:
             return state;
-
     }
-
 }
