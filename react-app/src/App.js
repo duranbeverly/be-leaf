@@ -37,14 +37,14 @@ function App() {
             <SignupFormPage />
             <Footer />
           </Route>
-          <Route exact path="/plants">
-            <PlantList />
-          </Route>
           <Route exact path="/plants/new">
             <CreatePlant />
           </Route>
           <Route exact path="/plants/:plantId">
             <PlantDetail />
+          </Route>
+          <Route exact path="/plants">
+            <PlantList />
           </Route>
           <Route exact path="/user">
             <User />

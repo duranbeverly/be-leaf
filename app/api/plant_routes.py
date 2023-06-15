@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from sqlalchemy import or_, and_
 from flask_login import current_user, login_required
 from app.models import Plant, db, User, PlantImage
-from app.forms import PlantForm
+from app.forms import PlantForm, EditPlantForm
 from app.api.AWS_helpers import upload_file_to_s3, get_unique_filename, remove_file_from_s3
 
 # we will make this route prefix /api/plants
@@ -58,7 +58,7 @@ def get_plant_info(plantId):
     plant_info = Plant.query.get(plantId)
     if plant_info is None:
         return "Plant not found"
-    res = plant_info.to_dict()
+    res = {"current_plant": plant_info.to_dict()}
     return res
 
 
@@ -68,16 +68,13 @@ def create_plant():
     """
     Create a new plant listing
     """
-
-    image = request.json['preview_image']
-    # this print gives me the correct image
-    print("request: ", image)
+    print("you got to the backend route!! ")
 
     form = PlantForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     form.user_id.data = current_user.id
 
-    plant_id = None
+    # plant_id = None
 
 
     if form.validate():
@@ -132,8 +129,46 @@ def create_plant():
 @login_required
 def edit_plant(id):
     """
-    Edit a plant
+    Edit a plant only if you are its owner
     """
+
+    # check to see if current user is owner of plant
+    plant = Plant.query.get(id)
+
+    if current_user.id != plant.user_id:
+        return {
+            "message": "You can not edit this plant"
+        }
+
+    # validate the information by creating a PlantForm
+    form = EditPlantForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    form.user_id.data = current_user.id
+
+    if form.validate():
+        # delete the image on AWS if it exists
+        if "preview_image" in form.data and form.data["preview_image"] != None:
+            remove_file_from_s3(plant.preview_image)
+
+            image = form.data["preview_image"]
+            image.filename = get_unique_filename(image.filename)
+            upload = upload_file_to_s3(image)
+            if 'url' not in upload:
+                return upload
+            else:
+                plant.preview_image = upload["url"]
+
+        plant.name = form.data["name"]
+        plant.price = form.data["price"]
+        plant.quantity = form.data["quantity"]
+        plant.description = form.data["description"]
+        plant.is_giant = form.data["is_giant"]
+        plant.is_pet_friendly = form.data["is_pet_friendly"]
+        db.session.commit()
+        return plant.to_dict()
+    else:
+        return form.errors, 400
+
 
 @plant_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
@@ -141,3 +176,26 @@ def delete_plant(id):
     """
     Delete a plant by Id
     """
+    # get the plant by id
+    plant = Plant.query.get(id)
+
+    if not plant:
+        return {
+            "message": "plant not found..."
+        }
+
+    # make sure the current user owns the plant
+    if current_user.id != plant.user_id:
+        return{
+            "message": "unauthorized action, you do not own this plant"
+        }
+
+    # now remove image from Aws
+    remove_file_from_s3(plant.preview_image)
+
+    db.session.delete(plant)
+    db.session.commit()
+
+    return {
+        "message": "plant deleted"
+    }

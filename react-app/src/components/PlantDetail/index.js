@@ -12,18 +12,21 @@ export default function PlantDetail() {
     // plantId = parseInt(plantId)
     // console.log(typeof (plantId))
     let dispatch = useDispatch()
+    let allPlants = useSelector((state) => state.plant?.all_plants)
+    let [cart, setCart] = useState(0)
     let [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         setIsLoading(true)
+        console.log("going to get the plant by id, in frontend")
         dispatch(thunkGetSinglePlant(plantId)).then(() => setIsLoading(false))
-    }, [dispatch, plantId, plant])
+    }, [dispatch, plantId])
     // we need to get the plant details from the state lets try that
     let plant = useSelector(state => state.plants?.all_plants[plantId])
-    console.log("this is the plant: ", plant)
+    console.log("plant in the plant detail page", plant)
+
 
     if (isLoading) return <div className='plant-detail-wrapper'></div>
-    console.log("this is the plant: ", plant)
     return (
         // <>
         //     <h1>CAN YOU SEE ME</h1>
@@ -67,7 +70,7 @@ export default function PlantDetail() {
                         </div>
                     </div>
                     <div className='plant-detail-buttons'>
-                        <input type="number" value="1" min="1" max={plant?.quantity} step="1" />
+                        <input type="number" value="1" min="1" max={plant?.quantity} step="1" onChange={(e) => setCart(e.target.value)} />
                         <button>ADD TO CART</button>
                     </div>
                 </div>

@@ -21,6 +21,10 @@ export default function CreatePlant() {
     const [isLoading, setIsLoading] = useState(false)
     const sessionUser = useSelector((state) => state.session.user)
 
+    if (!sessionUser) {
+        history.push("/")
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newErrors = {};
@@ -60,14 +64,22 @@ export default function CreatePlant() {
 
         setIsLoading(true)
 
-        dispatch(thunkCreatePlant(formData).then((data) => {
+        // console.log("the formData before it sends! ", formData.get("preview_image"))
+        // console.log(formData.get("name"))
+        // console.log(formData.get("price"))
+        // console.log(formData.get("quantity"))
+        // console.log(formData.get("description"))
+        // console.log(formData.get("is_giant"))
+        // console.log(formData.get("is_pet_friendly"))
+
+        dispatch(thunkCreatePlant(formData)).then((data) => {
             if (data.error) {
                 setErrors(data.error);
                 setIsLoading(false);
             } else {
                 history.push(`/plants/${data.id}`)
             }
-        }))
+        })
 
     }
 
@@ -147,7 +159,6 @@ export default function CreatePlant() {
                         className="form-input"
                         type="file"
                         accept="image/*"
-                        value={previewImage}
                         onChange={(e) => setPreviewImage(e.target.files[0])}
                     />
                 </label>

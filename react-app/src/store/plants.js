@@ -1,8 +1,8 @@
 const GET_PLANTS = 'plants/GET_PLANTS'
 const GET_CURR_PLANT = 'plants/GET_CURR_PLANT'
-const CREATE_PLANT = 'plants/CREATE_PLANTS'
-const EDIT_PLANT = 'plants/EDIT_PLANTS'
-const DELETE_PLANT = 'plants/DELETE_PLANTS'
+const CREATE_PLANT = 'plants/CREATE_PLANT'
+const EDIT_PLANT = 'plants/EDIT_PLANT'
+const DELETE_PLANT = 'plants/DELETE_PLANT'
 
 
 const getPlants = (plants) => ({
@@ -49,7 +49,7 @@ export const thunkGetSinglePlant = (plantId) => async (dispatch) => {
 
     const data = await res.json()
     if (res.ok) {
-        console.log("this is what we get back from the backend :) ========== ")
+        console.log("this is what we get back from the backend :) ========== ", data)
         dispatch(currentPlant(data))
         return data
     } else {
@@ -58,19 +58,20 @@ export const thunkGetSinglePlant = (plantId) => async (dispatch) => {
 }
 
 export const thunkCreatePlant = (formData) => async (dispatch) => {
-    const res = await fetch('/api/plants/new', {
+    console.log("create a new plant thunk ==== ", formData)
+    const res = await fetch("/api/plants/new", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: formData
     })
 
     const data = await res.json();
 
     if (res.ok) {
+        console.log("what we get after creating a plant: ", data)
         dispatch(createPlant(data))
         return data
     } else {
-        return { error: data.name[0] }
+        return data
     }
 }
 
@@ -103,31 +104,37 @@ const initialState = {
 
 
 export default function reducer(state = initialState, action) {
-    // console.log("my current state: ======================= ", state)
-    // console.log("the action coming in ", action)
-    const newState = { ...state, all_plants: { ...state.all_plants }, current_plant: { ...state.current_plant } }
+    console.log("my current state: ======================= ", state)
+    console.log("the action coming in ", action)
+    // const newState = { ...state, all_plants: { ...state.all_plants }, current_plant: { ...state.current_plant } }
     switch (action.type) {
         case GET_PLANTS:
+            let newState = { ...state }
             newState.all_plants = { ...action.payload.all_plants }
+            // newState.all_plants = { ...action.payload.all_plants }
             // let newImages = []
             // let images = action.payload.all_plants.images
             // for (let image in images) {
             //     newImages.push(image["id"] = image)
             // }
             // newState.all_plants.images = newImages
+            console.log("this is the new state: ", newState)
             return newState
         case GET_CURR_PLANT:
-            newState.current_plant = { ...newState.current_plant, ...action.payload }
+            let newState2 = { ...state }
+            newState2.current_plant = { ...newState2.current_plant, ...action.payload.current_plant }
             // let newImage = []
             // let images2 = action.payload.current_plant.images
             // for (let image in images2) {
             //     newImage.push(image["id"] = image)
             // }
             // newState.current_plants.images = newImage
-            return newState
+            return newState2
         case CREATE_PLANT:
-            newState.all_plants[action.payload.id] = { ...action.payload }
-            return newState
+            let newState3 = { ...state }
+            newState3.all_plants[action.payload.id] = { ...action.payload.current_plant }
+            console.log("this is the new state: ", newState3)
+            return newState3
         default:
             return state;
 
