@@ -50,12 +50,12 @@ def get_pet_safe_plants():
     }
     return res
 
-@plant_routes.route('/<int:id>')
-def get_plant_info(id):
+@plant_routes.route('/<int:plantId>')
+def get_plant_info(plantId):
     """
     Returns the information of a specific plant by id
     """
-    plant_info = Plant.query.get(id)
+    plant_info = Plant.query.get(plantId)
     if plant_info is None:
         return "Plant not found"
     res = plant_info.to_dict()

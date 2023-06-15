@@ -63,6 +63,7 @@
     font-weight: bold;
     color: white;
     cursor: pointer;
+    margin-top: 1rem;
 }
 
 .session-nav {
@@ -169,4 +170,24 @@ body,
     font-size: 10px;
     text-decoration: none;
     list-style: none;
+}
+
+.demo-button {
+    width: 100%;
+    height: 3.5rem;
+    border-radius: 25px;
+    border: none;
+    background-color: #22422900;
+    border: 2px solid #224229;
+    font-size: 14px;
+    font-weight: bold;
+    color: #224229;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+
+.form-radio-buttons {
+    display: flex;
+    justify-content: space-around;
 }

@@ -23,6 +23,15 @@ function LoginFormPage() {
     }
   };
 
+  const demoUser = async (e) => {
+    e.preventDefault();
+    let email = "marnie@aa.io"
+    let password = "password"
+    const data = await dispatch(login(email, password));
+    if (data) {
+      setErrors(data);
+    }
+  }
   // const handleSignupClick = (e) => {
 
   //   setActiveButton("signup")
@@ -76,6 +85,7 @@ function LoginFormPage() {
           />
         </label >
         <button className="form-button" type="submit">Log In</button>
+        <button className="demo-button" onClick={demoUser}>Demo User 1</button>
       </form>
     </div>
   );

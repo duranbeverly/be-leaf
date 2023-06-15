@@ -32,12 +32,10 @@ const deletePlant = (id) => ({
 
 
 export const fetchPlants = () => async (dispatch) => {
-    console.log("we are getting the plants in the thunk!! ")
     const res = await fetch('/api/plants')
 
     const data = await res.json()
     if (res.ok) {
-        console.log("the data was okay here it is: ==== ", data)
         dispatch(getPlants(data))
     }
     else {
@@ -45,11 +43,13 @@ export const fetchPlants = () => async (dispatch) => {
     }
 }
 
-export const thunkGetSinglePlant = (id) => async (dispatch) => {
-    const res = await fetch(`/api/plants/${id}`)
+export const thunkGetSinglePlant = (plantId) => async (dispatch) => {
+    console.log("im in the thunk to get a single plant! ")
+    const res = await fetch(`/api/plants/${plantId}`)
 
-    const data = await response.json()
+    const data = await res.json()
     if (res.ok) {
+        console.log("this is what we get back from the backend :) ========== ")
         dispatch(currentPlant(data))
         return data
     } else {
@@ -103,15 +103,30 @@ const initialState = {
 
 
 export default function reducer(state = initialState, action) {
-    console.log("my current state: ======================= ", state)
-    console.log("the action coming in ", action)
+    // console.log("my current state: ======================= ", state)
+    // console.log("the action coming in ", action)
     const newState = { ...state, all_plants: { ...state.all_plants }, current_plant: { ...state.current_plant } }
     switch (action.type) {
         case GET_PLANTS:
             newState.all_plants = { ...action.payload.all_plants }
+            // let newImages = []
+            // let images = action.payload.all_plants.images
+            // for (let image in images) {
+            //     newImages.push(image["id"] = image)
+            // }
+            // newState.all_plants.images = newImages
             return newState
         case GET_CURR_PLANT:
-            newState.current_plant = { ...action.payload }
+            newState.current_plant = { ...newState.current_plant, ...action.payload }
+            // let newImage = []
+            // let images2 = action.payload.current_plant.images
+            // for (let image in images2) {
+            //     newImage.push(image["id"] = image)
+            // }
+            // newState.current_plants.images = newImage
+            return newState
+        case CREATE_PLANT:
+            newState.all_plants[action.payload.id] = { ...action.payload }
             return newState
         default:
             return state;

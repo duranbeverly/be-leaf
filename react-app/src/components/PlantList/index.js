@@ -18,7 +18,7 @@ export default function PlantList() {
     }
 
 
-    console.log("Here are supposed to be the plants: ========= ================= ", plants)
+
     return (
         <div className="plant-index-container">
             <h1 className="plant-index-title">Indoor Plants</h1>
@@ -28,15 +28,16 @@ export default function PlantList() {
                     let name = plant.name
                     let user = plant.first_name
                     let price = plant.price
+                    let plantId = parseInt(plant.id)
 
                     return (
                         <div className="plant-card" key={plant.id} >
-                            <NavLink className="plant-index-card" to={`/api/plants/${plant.id}`}>
+                            <NavLink className="plant-index-card" to={`/api/plants/${plantId}`}>
                                 <div className="img-container">
-                                    <img alt={plant.name} src={image} className="plant-index-img"></img>
+                                    <img alt={name} src={image} className="plant-index-img"></img>
                                 </div>
                                 <div className="plant-index-top">
-                                    <p className="plant-index-name">{plant.name}</p>
+                                    <p className="plant-index-name">{name}</p>
                                     <p className="plant-index-price">{`$${price}`}</p>
                                 </div>
                                 <p className="plant-index-username">{user}</p>
