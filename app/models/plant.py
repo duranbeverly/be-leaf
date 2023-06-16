@@ -14,9 +14,9 @@ class Plant(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     price = db.Column(db.Float, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
-    is_giant = db.Column(db.Boolean, nullable=False)
-    is_pet_friendly = db.Column(db.Boolean, nullable=False)
-    preview_image = db.Column(db.String, nullable=False)
+    is_giant = db.Column(db.Boolean, nullable=False, default=False)
+    is_pet_friendly = db.Column(db.Boolean, nullable=False, default=False)
+    preview_image = db.Column(db.String(500), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
 
     # relationships
@@ -38,6 +38,7 @@ class Plant(db.Model):
             "name": self.name,
             "description": self.description,
             "user_id": self.user_id,
+            "first_name": self.users.first_name,
             "price": self.price,
             "quantity": self.quantity,
             "is_giant": self.is_giant,

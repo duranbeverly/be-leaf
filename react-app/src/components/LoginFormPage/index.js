@@ -23,6 +23,15 @@ function LoginFormPage() {
     }
   };
 
+  const demoUser = async (e) => {
+    e.preventDefault();
+    let email = "marnie@aa.io"
+    let password = "password"
+    const data = await dispatch(login(email, password));
+    if (data) {
+      setErrors(data);
+    }
+  }
   // const handleSignupClick = (e) => {
 
   //   setActiveButton("signup")
@@ -43,7 +52,7 @@ function LoginFormPage() {
         </div>
         <NavLink
           className={`signup-div ${activeButton === 'signup' ? 'active' : ""}`}
-          exact to="/signup"  
+          exact to="/signup"
         >
           <p className="signup-nav" >Sign up</p>
         </NavLink>
@@ -52,7 +61,7 @@ function LoginFormPage() {
         <h1 className="form-title">Log In</h1>
         <ul>
           {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
+            <li className="errors" key={idx}>{error}</li>
           ))}
         </ul>
         <label className="form-label">
@@ -76,6 +85,7 @@ function LoginFormPage() {
           />
         </label >
         <button className="form-button" type="submit">Log In</button>
+        <button className="demo-button" onClick={demoUser}>Demo User 1</button>
       </form>
     </div>
   );

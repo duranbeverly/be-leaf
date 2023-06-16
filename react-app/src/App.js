@@ -4,6 +4,12 @@ import { Route, Switch } from "react-router-dom";
 import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import SplashPage from "./components/SplashPage";
+import PlantList from "./components/PlantList";
+import PlantDetail from "./components/PlantDetail";
+import CreatePlant from "./components/CreatePlant";
+import UserPlants from "./components/UserPlants";
+import EditPlant from "./components/EditPlant";
+import User from "./components/User";
 import Footer from "./components/Footer";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
@@ -32,6 +38,26 @@ function App() {
           <Route exact path="/signup">
             <SignupFormPage />
             <Footer />
+          </Route>
+          <Route exact path="/plants/new">
+            <CreatePlant />
+          </Route>
+          <Route exact path="/plants/:plantId">
+            <PlantDetail />
+
+          </Route>
+          <Route exact path="/plants">
+            <PlantList />
+          </Route>
+          <Route exact path="/user-plants">
+            <UserPlants />
+            <Footer />
+          </Route>
+          <Route exact path="/user">
+            <User />
+          </Route>
+          <Route exact path="/edit/:plantId">
+            <EditPlant />
           </Route>
         </Switch>
       )}

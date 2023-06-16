@@ -1,0 +1,78 @@
+.plant-index-title {
+    font-family: "Lustria", sans-serif;
+    font-size: 40px;
+    color: #224229;
+    padding: 1rem;
+}
+
+.all-plant-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-around;
+    background-color: #FCF9F3;
+    padding-bottom: 1rem;
+    padding: 1rem;
+
+}
+
+.plant-index-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.plant-card {
+    width: 15rem;
+}
+
+.plant-index-img {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.plant-index-card {
+    /* width: 5rem;
+    height: 5rem; */
+
+    overflow: hidden;
+}
+
+.img-container {
+    width: 15rem;
+    height: 23rem;
+
+}
+
+
+
+.plant-index-price {
+    font-family: "Lustria", serif;
+    color: #0E6938;
+    text-decoration: none;
+}
+
+.plant-index-username {
+    font-family: "Raleway", sans-serif;
+    color: #5F7662;
+    text-decoration: none;
+    font-size: 11px;
+    text-align: right;
+}
+
+
+.plant-index-name {
+    font-family: "Lustria", serif;
+    font-size: 16px;
+    color: #0E6938;
+    text-decoration: none;
+
+}
+
+
+.plant-index-top {
+    display: flex;
+    justify-content: space-between;
+    padding-top: .5rem;
+}

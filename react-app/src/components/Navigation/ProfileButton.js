@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from 'react-router-dom';
 import { logout } from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
@@ -10,6 +10,7 @@ function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+
 
 
   const handleSubmit = () => {
@@ -44,11 +45,26 @@ function ProfileButton({ user }) {
 
   return (
     <div className="right-nav-buttons">
-      <NavLink className='profile-button' exact to='/login'><i className="fa-regular fa-user" /></NavLink>
-      <OpenModalButton
-        className={'profile-button'}
-        buttonText={< i className="fa-regular fa-basket-shopping-simple" />}
-      />
+      {user ? (
+        <>
+          <NavLink className='profile-button' exact to='/user'><i className="fa-regular fa-user" /></NavLink>
+          <OpenModalButton
+            className={'profile-button'}
+            buttonText={< i className="fa-regular fa-basket-shopping-simple" />}
+          />
+        </>
+      ) : (
+        <>
+          <NavLink className='profile-button' exact to='/login'><i className="fa-regular fa-user" /></NavLink>
+          <OpenModalButton
+            className={'profile-button'}
+            buttonText={< i className="fa-regular fa-basket-shopping-simple" />}
+          />
+        </>
+
+      )
+
+      }
 
       {/* <button className="profile-button" onClick={openMenu}>
         <i className="fa-regular fa-user" />

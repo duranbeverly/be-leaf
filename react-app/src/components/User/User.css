@@ -1,0 +1,46 @@
+.user-wrapper {
+    display: flex;
+    height: 100%;
+    background-color: #FCF9F3;
+    padding: 4rem;
+    justify-content: center;
+    gap: 1rem
+}
+
+.logout-button {
+    cursor: pointer;
+}
+
+.side-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    align-content: start;
+    width: 7rem;
+    gap: 1rem;
+}
+
+
+.sell-text {
+    font-family: "Raleway", sans-serif;
+    font-size: 14px;
+    color: #224229;
+    text-decoration: none;
+}
+
+.logout-button {
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+    font-family: "Raleway", sans-serif;
+    font-size: 14px;
+    color: #224229;
+    text-decoration: none;
+    padding: 0;
+}
+
+.account-side-bar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    color: #22422986;
+}
