@@ -51,7 +51,7 @@ function App() {
           </Route>
           <Route exact path="/user-plants">
             <UserPlants />
-            <Footer />
+
           </Route>
           <Route exact path="/user">
             <User />
