@@ -28,7 +28,7 @@ export default function User() {
             <div className="side-bar">
                 <div className="account-side-bar">
                     <NavLink to="/plants/new" className="sell-text">Sell a Plant</NavLink>
-                    <i class="fa-solid fa-hand-holding-seedling"></i>
+                    <i className="fa-solid fa-hand-holding-seedling"></i>
                 </div>
                 <div className="account-side-bar">
                     <NavLink to="/user-plants" className="sell-text">View Plants</NavLink>
@@ -36,7 +36,7 @@ export default function User() {
                 </div>
                 <div className="account-side-bar">
                     <button className="logout-button" onClick={handleLogout}>Log out</button>
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <i className="fa-solid fa-arrow-right-from-bracket"></i>
                 </div>
             </div>
             <div className="form-wrapper">

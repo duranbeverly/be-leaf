@@ -110,9 +110,11 @@ def edit_plant(id):
     """
     Edit a plant only if you are its owner
     """
-
+    print("What info are we getting from the frontend: ", request.files.get("name"), request.files.get("description"), request.files.get("price"))
     # check to see if current user is owner of plant
     plant = Plant.query.get(id)
+    print("This is the plant we get in the backend when we search by id 💟 ", plant)
+    print("This should be the preview image in that plant: 🕳🥙🧀🌯🥐 ", plant.preview_image)
 
     if current_user.id != plant.user_id:
         return {
@@ -144,7 +146,8 @@ def edit_plant(id):
         plant.is_giant = form.data["is_giant"]
         plant.is_pet_friendly = form.data["is_pet_friendly"]
         db.session.commit()
-        return plant.to_dict()
+        print("here should be our plant all changed up: 🔆", plant.to_dict())
+        return {"current_plant": plant.to_dict()}
     else:
         return form.errors, 400
 

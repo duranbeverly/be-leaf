@@ -84,7 +84,8 @@ export const thunkEditPlant = (formData, id) => async (dispatch) => {
 
     const data = await res.json();
     if (res.ok) {
-        dispatch(editPlant(id))
+        dispatch(editPlant(data))
+        return data
     } else {
         return data
     }
@@ -134,6 +135,19 @@ export default function reducer(state = initialState, action) {
                 }
             };
             console.log("this is the new state: ", newState);
+            return newState;
+        }
+        case EDIT_PLANT: {
+            const newState = {
+                ...state,
+                all_plants: {
+                    ...state.all_plants,
+                    [action.payload.current_plant.id]: {
+                        ...action.payload.current_plant
+                    }
+                },
+                current_plant: { ...action.payload.current_plant }
+            }
             return newState;
         }
         default:
