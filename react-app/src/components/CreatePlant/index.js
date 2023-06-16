@@ -125,20 +125,21 @@ export default function CreatePlant() {
                     />
                 </label>
                 <div className="form-radio-buttons">
-                    <label className="form-label">
+                    <label className="form-label" >
                         Is it a giant plant?
                         <input
-                            className="form-input"
+
+                            id="no-green"
                             type="checkbox"
                             checked={isGiant}
                             onChange={(e) => setIsGiant(e.target.checked)}
                         />
                     </label>
 
-                    <label className="form-label">
+                    <label className="form-label" >
                         Is it pet safe?
                         <input
-                            className="form-input"
+                            id="no-green"
                             type="checkbox"
                             checked={isPetSafe}
                             onChange={(e) => setIsPetSafe(e.target.checked)}
@@ -147,9 +148,13 @@ export default function CreatePlant() {
 
                 </div>
                 <label className="form-label">
-                    Preview Image
+                    <div className="file-button">
+                        Upload Image
+                        <i className="fa-light fa-cloud-arrow-up"></i>
+
+                    </div>
                     <input
-                        className="form-input"
+                        className='input-file'
                         type="file"
                         accept="image/*"
                         onChange={(e) => setPreviewImage(e.target.files[0])}

@@ -1,0 +1,47 @@
+.input-file {
+    width: 100%;
+    margin: 0.5rem 0 1rem 0;
+
+}
+
+input #file-upload-button {
+    width: 69px;
+    height: 19px;
+    background-color: #F6CFB2;
+    border: none;
+    border-radius: 6px;
+}
+
+.input-file {
+    display: none;
+}
+
+.file-button {
+    width: 100%;
+    height: 6rem;
+    border: 1px dashed #F6CFB2;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+    cursor: pointer;
+}
+
+.fa-cloud-arrow-up {
+    font-size: 3rem;
+    color: #F6CFB2;
+}
+
+#no-green {
+    color: #f6d0b200;
+    width: 100%;
+    margin: .5rem 0 1rem 0;
+    height: 2rem;
+}
+
+#no-green::focus {
+    border: none;
+    outline: none;
+}
