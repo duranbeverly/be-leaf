@@ -45,7 +45,7 @@ export const fetchPlants = () => async (dispatch) => {
 }
 
 export const thunkGetSinglePlant = (plantId) => async (dispatch) => {
-    console.log("im in the thunk to get a single plant! ")
+
     const res = await fetch(`/api/plants/${plantId}`)
 
     const data = await res.json()
@@ -115,8 +115,6 @@ const initialState = {
 
 
 export default function reducer(state = initialState, action) {
-    console.log("my current state: ======================= ", state)
-    console.log("the action coming in ", action)
 
     switch (action.type) {
         case GET_PLANTS: {
