@@ -25,24 +25,18 @@ export default function CreatePlant() {
         history.push("/")
     }
 
+    const validExtension = (fileName) => {
+        const ALLOWED_EXTENSIONS = ["pdf", "png", "jpg", "jpeg", "gif"];
+        const fileExtension = fileName.split(".").pop().toLowerCase();
+        return ALLOWED_EXTENSIONS.includes(fileExtension);
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newErrors = {};
 
-        if (name.length > 50 || name.length === 0) {
-            newErrors.name = "Enter a name, it must not be longer than 50 characters";
-        }
-
-        if (!price || price < 0 || isNaN(Number(price))) {
-            newErrors.price = "Price must be a valid number";
-        }
-
-        if (!quantity || isNaN(Number(quantity))) {
-            newErrors.quantity = "Quantity must be a valid number";
-        }
-
-        if (!description || description.length > 255) {
-            newErrors.description = "Enter a description, not longer than 255 characters";
+        if (Object.keys(errors).length > 0) {
+            return
         }
 
         if (!previewImage) {
@@ -90,38 +84,111 @@ export default function CreatePlant() {
                 <h1 className="form-title">Create a Plant Listing</h1>
                 <label className="form-label">
                     Name
+                    {errors.name && <p className="errors">{errors.name}</p>}
                     <input
                         className="form-input"
                         type="text"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => {
+                            let inputValue = e.target.value.trim()
+                            if (inputValue.length > 50 || inputValue.length == 0) {
+                                setErrors(prev => {
+                                    let err = { ...prev }
+                                    err.name = "Not a valid name"
+                                    return err
+                                })
+                            } else {
+                                setErrors(prev => {
+                                    let err = { ...prev }
+                                    delete err.name
+                                    return err
+                                })
+                            }
+                            setName(e.target.value)
+                        }}
                     ></input>
                 </label>
 
                 <label className="form-label">
                     Price
+                    {errors.price && <p className="errors">{errors.price}</p>}
                     <input
                         className="form-input"
                         type="text"
                         value={price}
-                        onChange={(e) => setPrice(e.target.value)}
+                        onChange={(e) => {
+                            let price = e.target.value.trim()
+                            if (!price || price < 0 || price > 100 || isNaN(Number(price))) {
+                                setErrors(prev => {
+                                    let err = { ...prev }
+                                    if (price > 100) {
+                                        err.price = "That price is way too high you need to cut it 💢"
+                                        return err
+                                    } else {
+                                        err.price = "Not a valid price"
+                                        return err
+                                    }
+                                })
+                            } else {
+                                setErrors(prev => {
+                                    let err = { ...prev }
+                                    delete err.price
+                                    return err
+                                })
+                            }
+                            setPrice(e.target.value)
+                        }}
                     ></input>
                 </label>
                 <label className="form-label">
                     Quantity
+                    {errors.quantity && <p className="errors">{errors.quantity}</p>}
                     <input
                         className="form-input"
                         type="text"
                         value={quantity}
-                        onChange={(e) => setQuantity(e.target.value)}
+                        onChange={(e) => {
+                            let quantity = e.target.value.trim()
+                            if (!quantity || quantity < 0 || quantity > 100 || isNaN(Number(quantity))) {
+                                setErrors(prev => {
+                                    let err = { ...prev }
+                                    err.quantity = "Not a valid quantity"
+                                    return err
+                                })
+                            } else {
+                                setErrors((prev) => {
+                                    let err = { ...prev }
+                                    delete err.quantity
+                                    return err
+                                })
+                            }
+                            setQuantity(e.target.value)
+                        }}
                     />
                 </label>
                 <label className="form-label">
                     Description
+                    {errors.description && <p className="errors">{errors.description}</p>}
                     <textarea
                         className="form-input"
                         value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        onChange={(e) => {
+                            let description = e.target.value.trim()
+                            if (!description || description.length <= 0 || description.length > 255) {
+                                setErrors(prev => {
+                                    let err = { ...prev }
+                                    err.description = "Not a valid description"
+                                    return err
+                                })
+                            } else {
+                                setErrors(prev => {
+                                    let err = { ...prev }
+                                    delete err.description
+                                    return err
+                                })
+                            }
+                            setDescription(e.target.value)
+                        }}
                     />
                 </label>
                 <div className="form-radio-buttons">
@@ -147,6 +214,7 @@ export default function CreatePlant() {
                     </label>
 
                 </div>
+                {errors.image && <p className="errors">{errors.image}</p>}
                 <label className="form-label">
                     <div className="file-button">
                         Upload Image
@@ -157,7 +225,24 @@ export default function CreatePlant() {
                         className='input-file'
                         type="file"
                         accept="image/*"
-                        onChange={(e) => setPreviewImage(e.target.files[0])}
+                        onChange={(e) => {
+                            let file = e.target.files[0]
+                            let fileName = file.name
+                            if (!validExtension(fileName)) {
+                                setErrors(prev => {
+                                    let err = { ...prev }
+                                    err.image = "Choose a valid image file: pdf, png, jpg, jpeg, gif"
+                                    return err
+                                })
+                            } else {
+                                setErrors(prev => {
+                                    let err = { ...prev }
+                                    delete err.image
+                                    return err
+                                })
+                            }
+                            setPreviewImage(e.target.files[0])
+                        }}
                     />
                 </label>
                 <button className="form-button" type="submit">Create</button>

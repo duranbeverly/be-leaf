@@ -173,9 +173,14 @@ export default function EditPlant() {
                                 setErrors(prev => {
                                     let err = { ...prev }
                                     err.quantity = "Not a valid quantity"
+                                    return err
                                 })
                             } else {
-
+                                setErrors((prev) => {
+                                    let err = { ...prev }
+                                    delete err.quantity
+                                    return err
+                                })
                             }
                             setQuantity(e.target.value)
                         }}
