@@ -2,12 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { logout } from "../../store/session";
-import { thunkCreatePlant } from "../../store/plants";
-import "./CreatePlant.css"
+import { thunkEditPlant } from "../../store/plants";
 import { NavLink } from "react-router-dom";
 
 
-export default function CreatePlant() {
+export default function EditPlant() {
     const dispatch = useDispatch()
     const history = useHistory()
     const [name, setName] = useState("")
@@ -65,7 +64,7 @@ export default function CreatePlant() {
         setIsLoading(true)
 
         console.log("we begin ☮")
-        dispatch(thunkCreatePlant(formData)).then((data) => {
+        dispatch(thunkEditPlant(formData)).then((data) => {
             if (data.error) {
                 setErrors(data.error);
                 setIsLoading(false);

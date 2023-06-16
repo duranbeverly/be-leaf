@@ -1,0 +1,30 @@
+.edit-button {
+    border: none;
+    background-color: #F6CFB2;
+    color: #0E6938;
+    border-radius: 6px;
+    font-family: "Lustria", sans;
+    width: 69px;
+    height: 19px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.delete-button {
+    border: 1px solid #F6CFB2;
+    color: #0E6938;
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 6px;
+    font-family: "Lustria", sans;
+    width: 69px;
+    height: 19px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.change-buttons {
+    display: flex;
+    gap: 1rem;
+    padding-top: .5rem;
+
+}

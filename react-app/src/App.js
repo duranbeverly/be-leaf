@@ -7,6 +7,8 @@ import SplashPage from "./components/SplashPage";
 import PlantList from "./components/PlantList";
 import PlantDetail from "./components/PlantDetail";
 import CreatePlant from "./components/CreatePlant";
+import UserPlants from "./components/UserPlants";
+import EditPlant from "./components/EditPlant";
 import User from "./components/User";
 import Footer from "./components/Footer";
 import { authenticate } from "./store/session";
@@ -42,13 +44,20 @@ function App() {
           </Route>
           <Route exact path="/plants/:plantId">
             <PlantDetail />
+
           </Route>
           <Route exact path="/plants">
             <PlantList />
           </Route>
+          <Route exact path="/user-plants">
+            <UserPlants />
+            <Footer />
+          </Route>
           <Route exact path="/user">
             <User />
-            <Footer />
+          </Route>
+          <Route exact path="/edit">
+            <EditPlant />
           </Route>
         </Switch>
       )}

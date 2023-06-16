@@ -26,7 +26,6 @@ export default function PlantDetail() {
     }, [dispatch, plantId])
     // we need to get the plant details from the state lets try that
     let plant = useSelector(state => state.plants?.all_plants[plantId])
-    console.log("plant in the plant detail page", plant)
 
     const handleMinus = () => {
         if (counter > 0) {
@@ -80,7 +79,7 @@ export default function PlantDetail() {
                         </div>
                         <div className='plant-detail-buttons'>
                             <div className="input-cart" onChange={(e) => setCart(e.target.value)}>
-                                <i class="fa-solid fa-minus" onClick={handleMinus}></i>
+                                <i className="fa-solid fa-minus" onClick={handleMinus}></i>
                                 <div className='num'>
                                     {counter}
                                 </div>

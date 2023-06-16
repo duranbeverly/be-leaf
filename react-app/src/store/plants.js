@@ -59,7 +59,7 @@ export const thunkGetSinglePlant = (plantId) => async (dispatch) => {
 
 export const thunkCreatePlant = (formData) => async (dispatch) => {
     console.log("create a new plant thunk ==== ", formData)
-    const res = await fetch("/api/plants/new", {
+    const res = await fetch('/api/plants/new', {
         method: "POST",
         body: formData
     })
@@ -67,7 +67,7 @@ export const thunkCreatePlant = (formData) => async (dispatch) => {
     const data = await res.json();
 
     if (res.ok) {
-        console.log("what we get after creating a plant: ", data)
+        console.log("what we get after creating a plant 💨: ", data)
         dispatch(createPlant(data))
         return data
     } else {

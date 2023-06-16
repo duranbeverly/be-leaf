@@ -68,7 +68,6 @@ def create_plant():
     """
     Create a new plant listing
     """
-    print("you got to the backend route!! ")
 
     form = PlantForm()
     form['csrf_token'].data = request.cookies['csrf_token']
@@ -76,16 +75,15 @@ def create_plant():
 
     # plant_id = None
 
-
     if form.validate():
-        print("data was validated! =======")
         if "preview_image" in form.data and form.data["preview_image"] != None:
-            image = form.data["image"]
+            image = form.data["preview_image"]
             image.filename = get_unique_filename(image.filename)
             upload = upload_file_to_s3(image)
             if 'url' not in upload:
                 return upload
             else:
+
                 res = Plant (
                     name=form.data["name"],
                     user_id=form.data["user_id"],
@@ -97,31 +95,12 @@ def create_plant():
                     is_pet_friendly=form.data["is_pet_friendly"]
                 )
                 plant_id = res.id
-                print("res should be the new plant created: ", res.to_dict())
                 db.session.add(res)
                 db.session.commit()
-        # now handle the images and put those in the AWS + database
-        all_images = ["preview_image", "image1", "image2", "image3"]
 
-        for image_name in all_images:
-            if image_name in form.data and form.data[image_name] is not None:
-                curr_image = form.data[image_name]
-                curr_image.filename = get_unique_filename(curr_image.filename)
-                upload = upload_file_to_s3(curr_image)
-                if 'url' not in upload:
-                    return upload
-                else:
-                    res2 = PlantImage(
-                        image=upload['url'],
-                        plant_id=plant_id
-                    )
+        print("💞 here is what we are returning", res.to_dict())
+        return {"current_plant": res.to_dict()}
 
-                db.session.add(res2)
-                db.session.commit()
-        print("what is res now it should be the plant we made: ", res)
-        return {
-            "plant": res.to_dict()
-            }
     else:
         return form.errors, 401
 

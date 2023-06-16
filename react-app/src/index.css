@@ -154,6 +154,7 @@ a::after {
 #root {
     display: flex;
     flex-direction: column;
+    background-color: #FCF9F3;
 }
 
 

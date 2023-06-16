@@ -15,6 +15,6 @@ class EditPlantForm(FlaskForm):
     image1 = FileField("image1", validators=[FileAllowed(list(ALLOWED_EXTENSIONS))])
     image2 = FileField("image2", validators=[FileAllowed(list(ALLOWED_EXTENSIONS))])
     image3 = FileField("image3", validators=[FileAllowed(list(ALLOWED_EXTENSIONS))])
-    is_giant = BooleanField("is_giant", validators=[DataRequired()])
-    is_pet_friendly = BooleanField("is_pet_friendly", validators=[DataRequired()])
+    is_giant = BooleanField("is_giant")
+    is_pet_friendly = BooleanField("is_pet_friendly")
     submit = SubmitField("submit")
