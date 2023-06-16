@@ -37,6 +37,7 @@ export const fetchPlants = () => async (dispatch) => {
     const data = await res.json()
     if (res.ok) {
         dispatch(getPlants(data))
+        return data
     }
     else {
         return data

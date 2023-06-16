@@ -2,13 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { logout } from "../../store/session";
-import { thunkEditPlant } from "../../store/plants";
-import { NavLink } from "react-router-dom";
+import { thunkEditPlant, fetchPlants } from "../../store/plants";
+import { NavLink, useParams } from "react-router-dom";
 
 
 export default function EditPlant() {
     const dispatch = useDispatch()
     const history = useHistory()
+    const { plantId } = useParams()
+
     const [name, setName] = useState("")
     const [price, setPrice] = useState("")
     const [quantity, setQuantity] = useState("")
@@ -23,6 +25,12 @@ export default function EditPlant() {
     if (!sessionUser) {
         history.push("/")
     }
+
+    let plants;
+
+    useEffect(() => {
+        dispatch(fetchPlants()).then((data) => plants = data).then(() => setIsLoading(false))
+    }, [dispatch])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -75,6 +83,9 @@ export default function EditPlant() {
 
     }
 
+    const plantDetails = useSelector((state) => state.session.all_plants)
+    console.log("this is plants 💥💟", plants)
+
     if (isLoading) {
         return (
             <div className="form-wrapper">
@@ -82,6 +93,8 @@ export default function EditPlant() {
             </div>
         )
     }
+
+
 
     return (
         <div className="form-wrapper">

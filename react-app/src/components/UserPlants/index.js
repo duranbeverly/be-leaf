@@ -19,9 +19,7 @@ export default function UserPlants() {
         dispatch(fetchPlants()).then(() => setIsLoading(false))
     }, [dispatch])
 
-    const handleEdit = () => {
-        history.push('/edit')
-    }
+
 
     const handleDelete = () => {
         // dispatch to delete the plant
@@ -32,6 +30,8 @@ export default function UserPlants() {
         return <div className="plant-index-container"></div>
     }
     let plants = Object.values(plants1).filter((plant) => plant.user_id == user.id)
+
+
 
     return (
         <div className="plant-index-container">
@@ -55,7 +55,7 @@ export default function UserPlants() {
                                     <p className="plant-index-price">{`$${price}`}</p>
                                 </div>
                                 <div className="change-buttons">
-                                    <button className="edit-button" onClick={handleEdit}>Edit</button>
+                                    <button className="edit-button" onClick={(e) => history.push(`/edit/${plant.id}`)}>Edit</button>
                                     <button className="delete-button" onClick={handleDelete}>Delete</button>
                                 </div>
                             </div>
