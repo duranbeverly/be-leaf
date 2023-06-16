@@ -31,7 +31,7 @@ export default function User() {
                     <i className="fa-solid fa-hand-holding-seedling"></i>
                 </div>
                 <div className="account-side-bar">
-                    <NavLink to="/user-plants" className="sell-text">View Plants</NavLink>
+                    <NavLink to="/user-plants" className="sell-text">View My Plants</NavLink>
                     <i className="fa-solid fa-cactus"></i>
                 </div>
                 <div className="account-side-bar">

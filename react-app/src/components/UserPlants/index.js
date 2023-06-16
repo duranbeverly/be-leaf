@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPlants } from "../../store/plants";
+import { fetchPlants, thunkDeletePlant } from "../../store/plants";
 import { NavLink, useHistory } from "react-router-dom";
 import './UserPlants.css'
 
@@ -20,10 +20,6 @@ export default function UserPlants() {
     }, [dispatch])
 
 
-
-    const handleDelete = () => {
-        // dispatch to delete the plant
-    }
     // plants1 is an object so we need to make it iterable
 
     if (isLoading) {
@@ -56,7 +52,7 @@ export default function UserPlants() {
                                 </div>
                                 <div className="change-buttons">
                                     <button className="edit-button" onClick={(e) => history.push(`/edit/${plant.id}`)}>Edit</button>
-                                    <button className="delete-button" onClick={handleDelete}>Delete</button>
+                                    <button className="delete-button" onClick={(e) => dispatch(thunkDeletePlant(plant.id))}>Delete</button>
                                 </div>
                             </div>
                         </div>

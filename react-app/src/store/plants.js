@@ -27,7 +27,7 @@ const editPlant = (plant) => ({
 
 const deletePlant = (id) => ({
     type: DELETE_PLANT,
-    payload: id
+    id
 })
 
 
@@ -96,6 +96,15 @@ export const thunkDeletePlant = (id) => async (dispatch) => {
     const res = await fetch(`/api/plants/${id}`, {
         method: "DELETE"
     })
+
+    const data = await res.json()
+
+    if (res.ok) {
+        dispatch(deletePlant(id))
+        return { message: 'Successfully deleted' }
+    } else {
+        return data
+    }
 }
 
 
@@ -149,6 +158,15 @@ export default function reducer(state = initialState, action) {
                 current_plant: { ...action.payload.current_plant }
             }
             return newState;
+        }
+        case DELETE_PLANT: {
+            const newState = {
+                ...state,
+                all_plants: { ...state.all_plants }, current_plant: { ...state.current_plant }
+            }
+            delete newState.all_plants[action.id]
+            delete newState.current_plant[action.id]
+            return newState
         }
         default:
             return state;
