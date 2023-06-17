@@ -9,6 +9,7 @@ import PlantDetail from "./components/PlantDetail";
 import CreatePlant from "./components/CreatePlant";
 import UserPlants from "./components/UserPlants";
 import EditPlant from "./components/EditPlant";
+import ReviewView from "./components/ReviewView";
 import User from "./components/User";
 import Footer from "./components/Footer";
 import { authenticate } from "./store/session";
@@ -44,20 +45,21 @@ function App() {
           </Route>
           <Route exact path="/plants/:plantId">
             <PlantDetail />
-
           </Route>
           <Route exact path="/plants">
             <PlantList />
           </Route>
           <Route exact path="/user-plants">
             <UserPlants />
-
           </Route>
           <Route exact path="/user">
             <User />
           </Route>
           <Route exact path="/edit/:plantId">
             <EditPlant />
+          </Route>
+          <Route exact path="/reviews">
+            <ReviewView />
           </Route>
         </Switch>
       )}

@@ -1,0 +1,104 @@
+.review-index-title {
+    font-family: "Lustria", serif;
+    font-family: 48px;
+    color: #224229;
+    padding-bottom: 1rem;
+}
+
+.review-card {
+    width: 100%;
+    padding: 1rem 0 5rem 0;
+    border-top: 1px solid rgba(175, 175, 175, 0.356);
+
+}
+
+.reviews-index-container {
+    display: flex;
+    background-color: #FCF9F3;
+    flex-direction: column;
+    justify-content: center;
+    margin: 1rem 3rem;
+}
+
+.review-index-card {
+    display: flex;
+    gap: 1rem;
+    overflow: hidden;
+}
+
+.review-img-container {
+    width: 8rem;
+
+}
+
+.review-index-img {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.all-reviews-cards {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.top-right-review {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.user-icon {
+    font-family: "Raleway", sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    background-color: #F6CFB2;
+    border-radius: 35px;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.fa-star {
+    color: #2242299c;
+}
+
+.user-name {
+    font-family: "Raleway", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #224229;
+    padding-bottom: .3rem;
+}
+
+.time-created {
+    color: #6A6C77;
+    font-family: "Raleway", sans-serif;
+    font-size: 11px;
+
+}
+
+.review-text {
+    font-family: "Raleway", sans-serif;
+    font-size: 12px;
+    color: #224229;
+}
+
+.review-right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.top-info-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.bottom-right-review {
+    padding: 1rem 0;
+}

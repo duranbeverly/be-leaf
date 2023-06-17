@@ -1,11 +1,16 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
 	const sessionUser = useSelector(state => state.session.user);
+	const history = useHistory()
+
+	const handleReview = () => {
+		history.push("/reviews")
+	}
 
 	return (
 		<div>
@@ -18,6 +23,7 @@ function Navigation({ isLoaded }) {
 					<p>ALL PLANTS</p>
 					<p>PET-FRIENDLY PLANTS</p>
 					<p>GIANT PLANTS</p>
+					<p onClick={handleReview}>REVIEWS</p>
 				</li>
 				{isLoaded && (
 					<li>
