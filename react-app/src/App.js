@@ -10,6 +10,8 @@ import CreatePlant from "./components/CreatePlant";
 import UserPlants from "./components/UserPlants";
 import EditPlant from "./components/EditPlant";
 import ReviewView from "./components/ReviewView";
+import GiantsPlants from "./components/GiantPlants";
+import PetFriendlyPlants from "./components/PetFriendlyPlants";
 import User from "./components/User";
 import Footer from "./components/Footer";
 import { authenticate } from "./store/session";
@@ -60,6 +62,12 @@ function App() {
           </Route>
           <Route exact path="/reviews">
             <ReviewView />
+          </Route>
+          <Route exact path="/giant-plants">
+            <GiantsPlants />
+          </Route>
+          <Route exact path="/pet-safe-plants">
+            <PetFriendlyPlants />
           </Route>
         </Switch>
       )}
