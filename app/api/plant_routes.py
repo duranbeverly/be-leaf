@@ -57,7 +57,7 @@ def get_plant_info(plantId):
     """
     plant_info = Plant.query.get(plantId)
     if plant_info is None:
-        return "Plant not found"
+        return {"message": "Plant not found"}
     res = {"current_plant": plant_info.to_dict()}
     return res
 
@@ -98,7 +98,7 @@ def create_plant():
                 db.session.add(res)
                 db.session.commit()
 
-        print("💞 here is what we are returning", res.to_dict())
+
         return {"current_plant": res.to_dict()}
 
     else:
@@ -110,11 +110,8 @@ def edit_plant(id):
     """
     Edit a plant only if you are its owner
     """
-    print("What info are we getting from the frontend: ", request.files.get("name"), request.files.get("description"), request.files.get("price"))
     # check to see if current user is owner of plant
     plant = Plant.query.get(id)
-    print("This is the plant we get in the backend when we search by id 💟 ", plant)
-    print("This should be the preview image in that plant: 🕳🥙🧀🌯🥐 ", plant.preview_image)
 
     if current_user.id != plant.user_id:
         return {
