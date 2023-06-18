@@ -43,7 +43,9 @@
     border: 1px solid #EDEBE6;
     background: white;
     color: #224229;
-    padding: 0 1rem;
+    padding: .5rem;
+    font-family: "Raleway", sans-serif;
+    font-size: 11px;
 }
 
 .form-input:focus {

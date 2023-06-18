@@ -1,0 +1,85 @@
+.review-label {
+    display: flex;
+    flex-direction: column;
+}
+
+.rating-input {
+    display: flex;
+    justify-content: center;
+    column-gap: 10px;
+    margin: 10px 0;
+
+}
+
+.rating-input div {
+    cursor: pointer;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+    padding: 1rem 3rem 2rem 3rem;
+    gap: 1rem;
+    width: 30rem;
+}
+
+#modal-content {
+    border-radius: 6px;
+}
+
+.review-label {
+    width: 100%;
+}
+
+
+.form-dropdown {
+    width: 100%;
+    border: 1px solid #EDEBE6;
+    background: white;
+    margin: .2rem 0 .5rem 0;
+    font-family: "Raleway", sans-serif;
+    font-size: 11px;
+}
+
+.form-dropdown:focus {
+    outline: 2px solid #17702a;
+    text-decoration: none;
+}
+
+.review-input {
+    width: 100%;
+    height: 3.8rem;
+    margin: .2rem 0 .5rem 0;
+    border: 1px solid #EDEBE6;
+    background: white;
+    color: #224229;
+    padding: 0 1rem;
+    font-family: "Raleway", sans-serif;
+    font-size: 11px;
+    padding: .5rem;
+}
+
+.review-input:focus {
+    outline: 2px solid #17702a;
+}
+
+.review-button {
+    width: 100%;
+    height: 2.5rem;
+    border-radius: 25px;
+    border: none;
+    background-color: #224229;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.review-title {
+    font-family: 'Lustria', serif;
+    color: #224229;
+    font-size: 22px;
+    margin: 1rem 0;
+}

@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchReviews } from "../../store/reviews"
+import { fetchPlants } from "../../store/plants";
 import { NavLink } from "react-router-dom";
+import OpenModalButton from "../OpenModalButton";
+import ReviewCreateModal from "../ReviewCreateModal";
 import './ReviewView.css'
 
 export default function ReviewView() {
     // we first need to get the reviews from the database on first render
     const dispatch = useDispatch()
     let [isLoading, setIsLoading] = useState(true)
+    let plants = useSelector((state) => state.plants.all_plants)
+    let user = useSelector((state) => state.session.user)
 
     // create a loading variable so that if the data hasn't yet been fetched you don't error out
 
     useEffect(() => {
-        dispatch(fetchReviews()).then(() => setIsLoading(false))
+        dispatch(fetchReviews()).then(() => dispatch(fetchPlants())).then(() => setIsLoading(false))
+
     }, [dispatch])
 
     let reviews = useSelector((state) => state.reviews.all_reviews)
@@ -22,7 +28,19 @@ export default function ReviewView() {
 
     return (
         <div className="reviews-index-container">
-            <h1 className="review-index-title">Reviews</h1>
+            <div className="review-title-div">
+                <h1 className="review-index-title">Reviews</h1>
+                {user &&
+
+                    <OpenModalButton
+                        buttonText="Leave a Review"
+                        className="small-button"
+                        modalComponent={<ReviewCreateModal plants={plants} user={user} />}
+                    />
+                }
+
+
+            </div>
             <div className="all-reviews-cards">
                 {reviews && Object.values(reviews).map(rev => {
                     let name = rev.user_name
@@ -60,6 +78,7 @@ export default function ReviewView() {
                                         </div>
                                     </div>
                                     <div className="bottom-right-review">
+                                        <p className="plant-name-review">{plantName}</p>
                                         <p className="review-text">{reviewText}</p>
                                         <div className="review-img-container">
                                             <img className="review-index-img" src={image} alt={plantName}></img>

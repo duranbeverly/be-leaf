@@ -17,7 +17,7 @@
     background-color: #FCF9F3;
     flex-direction: column;
     justify-content: center;
-    margin: 1rem 3rem;
+    padding: 1rem 3rem;
 }
 
 .review-index-card {
@@ -101,4 +101,32 @@
 
 .bottom-right-review {
     padding: 1rem 0;
+}
+
+.plant-name-review {
+    font-family: "Raleway", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #224229;
+    padding-bottom: .3rem;
+}
+
+
+.small-button {
+    width: 9rem;
+    height: 2.5rem;
+    background-color: #224229;
+    color: white;
+    font-family: "Raleway", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 35px;
+    border: none;
+    cursor: pointer;
+
+}
+
+.review-title-div {
+    display: flex;
+    justify-content: space-between;
 }

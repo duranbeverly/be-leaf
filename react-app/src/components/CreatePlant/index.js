@@ -174,7 +174,7 @@ export default function CreatePlant() {
                         value={description}
                         onChange={(e) => {
                             let description = e.target.value.trim()
-                            if (!description || description.length <= 0 || description.length > 255) {
+                            if (!description || description.length <= 10 || description.length > 255) {
                                 setErrors(prev => {
                                     let err = { ...prev }
                                     err.description = "Not a valid description"
