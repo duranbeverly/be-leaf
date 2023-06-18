@@ -14,21 +14,33 @@ function SignupFormPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [activeButton, setActiveButton] = useState("signup")
-  const [errors, setErrors] = useState([]);
+  const [disabled, setDisabled] = useState(true)
+  const [errors, setErrors] = useState({});
 
   if (sessionUser) return <Redirect to="/" />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password === confirmPassword) {
-      const data = await dispatch(signUp(firstName, lastName, email, password));
-      if (data) {
-        setErrors(data)
-      }
-    } else {
-      setErrors(['Confirm Password field must be the same as the Password field']);
+
+    console.log("do we have errors? 😒 ", errors)
+    if (errors && Object.keys(errors).length > 0) {
+      console.log("it seems we have errors - inside the disable ")
+      return alert("fix the errors")
     }
+
+    console.log("we didn't have errors going to dispatch 💖🥙")
+    const data = await dispatch(signUp(firstName, lastName, email, password));
+    if (data) {
+      setErrors(data.errors)
+    }
+
   };
+
+  // Validation regex pattern for email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Validation check for a valid email
+  const isValidEmail = (email) => emailRegex.test(email);
 
   // const handleSignupClick = (e) => {
   //   setActiveButton("signup")
@@ -54,18 +66,35 @@ function SignupFormPage() {
           <p className="signup-nav" exact to="/signup">Sign up</p>
         </div>
       </div>
+
       <form className="form-container" onSubmit={handleSubmit}>
         <h1 className="form-title" >Sign Up</h1>
-        <ul>
-          {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-        </ul>
         <label className="form-label">
           EMAIL
+          {errors && errors.email && <p className="errors">{errors.email}</p>}
           <input
             type="text"
             className="form-input"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              let newEmail = e.target.value.trim()
+              if (!isValidEmail(newEmail)) {
+                setErrors(prev => {
+                  let err = { ...prev }
+                  err.email = "Not a valid email"
+                  setDisabled(true)
+                  return err
+                })
+              } else {
+                setErrors(prev => {
+                  let err = { ...prev }
+                  delete err.email
+                  setDisabled(false)
+                  return err
+                })
+              }
+              setEmail(newEmail)
+            }}
             required
           />
         </label>
@@ -101,15 +130,34 @@ function SignupFormPage() {
         </label>
         <label className="form-label">
           CONFIRM PASSWORD
+          {errors && errors.password && <p className="errors">{errors.password}</p>}
           <input
             type="password"
             className="form-input"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => {
+              let password2 = e.target.value.trim()
+              if (password2 != password) {
+                setErrors(prev => {
+                  let err = { ...prev }
+                  err.password = "passwords don't match"
+                  setDisabled(true)
+                  return err
+                })
+              } else {
+                setErrors(prev => {
+                  let err = { ...prev }
+                  delete err.password
+                  setDisabled(false)
+                  return err
+                })
+              }
+              setConfirmPassword(e.target.value)
+            }}
             required
           />
         </label>
-        <button className="form-button" type="submit">Sign Up</button>
+        <button disabled={disabled} className="form-button" type="submit">Sign Up</button>
       </form>
     </div>
   );
