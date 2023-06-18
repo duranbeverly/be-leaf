@@ -20,9 +20,9 @@ function Navigation({ isLoaded }) {
 					<p className="site-name" >be-leaf</p>
 				</NavLink>
 				<li className='mid-navbar'>
-					<p>ALL PLANTS</p>
-					<p>PET-FRIENDLY PLANTS</p>
-					<p>GIANT PLANTS</p>
+					<p onClick={(e) => history.push("/plants")}>ALL PLANTS</p>
+					<p onClick={(e) => history.push("/pet-safe-plants")}>PET-FRIENDLY PLANTS</p>
+					<p onClick={(e) => history.push("/giant-plants")}>GIANT PLANTS</p>
 					<p onClick={handleReview}>REVIEWS</p>
 				</li>
 				{isLoaded && (
