@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./ReviewCreateModal.css"
+import { thunkCreateReview } from "../../store/reviews";
 
 export default function ReviewCreateModal({ plants, user }) {
     const dispatch = useDispatch()
@@ -43,19 +44,37 @@ export default function ReviewCreateModal({ plants, user }) {
             newErrors.stars = "Please choose a star rating"
         }
 
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            return;
+        if (!plantName) {
+            newErrors.plant = "Choose a plant for the review"
         }
 
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            alert("Please fix the errors you have")
+        }
 
+        let correctPlant = plants.find((plant) => plant.name == plantName)
+        console.log("Hey gois here is my plant id 🍟 ", correctPlant.id)
         // in here send a formData and then close the modal
         // the new review should appear on top
         // remember to close the modal
         const formData = new FormData()
-        formData.append("image", image)
-        formData.append("stars", stars)
+        formData.append("user_id", user.id)
+        formData.append("plant_id", correctPlant.id)
+        formData.append("rating", stars)
         formData.append("review", review)
+        formData.append("image", image)
+
+        setIsLoading(true)
+
+        dispatch(thunkCreateReview(formData)).then((data) => {
+            if (data.error) {
+                setErrors(data.error);
+                setIsLoading(false);
+            } else {
+                closeModal()
+            }
+        })
 
     }
 
@@ -72,7 +91,7 @@ export default function ReviewCreateModal({ plants, user }) {
             <h2 className="review-title">Leave a Review</h2>
             <label className="review-label">
                 Stars:
-
+                {errors.stars && <p className="errors">{errors.stars}</p>}
                 <div className="rating-input">
                     <div
                         className={activeRating >= 1 ? "filled" : "empty"}
@@ -139,6 +158,7 @@ export default function ReviewCreateModal({ plants, user }) {
             </label>
             <label className="form-label">
                 Plant Purchased
+                {errors.plant && <p className="errors">{errors.plant}</p>}
                 <select
                     className="form-dropdown"
                     placeholder="Select"
@@ -179,6 +199,7 @@ export default function ReviewCreateModal({ plants, user }) {
 
                 </textarea>
             </label>
+            {errors.image && <p className="errors">{errors.image}</p>}
             <label className="form-label">
                 <div className="file-button">
                     Upload Image

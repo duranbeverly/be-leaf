@@ -44,9 +44,11 @@ def create_review():
     """
     Create a new review if you are logged in
     """
+
+    print("We are in the backend 💨 ", request.files.get('rating'))
     form = ReviewForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    form.user_id.data = current_user.id
+    # form.user_id.data = current_user.id
 
     # now we check for an image to upload to aws
     if form.validate():

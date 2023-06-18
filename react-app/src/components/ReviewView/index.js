@@ -26,6 +26,8 @@ export default function ReviewView() {
         return <div className="reviews-index-container"></div>
     }
 
+    reviews = Object.values(reviews).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
     return (
         <div className="reviews-index-container">
             <div className="review-title-div">
@@ -42,7 +44,7 @@ export default function ReviewView() {
 
             </div>
             <div className="all-reviews-cards">
-                {reviews && Object.values(reviews).map(rev => {
+                {reviews && reviews.map(rev => {
                     let name = rev.user_name
                     let stars = rev.rating
                     let reviewText = rev.review

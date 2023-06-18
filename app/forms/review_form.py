@@ -8,3 +8,5 @@ class ReviewForm(FlaskForm):
     review = StringField("review", validators=[DataRequired()] )
     rating = IntegerField('rating', validators=[DataRequired()])
     image = FileField("image", validators=[FileAllowed(list(ALLOWED_EXTENSIONS))])
+    user_id = IntegerField("user_id", validators=[DataRequired()])
+    plant_id =IntegerField("plant_id", validators=[DataRequired()])
