@@ -34,6 +34,7 @@
 .review-index-img {
     width: 100%;
     box-sizing: border-box;
+    padding-top: 1rem;
 }
 
 .all-reviews-cards {
@@ -129,4 +130,9 @@
 .review-title-div {
     display: flex;
     justify-content: space-between;
+}
+
+.change-buttons {
+    display: flex;
+    justify-content: end;
 }

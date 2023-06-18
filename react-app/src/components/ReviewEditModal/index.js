@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useModal } from "../../context/Modal";
-import "./ReviewCreateModal.css"
-import { thunkCreateReview } from "../../store/reviews";
+import "../ReviewCreateModal/ReviewCreateModal.css"
+import { thunkEditReview, thunkGetSingleReview } from "../../store/reviews";
 
-export default function ReviewCreateModal({ plants, user }) {
+export default function ReviewEditModal({ plants, user, reviewId }) {
     const dispatch = useDispatch()
     const history = useHistory()
     // create use states to keep track of plant id, stars, review
@@ -23,7 +23,15 @@ export default function ReviewCreateModal({ plants, user }) {
         history.push("/")
     }
 
-    // get all the plants so you can pass them in as options to the drop down
+    useEffect(() => {
+        dispatch(thunkGetSingleReview(reviewId)).then((data) => {
+            setStars(data.current_review.rating);
+            setActiveRating(data.current_review.rating)
+            setReview(data.current_review.review)
+            setPlantName(data.current_review.plant_name)
+            setImage(data.current_review.image)
+        })
+    }, [dispatch])
 
     plants = Object.values(plants).filter((plant) => plant.user_id != user.id)
 
@@ -73,7 +81,7 @@ export default function ReviewCreateModal({ plants, user }) {
 
         setIsLoading(true)
 
-        dispatch(thunkCreateReview(formData)).then((data) => {
+        dispatch(thunkEditReview(formData, reviewId)).then((data) => {
             if (data.error) {
                 setErrors(data.error);
                 setIsLoading(false);

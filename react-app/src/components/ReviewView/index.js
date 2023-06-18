@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchReviews } from "../../store/reviews"
+import { fetchReviews, thunkDeleteReview, thunkEditReview } from "../../store/reviews"
 import { fetchPlants } from "../../store/plants";
 import { NavLink } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import ReviewCreateModal from "../ReviewCreateModal";
+import ReviewEditModal from "../ReviewEditModal";
 import './ReviewView.css'
 
 export default function ReviewView() {
@@ -46,6 +47,7 @@ export default function ReviewView() {
             <div className="all-reviews-cards">
                 {reviews && reviews.map(rev => {
                     let name = rev.user_name
+                    let userId = rev.user_id
                     let stars = rev.rating
                     let reviewText = rev.review
                     let plantName = rev.plant_name
@@ -87,6 +89,16 @@ export default function ReviewView() {
 
                                         </div>
                                     </div>
+                                    {userId == user.id &&
+                                        <div className="change-buttons">
+                                            <OpenModalButton
+                                                className="edit-button"
+                                                buttonText="Edit"
+                                                modalComponent={<ReviewEditModal plants={plants} user={user} reviewId={reviewId} />}
+                                            />
+                                            <button className="delete-button" onClick={(e) => dispatch(thunkDeleteReview(reviewId))}>Delete</button>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
