@@ -23,6 +23,7 @@ class Cart(db.Model):
             "user_id": self.user_id,
             "plant_id": self.plant_id,
             "plant_image":self.plants.preview_image,
+            "plant_name": self.plants.name,
             "quantity": self.quantity,
             "price": self.plants.price,
             "created_at": self.created_at.strftime('%B %d, %Y')
