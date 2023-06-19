@@ -19,6 +19,12 @@ def get_all_cart_items():
     # then query for all the cart items with the same user_id
     cart_items = Cart.query.filter(Cart.user_id == user.id).all()
 
+
+
+    # # if it is empty you need to return a message
+    # if len(cart_items) == 0 :
+    #     return {"message": "You have nothing in your cart"}
+
     # go through each cart item and put it in normalized notation
     res = {"all_items": {item.id: item.to_dict() for item in cart_items}}
     return res
@@ -59,13 +65,14 @@ def add_to_cart():
     # check if this plant is already in this users cart
     cart_item = Cart.query.filter(Cart.plant_id == form_plant_id, Cart.user_id == form_user_id).first()
 
-    print("check check ☮💥 ")
 
+
+    # check that the new quantity does not exceed the quantity available
     if(cart_item):
-        if form_quantity + cart_item.quantity > plant_quantity:
+        if form_quantity > plant_quantity:
             return {"message": "there are not that many plants of this kind in stock"}
 
-        cart_item.quantity += form_quantity
+        cart_item.quantity = form_quantity
         db.session.commit()
         return {"current_item": cart_item.to_dict()}
 
@@ -84,7 +91,7 @@ def add_to_cart():
 
 
 
-# add to quantity of item in cart
+# add to quantity of item in cart (remember you aren't really adding you are just replacing the quantity)
 @cart_routes.route('', methods=["PUT"])
 @login_required
 def change_quantity():
@@ -106,7 +113,7 @@ def change_quantity():
     plant = Plant.query.get(form_plant_id)
 
     # check that the quantity they want to add plus the quantity already in the cart does not exceed to total quantity of the item
-    if form_quantity + cart_item.quantity > plant.quantity:
+    if form_quantity  > plant.quantity:
         return {"message": "You can't buy more than is available"}
 
     # now change the quantity in the cart item and commit
@@ -118,7 +125,7 @@ def change_quantity():
 
 
 
-# subtract from quantity of item in cart
+# subtract from quantity of item in cart (remember you aren't really subtracting you are just replacing the quantity)
 @cart_routes.route('/subtract', methods=["PUT"])
 @login_required
 def subtract_quantity():
@@ -140,18 +147,18 @@ def subtract_quantity():
         return {"message": "Cart item not found"}
 
     # check that the quantity they want to subtract does not exceed the quantity already in the cart
-    if form_quantity > cart_item.quantity:
+    if form_quantity < cart_item.quantity:
         return {"message": "You can't subtract more than the quantity in the cart"}
 
     # subtract the quantity from the cart item and commit
-    cart_item.quantity -= form_quantity
+    cart_item.quantity = form_quantity
     db.session.commit()
 
     # return the new current_item
     return {"current_item": cart_item.to_dict()}
 
 # delete item from cart
-@cart_routes.route('', methods=['DELETE'])
+@cart_routes.route('/<int:form_cart_id>', methods=['DELETE'])
 @login_required
 def delete_cart_item(form_cart_id):
     """

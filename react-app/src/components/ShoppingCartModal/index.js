@@ -4,7 +4,7 @@ import { useModal } from "../../context/Modal"
 import "./ShoppingCartModal.css"
 
 
-export default function ShoppingCartModal() {
+export default function ShoppingCartModal({ cart }) {
     const dispatch = useDispatch()
     const [quantity, setQuantity] = useState(0)
     const [plant, setPlant] = useState()
