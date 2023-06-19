@@ -5,6 +5,7 @@ import { logout } from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import ShoppingCartModal from "../ShoppingCartModal";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -51,6 +52,7 @@ function ProfileButton({ user }) {
           <OpenModalButton
             className={'profile-button'}
             buttonText={< i className="fa-regular fa-basket-shopping-simple" />}
+            modalComponent={<ShoppingCartModal />}
           />
         </>
       ) : (
@@ -59,6 +61,7 @@ function ProfileButton({ user }) {
           <OpenModalButton
             className={'profile-button'}
             buttonText={< i className="fa-regular fa-basket-shopping-simple" />}
+            modalComponent={<ShoppingCartModal />}
           />
         </>
 

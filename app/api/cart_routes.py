@@ -1,0 +1,174 @@
+from flask import Blueprint, request
+from flask_login import current_user, login_required
+from app.models import Cart, db, Plant
+
+# url prefix - api/cart
+
+cart_routes = Blueprint("cart", __name__)
+
+# get all cart items by user id
+@cart_routes.route('')
+@login_required
+def get_all_cart_items():
+    """
+    Returns all the items in a cart by user id
+    """
+    # first get current user id
+    user = current_user
+
+    # then query for all the cart items with the same user_id
+    cart_items = Cart.query.filter(Cart.user_id == user.id).all()
+
+    # go through each cart item and put it in normalized notation
+    res = {"all_items": {item.id: item.to_dict() for item in cart_items}}
+    return res
+
+
+# add item to cart
+@cart_routes.route('', methods=["POST"])
+@login_required
+def add_to_cart():
+    """
+    Add item to a cart
+    needed: user_id, plant_id, quantity
+    """
+
+    data = request.get_json()
+
+    form_plant_id = data["plant_id"]
+    form_user_id = data["user_id"]
+    form_quantity = data["quantity"]
+
+
+
+
+    plant = Plant.query.get(form_plant_id)
+
+
+    # check that the plant exists
+    if plant is None:
+        return {"message": "Plant does not exist"}
+
+     # find the plant quantity available
+    plant_quantity = plant.quantity
+
+     # check that the quantity is not more than the quantity available for that plant
+    if form_quantity > plant_quantity:
+        return {"message": "You can't buy more than is available"}
+
+    # check if this plant is already in this users cart
+    cart_item = Cart.query.filter(Cart.plant_id == form_plant_id, Cart.user_id == form_user_id).first()
+
+    print("check check ☮💥 ")
+
+    if(cart_item):
+        if form_quantity + cart_item.quantity > plant_quantity:
+            return {"message": "there are not that many plants of this kind in stock"}
+
+        cart_item.quantity += form_quantity
+        db.session.commit()
+        return {"current_item": cart_item.to_dict()}
+
+    # if item is not in cart then create a new entry
+    res = Cart(
+        user_id= form_user_id,
+        plant_id=form_plant_id,
+        quantity=form_quantity
+    )
+    db.session.add(res)
+    db.session.commit()
+
+    return {"current_item": res.to_dict()}
+
+
+
+
+
+# add to quantity of item in cart
+@cart_routes.route('', methods=["PUT"])
+@login_required
+def change_quantity():
+    """
+    Change the quantity in the cart
+    """
+    # grab the variables from the request
+    data = request.get_json()
+
+    form_plant_id = data["plant_id"]
+    form_quantity = data["quantity"]
+
+    # first find the cart item in the carts table with the correct user_id and plant_id
+    user = current_user
+
+    cart_item = Cart.query.filter(Cart.user_id == user.id and Cart.plant_id == form_plant_id).first()
+
+    # get the plant product so you know what quantity total is available
+    plant = Plant.query.get(form_plant_id)
+
+    # check that the quantity they want to add plus the quantity already in the cart does not exceed to total quantity of the item
+    if form_quantity + cart_item.quantity > plant.quantity:
+        return {"message": "You can't buy more than is available"}
+
+    # now change the quantity in the cart item and commit
+    cart_item.quantity = form_quantity
+    db.session.commit()
+
+    # return the new current_item
+    return {"current_item": cart_item.to_dict()}
+
+
+
+# subtract from quantity of item in cart
+@cart_routes.route('/subtract', methods=["PUT"])
+@login_required
+def subtract_quantity():
+    """
+    Subtract the quantity from the cart
+    """
+    # grab the variables from the request
+    data = request.get_json()
+
+    form_plant_id = data["plant_id"]
+    form_quantity = data["quantity"]
+
+    # first find the cart item in the carts table with the correct user_id and plant_id
+    user = current_user
+
+    cart_item = Cart.query.filter(Cart.user_id == user.id, Cart.plant_id == form_plant_id).first()
+
+    if cart_item is None:
+        return {"message": "Cart item not found"}
+
+    # check that the quantity they want to subtract does not exceed the quantity already in the cart
+    if form_quantity > cart_item.quantity:
+        return {"message": "You can't subtract more than the quantity in the cart"}
+
+    # subtract the quantity from the cart item and commit
+    cart_item.quantity -= form_quantity
+    db.session.commit()
+
+    # return the new current_item
+    return {"current_item": cart_item.to_dict()}
+
+# delete item from cart
+@cart_routes.route('', methods=['DELETE'])
+@login_required
+def delete_cart_item(form_cart_id):
+    """
+    Delete the product from a cart
+    """
+    # find the correct cart item by id
+    cart_item = Cart.query.get(form_cart_id)
+
+    if not cart_item:
+        return {
+            "message": "cart item not found"
+        }
+
+    # delete the cart item and commit
+    db.session.delete(cart_item)
+    db.session.commit()
+
+    return{
+        "message": "cart item deleted"
+    }
