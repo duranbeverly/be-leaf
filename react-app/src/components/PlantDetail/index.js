@@ -3,12 +3,13 @@ import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import './PlantDetail.css'
+import OpenModalButton from '../OpenModalButton';
 import { thunkGetSinglePlant, fetchPlants } from '../../store/plants';
+import ShoppingCartModal from '../ShoppingCartModal';
+import { thunkCreateCartItem } from '../../store/cart';
 
 export default function PlantDetail() {
     let { plantId } = useParams()
-    console.log(plantId)
-    console.log(typeof (plantId))
     // plantId = parseInt(plantId)
     // console.log(typeof (plantId))
     let dispatch = useDispatch()
@@ -17,6 +18,7 @@ export default function PlantDetail() {
     let [isLoading, setIsLoading] = useState(true)
     let [plant2, setPlant2] = useState({})
     let [counter, setCounter] = useState(1)
+    let user = useSelector((state) => state.session.user)
 
     useEffect(() => {
         setIsLoading(true)
@@ -35,6 +37,18 @@ export default function PlantDetail() {
 
     const handlePlus = () => {
         setCounter((prev) => prev + 1)
+    }
+
+    const handleAddToCart = () => {
+        setIsLoading(true)
+
+        let cartItem = {
+            "user_id": user.id,
+            "plant_id": plantId,
+            "quantity": counter
+        }
+        dispatch(thunkCreateCartItem(cartItem))
+
     }
 
     if (isLoading) return <div className='plant-detail-wrapper'></div>
@@ -85,7 +99,12 @@ export default function PlantDetail() {
                                 </div>
                                 <i className="fa-solid fa-plus" onClick={handlePlus}></i>
                             </div>
-                            <button className='cart-button'>ADD TO CART</button>
+                            <OpenModalButton
+                                className="cart-button"
+                                buttonText="ADD TO CART"
+                                modalComponent={<ShoppingCartModal />}
+                                onButtonClick={handleAddToCart}
+                            />
                         </div>
                     </div>
                 </div>

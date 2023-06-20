@@ -20,11 +20,13 @@ export default function ShoppingCartModal({ cart }) {
     let [counter, setCounter] = useState(1)
 
     const handleMinus = () => {
-
+        if (counter > 0) {
+            setCounter((prev) => prev - 1)
+        }
     }
 
     const handlePlus = () => {
-
+        setCounter((prev) => prev + 1)
     }
 
     useEffect(() => {
@@ -37,12 +39,20 @@ export default function ShoppingCartModal({ cart }) {
         setTotalPrice(totalPrice);
     }, [cart]);
 
+    useEffect(() => {
+        // make it so only for the cart modal appears on right
+        const modal = document.getElementById("modal");
+        if (modal) {
+            modal.classList.add("modal-right");
+        }
+    }, []);
+
     return (
-        <>
+        <div className="modal-right">
             {cart && Object.values(cart).length == 0 ? (
                 <div className="modal">
                     <div className="top-wrapper">
-                        <h1>Your Cart</h1>
+                        <h1 className="cart-title">Your Cart</h1>
                         <div className="products-div">
                             Your Cart is Empty !
                             <img className="review-index-img" alt="Palm Plant" src="https://be-leaf.s3.amazonaws.com/plant3.jpg"></img>
@@ -58,7 +68,7 @@ export default function ShoppingCartModal({ cart }) {
             ) : (
                 <div className="modal">
                     <div className="top-wrapper">
-                        <h1>Your Cart</h1>
+                        <h1 className="cart-title">Your Cart</h1>
                         <div className="products-div">
                             <div>
 
@@ -71,18 +81,18 @@ export default function ShoppingCartModal({ cart }) {
                                         </div>
                                         <div className="item-right-div">
                                             <div className="cart-item-header">
-                                                <p>{item.plant_name}</p>
-                                                <p>{`$${item.price}`}</p>
+                                                <p className="cart-item-name">{item.plant_name}</p>
+                                                <p className="cart-item-name">{`$${item.price}`}</p>
                                             </div>
                                             <div className="cart-item-change">
-                                                <div className="input-cart" onChange={(e) => setCart(e.target.value)}>
+                                                <div className="input-cart-small" onChange={(e) => setCart(e.target.value)}>
                                                     <i className="fa-solid fa-minus" onClick={handleMinus}></i>
                                                     <div className='num'>
                                                         {counter}
                                                     </div>
                                                     <i className="fa-solid fa-plus" onClick={handlePlus}></i>
                                                 </div>
-                                                <p>REMOVE</p>
+                                                <p className="cart-remove">REMOVE</p>
                                             </div>
                                         </div>
 
@@ -94,10 +104,12 @@ export default function ShoppingCartModal({ cart }) {
                     </div>
                     <div className="bottom-wrapper">
                         <div className="subtotal-div">
-                            <p>Subtotal:</p>
-                            {/* here you must add price plus quantity for al cart items */}
-                            <p>{totalPrice}</p>
-                            <button className="cart-button">CHECKOUT</button>
+                            <div className="price-div">
+                                <p className="cart-item-name">Subtotal:</p>
+                                {/* here you must add price plus quantity for al cart items */}
+                                <p className="cart-item-name">{totalPrice}</p>
+                            </div>
+                            <button className="cart-button-checkout">CHECKOUT</button>
                         </div>
                     </div>
                 </div>
@@ -106,7 +118,7 @@ export default function ShoppingCartModal({ cart }) {
             }
 
 
-        </>
+        </div>
     )
 
 }

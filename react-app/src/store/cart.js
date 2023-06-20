@@ -121,6 +121,7 @@ export default function reducer(state = initialState, action) {
                     }
                 }
             }
+            return newState
         } case EDIT_ITEM_QUANTITY: {
             const newState = {
                 ...state,
