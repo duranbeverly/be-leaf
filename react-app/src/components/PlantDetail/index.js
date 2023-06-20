@@ -3,25 +3,28 @@ import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import './PlantDetail.css'
+import OpenModalButton from '../OpenModalButton';
 import { thunkGetSinglePlant, fetchPlants } from '../../store/plants';
+import ShoppingCartModal from '../ShoppingCartModal';
+import { fetchCartItems, thunkCreateCartItem } from '../../store/cart';
 
 export default function PlantDetail() {
     let { plantId } = useParams()
-    console.log(plantId)
-    console.log(typeof (plantId))
     // plantId = parseInt(plantId)
     // console.log(typeof (plantId))
     let dispatch = useDispatch()
-    let allPlants = useSelector((state) => state.plant?.all_plants)
+    let allPlants = useSelector((state) => state.plants?.all_plants)
     let [cart, setCart] = useState(0)
     let [isLoading, setIsLoading] = useState(true)
     let [plant2, setPlant2] = useState({})
     let [counter, setCounter] = useState(1)
+    let user = useSelector((state) => state.session.user)
+    let cartInfo = useSelector((state) => state.cart.all_items)
 
     useEffect(() => {
         setIsLoading(true)
         console.log("going to get the plant by id, in frontend")
-        dispatch(fetchPlants()).then(() => dispatch(thunkGetSinglePlant(plantId)).then(() => setIsLoading(false)))
+        dispatch(fetchPlants()).then(() => dispatch(thunkGetSinglePlant(plantId))).then(() => dispatch(fetchCartItems()).then(() => setIsLoading(false)))
 
     }, [dispatch, plantId])
     // we need to get the plant details from the state lets try that
@@ -34,7 +37,24 @@ export default function PlantDetail() {
     }
 
     const handlePlus = () => {
-        setCounter((prev) => prev + 1)
+        if (counter + 1 <= plant.quantity) {
+            setCounter((prev) => prev + 1)
+
+        }
+    }
+
+    const handleAddToCart = () => {
+        setIsLoading(true)
+
+        let cartItem = {
+            "user_id": user.id,
+            "plant_id": parseInt(plantId),
+            "quantity": counter
+        }
+
+        console.log("here is the cartItem (create) in frontend ✨", cartItem)
+        dispatch(thunkCreateCartItem(cartItem)).then(() => setIsLoading(false))
+
     }
 
     if (isLoading) return <div className='plant-detail-wrapper'></div>
@@ -85,7 +105,12 @@ export default function PlantDetail() {
                                 </div>
                                 <i className="fa-solid fa-plus" onClick={handlePlus}></i>
                             </div>
-                            <button className='cart-button'>ADD TO CART</button>
+                            <OpenModalButton
+                                className="cart-button"
+                                buttonText="ADD TO CART"
+                                modalComponent={<ShoppingCartModal cart={cartInfo} plants={allPlants} />}
+                                onButtonClick={handleAddToCart}
+                            />
                         </div>
                     </div>
                 </div>

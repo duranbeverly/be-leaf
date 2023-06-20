@@ -54,8 +54,8 @@ export default function ReviewView() {
                     let plantId = rev.plant_id
                     let reviewId = rev.id
                     let image = rev.image
-
                     return (
+
                         <div className="review-card" key={reviewId}>
                             <div className="review-index-card">
                                 <div className="review-left-icon">

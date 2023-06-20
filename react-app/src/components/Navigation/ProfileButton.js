@@ -1,47 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from 'react-router-dom';
-import { logout } from "../../store/session";
+import { fetchCartItems } from "../../store/cart";
 import OpenModalButton from "../OpenModalButton";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
+import ShoppingCartModal from "../ShoppingCartModal";
+import { fetchPlants } from "../../store/plants";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
-  const [showMenu, setShowMenu] = useState(false);
-  const ulRef = useRef();
+  const [isLoading, setIsLoading] = useState(true)
+  let cart = useSelector((state) => state.cart.all_items)
+  let allPlants = useSelector((state) => state.plants?.all_plants)
 
-
+  useEffect(() => {
+    dispatch(fetchCartItems()).then(() => dispatch(fetchPlants())).then(() => setIsLoading(false))
+  }, [dispatch])
 
   const handleSubmit = () => {
 
   }
-  // const openMenu = () => {
-  //   if (showMenu) return;
-  //   setShowMenu(true);
-  // };
 
-  // useEffect(() => {
-  //   if (!showMenu) return;
-
-  //   const closeMenu = (e) => {
-  //     if (!ulRef.current.contains(e.target)) {
-  //       setShowMenu(false);
-  //     }
-  //   };
-
-  //   document.addEventListener("click", closeMenu);
-
-  //   return () => document.removeEventListener("click", closeMenu);
-  // }, [showMenu]);
-
-  // const handleLogout = (e) => {
-  //   e.preventDefault();
-  //   dispatch(logout());
-  // };
-
-  // const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
-  // const closeMenu = () => setShowMenu(false);
+  if (isLoading) {
+    return <div className="right-nav-buttons"></div>
+  }
 
   return (
     <div className="right-nav-buttons">
@@ -51,15 +32,16 @@ function ProfileButton({ user }) {
           <OpenModalButton
             className={'profile-button'}
             buttonText={< i className="fa-regular fa-basket-shopping-simple" />}
+            modalComponent={<ShoppingCartModal cart={cart} plants={allPlants} />}
           />
         </>
       ) : (
         <>
           <NavLink className='profile-button' exact to='/login'><i className="fa-regular fa-user" /></NavLink>
-          <OpenModalButton
-            className={'profile-button'}
-            buttonText={< i className="fa-regular fa-basket-shopping-simple" />}
-          />
+          <NavLink
+            exact to='/login'>
+            < i className="fa-regular fa-basket-shopping-simple" />
+          </NavLink>
         </>
 
       )

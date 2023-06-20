@@ -1,5 +1,4 @@
 from flask import Blueprint, request
-from sqlalchemy import or_, and_
 from flask_login import current_user, login_required
 from app.models import Review, db
 from app.forms import ReviewForm
