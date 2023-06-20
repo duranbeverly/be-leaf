@@ -61,7 +61,7 @@ export default function ShoppingCartModal({ plants }) {
         let totalPrice = 0;
         if (cart) {
             Object.values(cart).forEach(item => {
-                totalPrice += item.price;
+                totalPrice += item.price * item.quantity;
             });
         }
         setTotalPrice(totalPrice);
