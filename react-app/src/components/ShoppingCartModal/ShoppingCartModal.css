@@ -112,6 +112,7 @@
     font-family: "Raleway", sans-serif;
     font-size: 13px;
     font-weight: 500;
+    cursor: pointer;
 }
 
 #modal.modal-right {

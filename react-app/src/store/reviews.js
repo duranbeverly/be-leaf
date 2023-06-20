@@ -57,6 +57,7 @@ export const thunkGetSingleReview = (reviewId) => async (dispatch) => {
 // remember to check that the api routes match to these fetch requests
 
 export const thunkCreateReview = (formData) => async (dispatch) => {
+    console.log("review formData 🎉 ", formData)
     const res = await fetch('/api/reviews/new', {
         method: "POST",
         body: formData
@@ -108,6 +109,7 @@ const initialState = {
 }
 
 export default function reducer(state = initialState, action) {
+    console.log("we are in the reducer 🥐", action.payload, action.type)
     switch (action.type) {
         case GET_REVIEWS: {
             const allReviews = { ...action.payload.all_reviews }
@@ -118,6 +120,7 @@ export default function reducer(state = initialState, action) {
             }
         }
         case GET_CURR_REVIEW: {
+
             const currentReview = { ...action.payload.current_review }
             return {
                 ...state,
@@ -126,6 +129,7 @@ export default function reducer(state = initialState, action) {
 
         }
         case CREATE_REVIEW: {
+            console.log("what we get in review 😆👀 ", action.payload.current_review)
             const newState = {
                 ...state,
                 all_reviews: {

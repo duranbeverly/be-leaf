@@ -37,7 +37,10 @@ export default function PlantDetail() {
     }
 
     const handlePlus = () => {
-        setCounter((prev) => prev + 1)
+        if (counter + 1 <= plant.quantity) {
+            setCounter((prev) => prev + 1)
+
+        }
     }
 
     const handleAddToCart = () => {
@@ -45,12 +48,12 @@ export default function PlantDetail() {
 
         let cartItem = {
             "user_id": user.id,
-            "plant_id": plantId,
+            "plant_id": parseInt(plantId),
             "quantity": counter
         }
 
         console.log("here is the cartItem (create) in frontend ✨", cartItem)
-        dispatch(thunkCreateCartItem(cartItem))
+        dispatch(thunkCreateCartItem(cartItem)).then(() => setIsLoading(false))
 
     }
 

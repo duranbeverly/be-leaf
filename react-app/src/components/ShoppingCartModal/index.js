@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { useModal } from "../../context/Modal"
-import { thunkEditSubtractCart, thunkEditAddCart } from "../../store/cart"
+import { thunkEditSubtractCart, thunkEditAddCart, thunkDeleteCartItem } from "../../store/cart"
 import "./ShoppingCartModal.css"
 
 
-export default function ShoppingCartModal({ cart, plants }) {
+export default function ShoppingCartModal({ plants }) {
     const dispatch = useDispatch()
     const [quantity, setQuantity] = useState(0)
     const [plant, setPlant] = useState()
@@ -18,6 +18,8 @@ export default function ShoppingCartModal({ cart, plants }) {
     const [errors, setErrors] = useState({})
     const history = useHistory()
     let [counter, setCounter] = useState(1)
+    const cart = useSelector((state) => state.cart.all_items);
+
 
     // when you click on the fa-minus icon below you should be brought to this function which should subtract 1 to the previous cart quantity and then make a dispatch to update the amount in the database
     const handleMinus = (itemId) => {
@@ -121,7 +123,7 @@ export default function ShoppingCartModal({ cart, plants }) {
                                                     </div>
                                                     <i id="cart-icon" className="fa-solid fa-plus" onClick={() => handlePlus(item.id, item.plant_id)}></i>
                                                 </div>
-                                                <p className="cart-remove">REMOVE</p>
+                                                <p className="cart-remove" onClick={(e) => dispatch(thunkDeleteCartItem(item.id))}>REMOVE</p>
                                             </div>
                                         </div>
 

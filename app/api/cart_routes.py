@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from flask_login import current_user, login_required
 from app.models import Cart, db, Plant
+from flask import jsonify
 
 # url prefix - api/cart
 
@@ -38,14 +39,12 @@ def add_to_cart():
     Add item to a cart
     needed: user_id, plant_id, quantity
     """
-
     data = request.get_json()
+    print("now create backend 🎁💛", data)
 
     form_plant_id = data["plant_id"]
     form_user_id = data["user_id"]
     form_quantity = data["quantity"]
-
-
 
 
     plant = Plant.query.get(form_plant_id)
@@ -72,9 +71,10 @@ def add_to_cart():
         if form_quantity > plant_quantity:
             return {"message": "there are not that many plants of this kind in stock"}
 
-        cart_item.quantity = form_quantity
+        cart_item.quantity += form_quantity
         db.session.commit()
-        return {"current_item": cart_item.to_dict()}
+        print("we had that item in cart ✨😎", cart_item.to_dict() )
+        return jsonify({"current_item": cart_item.to_dict()})
 
     # if item is not in cart then create a new entry
     res = Cart(
@@ -85,7 +85,7 @@ def add_to_cart():
     db.session.add(res)
     db.session.commit()
 
-    print("alas the end what do we have ✔", res.to_dict())
+    print("alas the end what do we have ✔🐱‍👤", res.to_dict())
     return {"current_item": res.to_dict()}
 
 
