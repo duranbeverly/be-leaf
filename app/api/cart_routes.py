@@ -55,6 +55,7 @@ def add_to_cart():
     if plant is None:
         return {"message": "Plant does not exist"}
 
+
      # find the plant quantity available
     plant_quantity = plant.quantity
 
@@ -64,7 +65,6 @@ def add_to_cart():
 
     # check if this plant is already in this users cart
     cart_item = Cart.query.filter(Cart.plant_id == form_plant_id, Cart.user_id == form_user_id).first()
-
 
 
     # check that the new quantity does not exceed the quantity available
@@ -85,12 +85,13 @@ def add_to_cart():
     db.session.add(res)
     db.session.commit()
 
+    print("alas the end what do we have ✔", res.to_dict())
     return {"current_item": res.to_dict()}
 
 
 
 
-
+# prefix is /api/cart
 # add to quantity of item in cart (remember you aren't really adding you are just replacing the quantity)
 @cart_routes.route('', methods=["PUT"])
 @login_required
@@ -100,6 +101,8 @@ def change_quantity():
     """
     # grab the variables from the request
     data = request.get_json()
+
+    print("DARE I SAY WE MADE IT TO THE BACKEND 🍟", data)
 
     form_plant_id = data["plant_id"]
     form_quantity = data["quantity"]
@@ -121,6 +124,7 @@ def change_quantity():
     db.session.commit()
 
     # return the new current_item
+    print("what are we going to send for the store (still in backend ) ✨😜", cart_item.to_dict())
     return {"current_item": cart_item.to_dict()}
 
 
@@ -145,10 +149,6 @@ def subtract_quantity():
 
     if cart_item is None:
         return {"message": "Cart item not found"}
-
-    # check that the quantity they want to subtract does not exceed the quantity already in the cart
-    if form_quantity < cart_item.quantity:
-        return {"message": "You can't subtract more than the quantity in the cart"}
 
     # subtract the quantity from the cart item and commit
     cart_item.quantity = form_quantity

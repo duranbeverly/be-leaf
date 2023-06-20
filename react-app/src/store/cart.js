@@ -36,12 +36,16 @@ export const fetchCartItems = () => async (dispatch) => {
 }
 
 export const thunkCreateCartItem = (cartItem) => async (dispatch) => {
+
     const res = await fetch('/api/cart', {
         method: "POST",
-        body: cartItem
+        body: JSON.stringify(cartItem),
+        headers: {
+            "Content-Type": "application/json" // Specify the content type as JSON
+        }
     })
 
-    const data = res.json()
+    const data = await res.json()
 
     if (res.ok) {
         dispatch(createCartItem(data))
@@ -53,9 +57,13 @@ export const thunkCreateCartItem = (cartItem) => async (dispatch) => {
 
 
 export const thunkEditAddCart = (cartItem) => async (dispatch) => {
+    console.log("we are in the thunk to add 😃 ", cartItem)
     const res = await fetch('/api/cart', {
         method: "PUT",
-        body: cartItem
+        body: JSON.stringify(cartItem),
+        headers: {
+            "Content-Type": "application/json" // Specify the content type as JSON
+        }
     })
 
     const data = await res.json()
@@ -72,7 +80,10 @@ export const thunkEditAddCart = (cartItem) => async (dispatch) => {
 export const thunkEditSubtractCart = (cartItem) => async (dispatch) => {
     const res = await fetch('/api/cart/subtract', {
         method: "PUT",
-        body: cartItem
+        body: JSON.stringify(cartItem),
+        headers: {
+            "Content-Type": "application/json" // Specify the content type as JSON
+        }
     })
 
     const data = await res.json()
@@ -103,6 +114,7 @@ const initialState = {
 }
 
 export default function reducer(state = initialState, action) {
+    console.log("what is the payload? 🌹😎", action.payload)
     switch (action.type) {
         case GET_CART_ITEMS: {
             const allItems = { ...action.payload.all_items }
@@ -123,17 +135,19 @@ export default function reducer(state = initialState, action) {
             }
             return newState
         } case EDIT_ITEM_QUANTITY: {
+            const updatedItem = action.payload.current_item
+            const updatedItems = {
+                ...state.all_items,
+                [updatedItem.id]: {
+                    ...updatedItem
+                }
+            }
             const newState = {
                 ...state,
-                all_items: {
-                    ...state.all_items,
-                    [action.payload.current_item]: {
-                        ...action.payload.current_item
-                    }
-                },
-                current_item: { ...action.payload.current_item }
+                all_items: updatedItems,
+                current_item: { ...updatedItem }
             }
-            return newState
+            return { ...newState }
         } case DELETE_CART_ITEM: {
             const newState = {
                 ...state,

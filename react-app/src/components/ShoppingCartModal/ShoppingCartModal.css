@@ -1,3 +1,8 @@
+#cart-icon {
+    color: white;
+    font-size: 9px;
+}
+
 .modal {
     height: 100vh;
     display: flex;

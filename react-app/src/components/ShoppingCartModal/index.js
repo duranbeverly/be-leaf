@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { useModal } from "../../context/Modal"
+import { thunkEditSubtractCart, thunkEditAddCart } from "../../store/cart"
 import "./ShoppingCartModal.css"
 
 
-export default function ShoppingCartModal({ cart }) {
+export default function ShoppingCartModal({ cart, plants }) {
     const dispatch = useDispatch()
     const [quantity, setQuantity] = useState(0)
     const [plant, setPlant] = useState()
@@ -16,19 +17,44 @@ export default function ShoppingCartModal({ cart }) {
     const [isLoading, setIsLoading] = useState(false)
     const [errors, setErrors] = useState({})
     const history = useHistory()
-    let [cart2, setCart] = useState(0)
     let [counter, setCounter] = useState(1)
 
-    const handleMinus = () => {
-        if (counter > 0) {
-            setCounter((prev) => prev - 1)
+    // when you click on the fa-minus icon below you should be brought to this function which should subtract 1 to the previous cart quantity and then make a dispatch to update the amount in the database
+    const handleMinus = (itemId) => {
+        console.log("the journey to minus starts 🥙", itemId)
+        const { plant_id, user_id, quantity } = cart[itemId]
+        const currentItem = {
+            plant_id,
+            user_id,
+            quantity
+        }
+        if (currentItem.quantity > 1) {
+            console.log("currentItem before", currentItem)
+            currentItem.quantity -= 1
+            console.log("currentItem after minus 🎶", currentItem)
+            dispatch(thunkEditSubtractCart(currentItem));
+        }
+    }
+    // when you click on the fa-minus icon below you should be brought to this function which should add 1 to the previous cart quantity and then make a dispatch to update the amount in the database
+    const handlePlus = (itemId, plantId) => {
+        console.log("the journey to add starts 🐱‍💻", itemId)
+        const { plant_id, user_id, quantity } = cart[itemId]
+        const currentItem = {
+            plant_id,
+            user_id,
+            quantity
+        }
+        // check that the amount you want to add to the cart does not exceed the available amount of that plant
+        let plantAvailable = plants[plantId].quantity
+        if (currentItem.quantity < plantAvailable) {
+            console.log("currentItem", currentItem.quantity)
+            currentItem.quantity += 1
+            console.log("currentItem after adding 💞", currentItem.quantity)
+            dispatch(thunkEditAddCart(currentItem));
         }
     }
 
-    const handlePlus = () => {
-        setCounter((prev) => prev + 1)
-    }
-
+    // this useEffect should give us the updated total in the cart
     useEffect(() => {
         let totalPrice = 0;
         if (cart) {
@@ -39,6 +65,7 @@ export default function ShoppingCartModal({ cart }) {
         setTotalPrice(totalPrice);
     }, [cart]);
 
+    // this useEffect makes it so I can change the styling only for this modal
     useEffect(() => {
         // make it so only for the cart modal appears on right
         const modal = document.getElementById("modal");
@@ -46,6 +73,8 @@ export default function ShoppingCartModal({ cart }) {
             modal.classList.add("modal-right");
         }
     }, []);
+
+    if (isLoading) return <div className='modal-right'></div>
 
     return (
         <div className="modal-right">
@@ -75,7 +104,7 @@ export default function ShoppingCartModal({ cart }) {
                             </div>
                             {Object.values(cart).map(item => {
                                 return (
-                                    <div className="item-div">
+                                    <div key={item.id} className="item-div">
                                         <div className="item-left-div">
                                             <img className="cart-img" src={item.plant_image}></img>
                                         </div>
@@ -85,12 +114,12 @@ export default function ShoppingCartModal({ cart }) {
                                                 <p className="cart-item-name">{`$${item.price}`}</p>
                                             </div>
                                             <div className="cart-item-change">
-                                                <div className="input-cart-small" onChange={(e) => setCart(e.target.value)}>
-                                                    <i className="fa-solid fa-minus" onClick={handleMinus}></i>
+                                                <div className="input-cart-small">
+                                                    <i id="cart-icon" className="fa-solid fa-minus" onClick={() => handleMinus(item.id)}></i>
                                                     <div className='num'>
-                                                        {counter}
+                                                        {item.quantity}
                                                     </div>
-                                                    <i className="fa-solid fa-plus" onClick={handlePlus}></i>
+                                                    <i id="cart-icon" className="fa-solid fa-plus" onClick={() => handlePlus(item.id, item.plant_id)}></i>
                                                 </div>
                                                 <p className="cart-remove">REMOVE</p>
                                             </div>

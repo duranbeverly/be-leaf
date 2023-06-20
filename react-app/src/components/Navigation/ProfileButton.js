@@ -4,14 +4,16 @@ import { NavLink } from 'react-router-dom';
 import { fetchCartItems } from "../../store/cart";
 import OpenModalButton from "../OpenModalButton";
 import ShoppingCartModal from "../ShoppingCartModal";
+import { fetchPlants } from "../../store/plants";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true)
   let cart = useSelector((state) => state.cart.all_items)
+  let allPlants = useSelector((state) => state.plants?.all_plants)
 
   useEffect(() => {
-    dispatch(fetchCartItems()).then(() => setIsLoading(false))
+    dispatch(fetchCartItems()).then(() => dispatch(fetchPlants())).then(() => setIsLoading(false))
   }, [dispatch])
 
   const handleSubmit = () => {
@@ -30,7 +32,7 @@ function ProfileButton({ user }) {
           <OpenModalButton
             className={'profile-button'}
             buttonText={< i className="fa-regular fa-basket-shopping-simple" />}
-            modalComponent={<ShoppingCartModal cart={cart} />}
+            modalComponent={<ShoppingCartModal cart={cart} plants={allPlants} />}
           />
         </>
       ) : (
