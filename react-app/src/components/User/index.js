@@ -35,6 +35,10 @@ export default function User() {
                     <i className="fa-solid fa-cactus"></i>
                 </div>
                 <div className="account-side-bar">
+                    <NavLink to="/favorites" className="sell-text">Favorites</NavLink>
+                    <i class="fa-sharp fa-solid fa-circle-heart"></i>
+                </div>
+                <div className="account-side-bar">
                     <button className="logout-button" onClick={handleLogout}>Log out</button>
                     <i className="fa-solid fa-arrow-right-from-bracket"></i>
                 </div>

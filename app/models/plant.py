@@ -46,3 +46,13 @@ class Plant(db.Model):
             "preview_image": self.preview_image,
             "created_at": self.created_at.strftime('%B %d, %Y')
         }
+
+    def to_dict_fav(self):
+        return {
+            "id":self.id,
+            "user_name": self.users.first_name,
+            "name": self.name,
+            "price": self.price,
+            "preview_image": self.preview_image,
+            "created_at": self.created_at.strftime('%B %d, %Y')
+        }

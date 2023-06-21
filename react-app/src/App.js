@@ -12,6 +12,7 @@ import EditPlant from "./components/EditPlant";
 import ReviewView from "./components/ReviewView";
 import GiantsPlants from "./components/GiantPlants";
 import PetFriendlyPlants from "./components/PetFriendlyPlants";
+import FavoritesView from "./components/FavoritesView";
 import User from "./components/User";
 import Footer from "./components/Footer";
 import { authenticate } from "./store/session";
@@ -68,6 +69,9 @@ function App() {
           </Route>
           <Route exact path="/pet-safe-plants">
             <PetFriendlyPlants />
+          </Route>
+          <Route exact path="/favorites">
+            <FavoritesView />
           </Route>
         </Switch>
       )}
