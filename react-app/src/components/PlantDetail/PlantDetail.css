@@ -47,6 +47,7 @@
 
 .plant-detail-pic-div {
     width: 40%;
+    position: relative;
 }
 
 .plant-detail-main-pic {
@@ -215,4 +216,8 @@
     font-weight: 600;
     cursor: pointer;
 
+}
+
+.plant-detail-pic-div:hover .fa-heart {
+    visibility: visible;
 }

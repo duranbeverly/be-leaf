@@ -73,6 +73,9 @@ function App() {
           <Route exact path="/favorites">
             <FavoritesView />
           </Route>
+          <Route path="*">
+            <div className="form-title">Page does not exist</div>
+          </Route>
         </Switch>
       )}
     </>

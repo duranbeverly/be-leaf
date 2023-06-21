@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPlants } from "../../store/plants";
 import { thunkAddFav, thunkDeleteFav } from "../../store/session";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import './PlantList.css'
 
 export default function PlantList() {
     const dispatch = useDispatch();
     let [isLoading, setIsLoading] = useState(true)
     let userInfo = useSelector((state) => state.session.user)
+    let history = useHistory()
     // note - in user we have a favorites key that is a dictionary that has all the favorites in it with id as the key
 
     useEffect(() => {
@@ -41,13 +42,19 @@ export default function PlantList() {
                                     {userInfo && userInfo.favorites[plantId] ?
                                         (<i onClick={(e) => {
                                             e.preventDefault()
-                                            console.log("we are deleting a favorite 🔆🐱‍💻")
+
                                             dispatch(thunkDeleteFav(plantId))
                                         }} class="fa-duotone fa-heart"></i>) :
                                         (<i onClick={(e) => {
                                             e.preventDefault()
-                                            console.log("we are adding a favorite 💟✨", plantId)
-                                            dispatch(thunkAddFav(plantId))
+                                            {
+                                                if (!userInfo) {
+                                                    return history.push('/login')
+                                                } else {
+                                                    dispatch(thunkAddFav(plantId))
+                                                }
+                                            }
+
                                         }} className="fa-regular fa-heart"></i>)
                                     }
 

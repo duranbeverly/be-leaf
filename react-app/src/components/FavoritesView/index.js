@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { thunkAddFav, thunkDeleteFav } from "../../store/session";
 import { NavLink, useHistory } from "react-router-dom";
+import "./FavoriteView.css"
 
 export default function FavoritesView() {
     const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export default function FavoritesView() {
         <div className="plant-index-container">
             <h1 className="plant-index-title">Favorites</h1>
             <div className="all-plant-cards">
-                {Object.values(userInfo.favorites).length > 0 ? (
+                {userInfo && Object.values(userInfo.favorites).length > 0 ? (
                     Object.values(userInfo.favorites).map(fav => {
                         let image = fav.preview_image
                         let price = fav.price
@@ -57,7 +58,7 @@ export default function FavoritesView() {
                     })
                 ) : (
                     <div>
-                        <h2> Oh No! You don't have any favorites! </h2>
+                        <h2 className="fav-empty-title"> Oh No! You don't have any favorites! </h2>
                     </div>
                 )
                 }

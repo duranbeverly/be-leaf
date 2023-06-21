@@ -89,7 +89,7 @@ export default function ReviewView() {
 
                                         </div>
                                     </div>
-                                    {userId == user.id &&
+                                    {user && userId == user.id &&
                                         <div className="change-buttons">
                                             <OpenModalButton
                                                 className="edit-button"

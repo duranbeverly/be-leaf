@@ -1,13 +1,14 @@
 import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { thunkAddFav, thunkDeleteFav } from "../../store/session";
 import './PlantDetail.css'
 import OpenModalButton from '../OpenModalButton';
 import { thunkGetSinglePlant, fetchPlants } from '../../store/plants';
 import ShoppingCartModal from '../ShoppingCartModal';
 import { fetchCartItems, thunkCreateCartItem } from '../../store/cart';
-import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
+import { NavLink, useHistory } from 'react-router-dom';
 
 export default function PlantDetail() {
     let { plantId } = useParams()
@@ -21,6 +22,7 @@ export default function PlantDetail() {
     let [counter, setCounter] = useState(1)
     let user = useSelector((state) => state.session.user)
     let cartInfo = useSelector((state) => state.cart.all_items)
+    const history = useHistory();
 
     useEffect(() => {
         setIsLoading(true)
@@ -72,6 +74,25 @@ export default function PlantDetail() {
                 <div className='plant-detail-bottom'>
                     <div className='plant-detail-pic-div'>
                         <div className='plant-detail-main-pic'>
+                            {/* if there is a user this allows you to add to delete to your favorites */}
+                            {user && user.favorites[plantId] ?
+                                (<i onClick={(e) => {
+                                    e.preventDefault()
+                                    dispatch(thunkDeleteFav(plantId))
+                                }} class="fa-duotone fa-heart"></i>) :
+                                (<i onClick={(e) => {
+                                    e.preventDefault()
+                                    {
+                                        if (!user) {
+                                            return history.push('/login')
+                                        } else {
+                                            dispatch(thunkAddFav(plantId))
+                                        }
+                                    }
+
+
+                                }} className="fa-regular fa-heart"></i>)
+                            }
                             <img className='pic' src={plant?.preview_image} ></img>
                         </div>
                     </div>

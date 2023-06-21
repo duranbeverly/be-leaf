@@ -184,6 +184,7 @@ export default function ReviewCreateModal({ plants, user }) {
                     placeholder="Include helpful care-taking tips for other be-leafers"
                     value={review}
                     className="review-input"
+                    style={{ resize: "none" }}
                     onChange={(e) => {
                         let review = e.target.value.trim()
                         if (!review || review.length <= 10 || review.length > 255) {
