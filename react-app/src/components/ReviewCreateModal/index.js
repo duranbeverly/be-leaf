@@ -56,11 +56,11 @@ export default function ReviewCreateModal({ plants, user }) {
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
-            alert("Please fix the errors you have")
+            return;
         }
 
         let correctPlant = plants.find((plant) => plant.name == plantName)
-        console.log("Hey gois here is my plant id 🍟 ", correctPlant.id)
+
         // in here send a formData and then close the modal
         // the new review should appear on top
         // remember to close the modal

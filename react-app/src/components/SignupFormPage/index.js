@@ -120,17 +120,36 @@ function SignupFormPage() {
         </label>
         <label className="form-label">
           PASSWORD
+          {errors && errors.password && <p className="errors">{errors.password}</p>}
           <input
             type="password"
             className="form-input"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              let password = e.target.value.trim();
+              if (!password || password.length < 5 || password.length > 30) {
+                setErrors((prev) => {
+                  let err = { ...prev };
+                  err.password = "Not a valid password";
+                  setDisabled(true);
+                  return err;
+                });
+              } else {
+                setErrors((prev) => {
+                  let err = { ...prev };
+                  delete err.password;
+                  setDisabled(false);
+                  return err;
+                });
+              }
+              setPassword(e.target.value);
+            }}
             required
           />
         </label>
         <label className="form-label">
           CONFIRM PASSWORD
-          {errors && errors.password && <p className="errors">{errors.password}</p>}
+          {errors && errors.confirmPassword && <p className="errors">{errors.confirmPassword}</p>}
           <input
             type="password"
             className="form-input"
@@ -140,14 +159,14 @@ function SignupFormPage() {
               if (password2 != password) {
                 setErrors(prev => {
                   let err = { ...prev }
-                  err.password = "passwords don't match"
+                  err.confirmPassword = "passwords don't match"
                   setDisabled(true)
                   return err
                 })
               } else {
                 setErrors(prev => {
                   let err = { ...prev }
-                  delete err.password
+                  delete err.confirmPassword
                   setDisabled(false)
                   return err
                 })

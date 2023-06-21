@@ -58,7 +58,6 @@ export default function CreatePlant() {
 
         setIsLoading(true)
 
-        console.log("we begin ☮")
         dispatch(thunkCreatePlant(formData)).then((data) => {
             if (data.error) {
                 setErrors(data.error);
@@ -118,7 +117,7 @@ export default function CreatePlant() {
                         value={price}
                         onChange={(e) => {
                             let price = e.target.value.trim()
-                            if (!price || price < 0 || price > 100 || isNaN(Number(price))) {
+                            if (!price || price <= 0 || price > 100 || isNaN(Number(price))) {
                                 setErrors(prev => {
                                     let err = { ...prev }
                                     if (price > 100) {
