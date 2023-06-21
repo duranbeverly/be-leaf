@@ -7,6 +7,7 @@ import OpenModalButton from '../OpenModalButton';
 import { thunkGetSinglePlant, fetchPlants } from '../../store/plants';
 import ShoppingCartModal from '../ShoppingCartModal';
 import { fetchCartItems, thunkCreateCartItem } from '../../store/cart';
+import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function PlantDetail() {
     let { plantId } = useParams()
@@ -105,12 +106,23 @@ export default function PlantDetail() {
                                 </div>
                                 <i className="fa-solid fa-plus" onClick={handlePlus}></i>
                             </div>
-                            <OpenModalButton
-                                className="cart-button"
-                                buttonText="ADD TO CART"
-                                modalComponent={<ShoppingCartModal cart={cartInfo} plants={allPlants} />}
-                                onButtonClick={handleAddToCart}
-                            />
+                            {user ? (
+                                <OpenModalButton
+                                    className="cart-button"
+                                    buttonText="ADD TO CART"
+                                    modalComponent={<ShoppingCartModal cart={cartInfo} plants={allPlants} />}
+                                    onButtonClick={handleAddToCart}
+                                />
+
+                            ) : (
+                                <NavLink
+                                    className="cart-button-login"
+                                    exact to='/login'
+                                >
+                                    ADD TO CART
+                                </NavLink>
+
+                            )}
                         </div>
                     </div>
                 </div>
