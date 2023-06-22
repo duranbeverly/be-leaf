@@ -79,7 +79,7 @@ export default function PlantDetail() {
                                 (<i onClick={(e) => {
                                     e.preventDefault()
                                     dispatch(thunkDeleteFav(plantId))
-                                }} class="fa-duotone fa-heart"></i>) :
+                                }} className="fa-duotone fa-heart"></i>) :
                                 (<i onClick={(e) => {
                                     e.preventDefault()
                                     {

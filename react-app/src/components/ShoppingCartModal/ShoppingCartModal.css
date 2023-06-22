@@ -118,3 +118,9 @@
 #modal.modal-right {
     justify-content: flex-end;
 }
+
+.empty-cart-title {
+    font-family: "Raleway", sans-serif;
+    color: white;
+    margin-top: 2rem;
+}

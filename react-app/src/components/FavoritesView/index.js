@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { thunkAddFav, thunkDeleteFav } from "../../store/session";
 import { NavLink, useHistory } from "react-router-dom";
@@ -6,7 +6,6 @@ import "./FavoriteView.css"
 
 export default function FavoritesView() {
     const dispatch = useDispatch();
-    let [isLoading, setIsLoading] = useState(true)
     let userInfo = useSelector((state) => state.session.user)
     let history = useHistory()
 
@@ -36,7 +35,7 @@ export default function FavoritesView() {
                                                 e.preventDefault()
                                                 console.log("we are deleting a favorite 🔆🐱‍💻")
                                                 dispatch(thunkDeleteFav(plantId))
-                                            }} class="fa-duotone fa-heart"></i>) :
+                                            }} className="fa-duotone fa-heart"></i>) :
                                             (<i onClick={(e) => {
                                                 e.preventDefault()
                                                 console.log("we are adding a favorite 💟✨", plantId)
