@@ -2,6 +2,7 @@ const GET_CART_ITEMS = 'cart/GET_CART_ITEMS'
 const CREATE_CART_ITEM = 'cart/ADD_CART_CREATE'
 const EDIT_ITEM_QUANTITY = 'cart/EDIT_ITEM_QUANTITY'
 const DELETE_CART_ITEM = 'cart/DELETE_CART_ITEM'
+const DELETE_CART = 'cart/DELETE_CART'
 
 const getCartItems = (cartItems) => ({
     type: GET_CART_ITEMS,
@@ -21,6 +22,10 @@ const editCartItem = (cartItem) => ({
 const deleteCartItem = (id) => ({
     type: DELETE_CART_ITEM,
     id
+})
+
+const deleteCart = () => ({
+    type: DELETE_CART
 })
 
 export const fetchCartItems = () => async (dispatch) => {
@@ -110,6 +115,21 @@ export const thunkDeleteCartItem = (id) => async (dispatch) => {
     }
 }
 
+export const thunkDeleteCart = () => async (dispatch) => {
+    console.log("we are in the thunk to delete 🕳🌯")
+    const res = await fetch(`/api/cart/checkout`, {
+        method: "DELETE"
+    })
+    const data = await res.json()
+    if (res.ok) {
+        dispatch(deleteCart())
+        return { message: "successfully deleted" }
+    } else {
+        return data
+    }
+
+}
+
 const initialState = {
     all_items: {},
     current_item: {}
@@ -155,6 +175,13 @@ export default function reducer(state = initialState, action) {
             }
             delete newState.all_items[action.id]
             delete newState.current_item[action.id]
+            return newState
+        } case DELETE_CART: {
+            const newState = {
+                ...state,
+                all_items: {},
+                current_item: {}
+            }
             return newState
         }
         default:

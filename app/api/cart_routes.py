@@ -179,3 +179,23 @@ def delete_cart_item(form_cart_id):
     return{
         "message": "cart item deleted"
     }
+
+# delete all items it the cart with the same userID for checkout
+@cart_routes.route('/checkout', methods=['DELETE'])
+@login_required
+def delete_cart():
+    """
+    Delete all items in a cart by user Id
+    """
+    print("did we make it to the backend? 🎁🐱‍👤")
+    user = current_user
+
+    print("user ? ", user )
+
+    all_cart_items = Cart.query.filter(Cart.user_id == user.id).delete()
+
+    db.session.commit()
+
+    return{
+        "message": "cart deleted"
+    }

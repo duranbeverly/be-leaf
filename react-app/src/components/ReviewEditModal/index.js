@@ -191,6 +191,7 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
                 <textarea
                     placeholder="Include helpful care-taking tips for other be-leafers"
                     value={review}
+                    style={{ resize: "none" }}
                     className="review-input"
                     onChange={(e) => {
                         let review = e.target.value.trim()

@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { useModal } from "../../context/Modal"
-import { thunkEditSubtractCart, thunkEditAddCart, thunkDeleteCartItem } from "../../store/cart"
+import OpenModalButton from "../OpenModalButton"
+import { thunkEditSubtractCart, thunkEditAddCart, thunkDeleteCartItem, thunkDeleteCart } from "../../store/cart"
+import OrderConfirmed from "../OrderConfirmed"
 import "./ShoppingCartModal.css"
 
 
@@ -17,7 +19,6 @@ export default function ShoppingCartModal({ plants }) {
     const [isLoading, setIsLoading] = useState(false)
     const [errors, setErrors] = useState({})
     const history = useHistory()
-    let [counter, setCounter] = useState(1)
     const cart = useSelector((state) => state.cart.all_items);
 
 
@@ -85,14 +86,19 @@ export default function ShoppingCartModal({ plants }) {
                     <div className="top-wrapper">
                         <h1 className="cart-title">Your Cart</h1>
                         <div className="products-div">
-                            Your Cart is Empty !
+                            <p className="empty-cart-title">Your Cart is Empty !</p>
                             <img className="review-index-img" alt="Palm Plant" src="https://be-leaf.s3.amazonaws.com/plant3.jpg"></img>
                         </div>
 
                     </div>
                     <div className="bottom-wrapper">
                         <div className="subtotal-div">
-                            <button className="cart-button" onClick={(e) => history.push('/plants')}>Continue Shopping</button>
+                            <button
+                                className="cart-button-checkout"
+                                onClick={(e) => {
+                                    history.push('/plants');
+                                    closeModal()
+                                }}>Continue Shopping</button>
                         </div>
                     </div>
                 </div>
@@ -140,7 +146,18 @@ export default function ShoppingCartModal({ plants }) {
                                 {/* here you must add price plus quantity for al cart items */}
                                 <p className="cart-item-name">{totalPrice}</p>
                             </div>
-                            <button className="cart-button-checkout">CHECKOUT</button>
+                            <OpenModalButton
+                                className="cart-button-checkout"
+                                buttonText="CHECKOUT"
+                                modalComponent={<OrderConfirmed />}
+                                onButtonClick={() => {
+                                    console.log("we are going to dispatch for delete cart ✨💛")
+                                    dispatch(thunkDeleteCart())
+
+
+                                }}
+                            />
+
                         </div>
                     </div>
                 </div>

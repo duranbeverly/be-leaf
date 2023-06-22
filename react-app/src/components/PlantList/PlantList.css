@@ -42,6 +42,7 @@
 .img-container {
     width: 15rem;
     height: 23rem;
+    position: relative;
 
 }
 
@@ -75,4 +76,19 @@
     display: flex;
     justify-content: space-between;
     padding-top: .5rem;
+}
+
+
+.fa-heart {
+    visibility: hidden;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    color: #224229;
+    cursor: pointer;
+}
+
+.plant-card:hover .fa-heart {
+    visibility: visible;
+
 }

@@ -42,5 +42,6 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'first_name': self.first_name,
             'last_name': self.last_name,
-            'email': self.email
+            'email': self.email,
+            'favorites': {fav.id: fav.to_dict_fav() for fav in self.user_favorites}
         }
