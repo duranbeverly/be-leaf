@@ -124,3 +124,7 @@
     color: white;
     margin-top: 2rem;
 }
+
+.top-wrapper {
+    height: 55vh;
+}

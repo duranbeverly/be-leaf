@@ -74,7 +74,7 @@ export default function CreatePlant() {
     if (isLoading) {
         return (
             <div className="form-wrapper">
-                <h1>Loading Changes...</h1>
+                <h1 className="review-title">Loading Changes...</h1>
             </div>
         )
     }

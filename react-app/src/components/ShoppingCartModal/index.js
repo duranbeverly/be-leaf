@@ -24,7 +24,7 @@ export default function ShoppingCartModal({ plants }) {
 
     // when you click on the fa-minus icon below you should be brought to this function which should subtract 1 to the previous cart quantity and then make a dispatch to update the amount in the database
     const handleMinus = (itemId) => {
-        console.log("the journey to minus starts 🥙", itemId)
+
         const { plant_id, user_id, quantity } = cart[itemId]
         const currentItem = {
             plant_id,
@@ -32,15 +32,13 @@ export default function ShoppingCartModal({ plants }) {
             quantity
         }
         if (currentItem.quantity > 1) {
-            console.log("currentItem before", currentItem)
             currentItem.quantity -= 1
-            console.log("currentItem after minus 🎶", currentItem)
             dispatch(thunkEditSubtractCart(currentItem));
         }
     }
     // when you click on the fa-minus icon below you should be brought to this function which should add 1 to the previous cart quantity and then make a dispatch to update the amount in the database
     const handlePlus = (itemId, plantId) => {
-        console.log("the journey to add starts 🐱‍💻", itemId)
+
         const { plant_id, user_id, quantity } = cart[itemId]
         const currentItem = {
             plant_id,
@@ -50,9 +48,9 @@ export default function ShoppingCartModal({ plants }) {
         // check that the amount you want to add to the cart does not exceed the available amount of that plant
         let plantAvailable = plants[plantId].quantity
         if (currentItem.quantity < plantAvailable) {
-            console.log("currentItem", currentItem.quantity)
+
             currentItem.quantity += 1
-            console.log("currentItem after adding 💞", currentItem.quantity)
+
             dispatch(thunkEditAddCart(currentItem));
         }
     }
@@ -62,7 +60,7 @@ export default function ShoppingCartModal({ plants }) {
         let totalPrice = 0;
         if (cart) {
             Object.values(cart).forEach(item => {
-                totalPrice += item.price * item.quantity;
+                totalPrice += (item.price * item.quantity);
             });
         }
         setTotalPrice(totalPrice);
@@ -144,14 +142,13 @@ export default function ShoppingCartModal({ plants }) {
                             <div className="price-div">
                                 <p className="cart-item-name">Subtotal:</p>
                                 {/* here you must add price plus quantity for al cart items */}
-                                <p className="cart-item-name">{totalPrice}</p>
+                                <p className="cart-item-name">{totalPrice.toFixed(2)}</p>
                             </div>
                             <OpenModalButton
                                 className="cart-button-checkout"
                                 buttonText="CHECKOUT"
                                 modalComponent={<OrderConfirmed />}
                                 onButtonClick={() => {
-                                    console.log("we are going to dispatch for delete cart ✨💛")
                                     dispatch(thunkDeleteCart())
 
 
