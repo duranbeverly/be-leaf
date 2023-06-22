@@ -16,12 +16,22 @@ export default function ReviewCreateModal({ plants, user }) {
     const [image, setImage] = useState("")
     const [activeRating, setActiveRating] = useState(0);
     const { closeModal } = useModal();
+    const [fileName, setFileName] = useState("Upload Image")
+    const [invisible, setInvisible] = useState("invisible")
     const [isLoading, setIsLoading] = useState(false)
     const [errors, setErrors] = useState({})
 
     if (!user) {
         history.push("/")
     }
+
+    useEffect(() => {
+
+        if (stars && errors.stars) {
+            delete errors.stars
+        }
+
+    }, [stars])
 
     // get all the plants so you can pass them in as options to the drop down
 
@@ -44,6 +54,10 @@ export default function ReviewCreateModal({ plants, user }) {
 
         if (!image) {
             newErrors.image = "Please choose an image";
+        } else {
+            if (errors.image) {
+                delete errors.image
+            }
         }
 
         if (!stars) {
@@ -51,7 +65,11 @@ export default function ReviewCreateModal({ plants, user }) {
         }
 
         if (!plantName) {
-            newErrors.plant = "Choose a plant for the review"
+            newErrors.plant = "Please choose a plant"
+        }
+
+        if (!review) {
+            newErrors.review = "Please leave a review"
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -169,8 +187,26 @@ export default function ReviewCreateModal({ plants, user }) {
                     className="form-dropdown"
                     placeholder="Select"
                     value={plantName}
-                    onChange={(e) => setPlantName(e.target.value)}
+                    onChange={(e) => {
+                        let plant = e.target.value
+                        if (!plant) {
+                            setErrors(prev => {
+                                let err = { ...prev }
+                                err.plant = "Choose a plant"
+                                return err
+
+                            })
+                        } else {
+                            setErrors(prev => {
+                                let err = { ...prev }
+                                delete err.plant
+                                return err
+                            })
+                        }
+                        setPlantName(e.target.value)
+                    }}
                 >
+                    <option value="select">Select</option>
                     {plants && plants.map(plant => (
                         <option key={plant.id} value={plant.name}>{plant.name}</option>
                     ))}
@@ -209,7 +245,11 @@ export default function ReviewCreateModal({ plants, user }) {
             {errors.image && <p className="errors">{errors.image}</p>}
             <label className="form-label">
                 <div className="file-button">
-                    Upload Image
+                    <div className="file-check">
+                        {fileName}
+                        <span><i id={invisible} class="fa-solid fa-circle-check"></i></span>
+
+                    </div>
                     <i className="fa-light fa-cloud-arrow-up"></i>
                 </div>
                 <input
@@ -223,6 +263,8 @@ export default function ReviewCreateModal({ plants, user }) {
                             setErrors(prev => {
                                 let err = { ...prev }
                                 err.image = "Choose a valid image file: pdf, png, jpg, jpeg, gif"
+                                setInvisible("invisible")
+                                setFileName("Upload Image")
                                 return err
                             })
                         } else {
@@ -232,6 +274,8 @@ export default function ReviewCreateModal({ plants, user }) {
                                 return err
                             })
                         }
+                        setFileName(file.name)
+                        setInvisible("visible")
                         setImage(e.target.files[0])
                     }}
                 ></input>

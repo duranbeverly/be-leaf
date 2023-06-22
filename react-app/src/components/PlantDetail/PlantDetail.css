@@ -24,6 +24,7 @@
     font-size: 16px;
     color: #224229;
     font-weight: 500;
+    cursor: pointer;
 }
 
 .plant-detail-name {
@@ -103,6 +104,7 @@
     gap: 2rem;
     font-size: 12px;
     font-family: "Raleway", sans-serif;
+    font-weight: 500;
 }
 
 
@@ -117,12 +119,31 @@
     border-radius: 35px;
 }
 
+.stone:hover {
+    cursor: pointer;
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, .4), 0 0 0 2px #fcf9f3, 0 0 0 4px #22422957;
+}
+
+.plant-detail-stone.selected .stone {
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, .4), 0 0 0 2px #fcf9f3, 0 0 0 4px #224229;
+}
+
 .charcoal {
     width: 42px;
     height: 42px;
     background-color: #3B4037;
     border-radius: 35px;
 }
+
+.charcoal:hover {
+    cursor: pointer;
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, .4), 0 0 0 2px #fcf9f3, 0 0 0 4px #22422957;
+}
+
+.plant-detail-charcoal.selected .charcoal {
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, .4), 0 0 0 2px #fcf9f3, 0 0 0 4px #224229;
+}
+
 
 .slate {
     width: 42px;
@@ -131,12 +152,21 @@
     border-radius: 35px;
 }
 
+.slate:hover {
+    cursor: pointer;
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, .4), 0 0 0 2px #fcf9f3, 0 0 0 4px #22422957;
+}
+
+.plant-detail-slate.selected .slate {
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, .4), 0 0 0 2px #fcf9f3, 0 0 0 4px #224229;
+}
+
 .plant-detail-stone {
     display: flex;
     flex-direction: column;
     align-items: center;
     align-content: center;
-    gap: .2rem;
+    gap: .5rem;
 }
 
 .plant-detail-charcoal {
@@ -144,15 +174,16 @@
     flex-direction: column;
     align-items: center;
     align-content: center;
-    gap: .2rem;
+    gap: .5rem;
 }
+
 
 .plant-detail-slate {
     display: flex;
     flex-direction: column;
     align-items: center;
     align-content: center;
-    gap: .2rem;
+    gap: .5rem;
 }
 
 .plant-detail-buttons {
@@ -220,4 +251,15 @@
 
 .plant-detail-pic-div:hover .fa-heart {
     visibility: visible;
+}
+
+.pot-colors {
+    font-family: "Raleway", sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    grid-area: color;
+    letter-spacing: .1em;
+    padding-top: 8px;
+    text-transform: uppercase;
+    margin-bottom: .5rem;
 }

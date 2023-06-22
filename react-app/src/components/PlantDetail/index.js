@@ -22,6 +22,7 @@ export default function PlantDetail() {
     let [counter, setCounter] = useState(1)
     let user = useSelector((state) => state.session.user)
     let cartInfo = useSelector((state) => state.cart.all_items)
+    const [selectedColor, setSelectedColor] = useState(null);
     const history = useHistory();
 
     useEffect(() => {
@@ -65,7 +66,7 @@ export default function PlantDetail() {
 
         <div className='wrapper'>
             <div className='plant-detail-top'>
-                <p className='plant-detail-header'>Plants</p>
+                <p onClick={() => history.push("/plants")} className='plant-detail-header'>Plants</p>
                 <span className='plant-detail-heading-division'>/</span>
                 <p className='plant-detail-name'>{plant?.name}</p>
             </div>
@@ -104,16 +105,33 @@ export default function PlantDetail() {
                         <p className='plant-detail-description'>{plant?.description}</p>
                         <p className='plant-detail-description'>{`Currently Available: ${plant?.quantity}`}</p>
                         <div className='make-colors-small'>
+                            <p className='pot-colors'>Pot Colors:</p>
                             <div className='plant-detail-pot-colors'>
-                                <div className='plant-detail-stone'>
+                                <div
+                                    className={`plant-detail-stone ${selectedColor === 'stone' ? 'selected' : ''}`}
+                                    onClick={() => {
+                                        selectedColor === 'stone' ? setSelectedColor('') :
+                                            setSelectedColor('stone')
+                                    }}
+                                >
                                     <div className='stone'></div>
                                     <p>STONE</p>
                                 </div>
-                                <div className='plant-detail-charcoal'>
+                                <div className={`plant-detail-charcoal ${selectedColor === 'charcoal' ? 'selected' : ''} `}
+                                    onClick={() => {
+                                        selectedColor === 'charcoal' ? setSelectedColor('') :
+                                            setSelectedColor('charcoal')
+                                    }}
+                                >
                                     <div className='charcoal'></div>
                                     <p>CHARCOAL</p>
                                 </div>
-                                <div className='plant-detail-slate'>
+                                <div className={`plant-detail-slate ${selectedColor === 'slate' ? 'selected' : ''}  `}
+                                    onClick={() => {
+                                        selectedColor === 'slate' ? setSelectedColor('') :
+                                            setSelectedColor('slate')
+                                    }}
+                                >
                                     <div className='slate'></div>
                                     <p>SLATE</p>
                                 </div>

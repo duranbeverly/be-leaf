@@ -17,6 +17,8 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
     const [activeRating, setActiveRating] = useState(0);
     const { closeModal } = useModal();
     const [isLoading, setIsLoading] = useState(false)
+    const [fileName, setFileName] = useState("Upload Image")
+    const [invisible, setInvisible] = useState("invisible")
     const [errors, setErrors] = useState({})
 
     if (!user) {
@@ -64,11 +66,11 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
-            alert("Please fix the errors you have")
+            return ("Please fix the errors you have")
         }
 
         let correctPlant = plants.find((plant) => plant.name == plantName)
-        console.log("Hey gois here is my plant id 🍟 ", correctPlant.id)
+
         // in here send a formData and then close the modal
         // the new review should appear on top
         // remember to close the modal
@@ -95,7 +97,7 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
     if (isLoading) {
         return (
             <div className="review-form">
-                <h1>Loading Changes...</h1>
+                <h1 className="review-title">Loading Changes...</h1>
             </div>
         )
     }
@@ -217,7 +219,11 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
             {errors.image && <p className="errors">{errors.image}</p>}
             <label className="form-label">
                 <div className="file-button">
-                    Upload Image
+                    <div className="file-check">
+                        {fileName}
+                        <span><i id={invisible} class="fa-solid fa-circle-check"></i></span>
+
+                    </div>
                     <i className="fa-light fa-cloud-arrow-up"></i>
                 </div>
                 <input
@@ -231,6 +237,8 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
                             setErrors(prev => {
                                 let err = { ...prev }
                                 err.image = "Choose a valid image file: pdf, png, jpg, jpeg, gif"
+                                setInvisible("invisible")
+                                setFileName("Upload Image")
                                 return err
                             })
                         } else {
@@ -240,6 +248,8 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
                                 return err
                             })
                         }
+                        setFileName(file.name)
+                        setInvisible("visible")
                         setImage(e.target.files[0])
                     }}
                 ></input>

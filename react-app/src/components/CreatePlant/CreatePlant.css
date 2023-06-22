@@ -34,6 +34,11 @@ input #file-upload-button {
     color: #F6CFB2;
 }
 
+.file-check {
+    display: flex;
+    justify-content: space-between;
+}
+
 #no-green {
     color: #f6d0b200;
     width: 100%;
@@ -44,4 +49,16 @@ input #file-upload-button {
 #no-green::focus {
     border: none;
     outline: none;
+}
+
+#invisible {
+    position: absolute;
+    visibility: hidden;
+    scale: 0;
+}
+
+#visible {
+    position: relative;
+    visibility: visible;
+    margin-left: 1rem;
 }
