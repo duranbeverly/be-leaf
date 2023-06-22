@@ -26,6 +26,14 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
     }
 
     useEffect(() => {
+
+        if (stars && errors.stars) {
+            delete errors.stars
+        }
+
+    }, [stars])
+
+    useEffect(() => {
         dispatch(thunkGetSingleReview(reviewId)).then((data) => {
             setStars(data.current_review.rating);
             setActiveRating(data.current_review.rating)
@@ -54,6 +62,10 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
 
         if (!image) {
             newErrors.image = "Please choose an image";
+        } else {
+            if (errors.image) {
+                delete errors.image
+            }
         }
 
         if (!stars) {
@@ -61,12 +73,16 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
         }
 
         if (!plantName) {
-            newErrors.plant = "Choose a plant for the review"
+            newErrors.plant = "Please choose a plant"
+        }
+
+        if (!review) {
+            newErrors.review = "Please leave a review"
         }
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
-            return ("Please fix the errors you have")
+            return;
         }
 
         let correctPlant = plants.find((plant) => plant.name == plantName)
@@ -106,7 +122,7 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
         <form className="review-form" onSubmit={handleSubmit}>
             <h2 className="review-title">Leave a Review</h2>
             <label className="review-label">
-                Stars:
+                <p className="stars-title">Stars:</p>
                 {errors.stars && <p className="errors">{errors.stars}</p>}
                 <div className="rating-input">
                     <div
@@ -179,8 +195,26 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
                     className="form-dropdown"
                     placeholder="Select"
                     value={plantName}
-                    onChange={(e) => setPlantName(e.target.value)}
+                    onChange={(e) => {
+                        let plant = e.target.value
+                        if (!plant) {
+                            setErrors(prev => {
+                                let err = { ...prev }
+                                err.plant = "Choose a plant"
+                                return err
+
+                            })
+                        } else {
+                            setErrors(prev => {
+                                let err = { ...prev }
+                                delete err.plant
+                                return err
+                            })
+                        }
+                        setPlantName(e.target.value)
+                    }}
                 >
+                    <option value="select">Select</option>
                     {plants && plants.map(plant => (
                         <option key={plant.id} value={plant.name}>{plant.name}</option>
                     ))}

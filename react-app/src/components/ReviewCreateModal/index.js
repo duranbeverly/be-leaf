@@ -105,7 +105,7 @@ export default function ReviewCreateModal({ plants, user }) {
     if (isLoading) {
         return (
             <div className="review-form">
-                <h1>Loading Changes...</h1>
+                <h1 className="review-title">Loading Changes...</h1>
             </div>
         )
     }
@@ -114,7 +114,7 @@ export default function ReviewCreateModal({ plants, user }) {
         <form className="review-form" onSubmit={handleSubmit}>
             <h2 className="review-title">Leave a Review</h2>
             <label className="review-label">
-                Stars:
+                <p className="stars-title">Stars:</p>
                 {errors.stars && <p className="errors">{errors.stars}</p>}
                 <div className="rating-input">
                     <div
