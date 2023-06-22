@@ -77,7 +77,6 @@ export default function EditPlant() {
         console.log()
 
         dispatch(thunkEditPlant(formData, plantId)).then((data) => {
-            console.log("looks like we successfuly dispatched 💖 ", data)
             if (data.error) {
                 setErrors(data.error);
                 setIsLoading(false);
@@ -92,7 +91,7 @@ export default function EditPlant() {
     if (isLoading) {
         return (
             <div className="form-wrapper">
-                <h1>Loading Changes...</h1>
+                <h1 className="review-title">Loading Changes...</h1>
             </div>
         )
     }
