@@ -119,6 +119,51 @@
     justify-content: flex-end;
 }
 
+#modal-content {
+    transition: transform 0.4s ease-in-out;
+    /* Added transition property */
+}
+
+#modal-content.active {
+    /* Slide in from the right */
+    transform: translateX(0);
+}
+
+/* Add animation when the modal-right becomes active */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+#modal-content.animate {
+    animation: slideIn 0.4s ease-in-out;
+}
+
+
+#modal-content.inactive {
+    transform: translateX(100%);
+}
+
+#modal-content.animate2 {
+    animation: slideOut 0.4s ease-in-out;
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+
 .empty-cart-title {
     font-family: "Raleway", sans-serif;
     color: white;

@@ -5,11 +5,13 @@ import { useModal } from "../../context/Modal"
 import OpenModalButton from "../OpenModalButton"
 import { thunkEditSubtractCart, thunkEditAddCart, thunkDeleteCartItem, thunkDeleteCart } from "../../store/cart"
 import OrderConfirmed from "../OrderConfirmed"
+
 import "./ShoppingCartModal.css"
 
 
 export default function ShoppingCartModal({ plants }) {
     const dispatch = useDispatch()
+    const [isOpen, setIsOpen] = useState(false);
     const [quantity, setQuantity] = useState(0)
     const [plant, setPlant] = useState()
     //    the price doesn't change really we just pull it from the cart/plant data
@@ -55,6 +57,17 @@ export default function ShoppingCartModal({ plants }) {
         }
     }
 
+    useEffect(() => {
+        setIsOpen(true); // Set isOpen to true to trigger the animation on component mount
+        return () => {
+            const modal_content = document.getElementById("modal-content");
+            if (modal_content) {
+                modal_content.classList.remove("active", "animate");
+                modal_content.classList.add("inactive", "animate");
+            }
+        };
+    }, []);
+
     // this useEffect should give us the updated total in the cart
     useEffect(() => {
         let totalPrice = 0;
@@ -70,10 +83,19 @@ export default function ShoppingCartModal({ plants }) {
     useEffect(() => {
         // make it so only for the cart modal appears on right
         const modal = document.getElementById("modal");
+
+        const modal_content = document.getElementById("modal-content")
+
         if (modal) {
             modal.classList.add("modal-right");
+            modal.classList.add("modal-right");
+            if (isOpen) {
+                modal_content.classList.add("active", "animate");
+            } else {
+                modal_content.classList.remove("active", "animate");
+            }
         }
-    }, []);
+    }, [isOpen]);
 
     if (isLoading) return <div className='modal-right'></div>
 
