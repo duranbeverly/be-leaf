@@ -12,8 +12,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 
 export default function PlantDetail() {
     let { plantId } = useParams()
-    // plantId = parseInt(plantId)
-    // console.log(typeof (plantId))
+
     let dispatch = useDispatch()
     let allPlants = useSelector((state) => state.plants?.all_plants)
     let [cart, setCart] = useState(0)
@@ -27,7 +26,7 @@ export default function PlantDetail() {
 
     useEffect(() => {
         setIsLoading(true)
-        console.log("going to get the plant by id, in frontend")
+
         dispatch(fetchPlants()).then(() => dispatch(thunkGetSinglePlant(plantId))).then(() => dispatch(fetchCartItems()).then(() => setIsLoading(false)))
 
     }, [dispatch, plantId])
@@ -56,7 +55,7 @@ export default function PlantDetail() {
             "quantity": counter
         }
 
-        console.log("here is the cartItem (create) in frontend ✨", cartItem)
+      
         dispatch(thunkCreateCartItem(cartItem)).then(() => setIsLoading(false))
 
     }

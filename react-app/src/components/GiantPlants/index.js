@@ -18,7 +18,7 @@ export default function GiantsPlants() {
     }
 
 
-    plants = Object.values(plants).filter((plant => plant.is_giant == true))
+    plants = Object.values(plants).filter((plant => plant.is_giant === true))
 
     return (
         <div className="plant-index-container">

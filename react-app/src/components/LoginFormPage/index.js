@@ -10,7 +10,7 @@ function LoginFormPage() {
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [activeButton, setActiveButton] = useState("login")
+  const [activeButton] = useState("login")
   const [errors, setErrors] = useState([]);
 
   if (sessionUser) return <Redirect to="/" />;
@@ -32,15 +32,7 @@ function LoginFormPage() {
       setErrors(data);
     }
   }
-  // const handleSignupClick = (e) => {
 
-  //   setActiveButton("signup")
-  // }
-
-  // const handleLoginClick = (e) => {
-
-  //   setActiveButton("login");
-  // };
 
   return (
     <div className="form-wrapper">

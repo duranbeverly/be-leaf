@@ -33,12 +33,11 @@ export default function FavoritesView() {
                                         {userInfo && userInfo.favorites[plantId] ?
                                             (<i onClick={(e) => {
                                                 e.preventDefault()
-                                                console.log("we are deleting a favorite 🔆🐱‍💻")
                                                 dispatch(thunkDeleteFav(plantId))
                                             }} className="fa-duotone fa-heart"></i>) :
                                             (<i onClick={(e) => {
                                                 e.preventDefault()
-                                                console.log("we are adding a favorite 💟✨", plantId)
+                                              
                                                 dispatch(thunkAddFav(plantId))
                                             }} className="fa-regular fa-heart"></i>)
                                         }

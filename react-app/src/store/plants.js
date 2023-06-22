@@ -50,7 +50,7 @@ export const thunkGetSinglePlant = (plantId) => async (dispatch) => {
 
     const data = await res.json()
     if (res.ok) {
-        console.log("this is what we get back from the backend :) ========== ", data)
+
         dispatch(currentPlant(data))
         return data
     } else {
@@ -59,7 +59,7 @@ export const thunkGetSinglePlant = (plantId) => async (dispatch) => {
 }
 
 export const thunkCreatePlant = (formData) => async (dispatch) => {
-    console.log("create a new plant thunk ==== ", formData)
+
     const res = await fetch('/api/plants/new', {
         method: "POST",
         body: formData
@@ -68,7 +68,7 @@ export const thunkCreatePlant = (formData) => async (dispatch) => {
     const data = await res.json();
 
     if (res.ok) {
-        console.log("what we get after creating a plant 💨: ", data)
+
         dispatch(createPlant(data))
         return data
     } else {
@@ -141,7 +141,7 @@ export default function reducer(state = initialState, action) {
                     }
                 }
             };
-            console.log("this is the new state: ", newState);
+         
             return newState;
         }
         case EDIT_PLANT: {

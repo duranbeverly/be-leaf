@@ -143,7 +143,7 @@ def edit_plant(id):
         plant.is_giant = form.data["is_giant"]
         plant.is_pet_friendly = form.data["is_pet_friendly"]
         db.session.commit()
-        print("here should be our plant all changed up: 🔆", plant.to_dict())
+       
         return {"current_plant": plant.to_dict()}
     else:
         return form.errors, 400

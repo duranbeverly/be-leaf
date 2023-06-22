@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchReviews, thunkDeleteReview, thunkEditReview } from "../../store/reviews"
+import { fetchReviews, thunkDeleteReview } from "../../store/reviews"
 import { fetchPlants } from "../../store/plants";
-import { NavLink } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import ReviewCreateModal from "../ReviewCreateModal";
 import ReviewEditModal from "../ReviewEditModal";
@@ -51,7 +50,6 @@ export default function ReviewView() {
                     let stars = rev.rating
                     let reviewText = rev.review
                     let plantName = rev.plant_name
-                    let plantId = rev.plant_id
                     let reviewId = rev.id
                     let image = rev.image
                     return (
@@ -89,7 +87,7 @@ export default function ReviewView() {
 
                                         </div>
                                     </div>
-                                    {user && userId == user.id &&
+                                    {user && userId === user.id &&
                                         <div className="change-buttons">
                                             <OpenModalButton
                                                 className="edit-button"

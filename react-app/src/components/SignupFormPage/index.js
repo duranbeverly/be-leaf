@@ -13,7 +13,7 @@ function SignupFormPage() {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [activeButton, setActiveButton] = useState("signup")
+  const [activeButton] = useState("signup")
   const [disabled, setDisabled] = useState(true)
   const [errors, setErrors] = useState({});
 
@@ -42,13 +42,7 @@ function SignupFormPage() {
   // Validation check for a valid email
   const isValidEmail = (email) => emailRegex.test(email);
 
-  // const handleSignupClick = (e) => {
-  //   setActiveButton("signup")
-  // }
 
-  // const handleLoginClick = (e) => {
-  //   setActiveButton("login");
-  // };
 
   return (
     <div className="form-wrapper">

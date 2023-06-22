@@ -108,7 +108,7 @@ export const signUp = (first_name, last_name, email, password) => async (dispatc
 };
 
 export const thunkAddFav = (plant_id) => async (dispatch) => {
-	console.log("in the fav thunks to add ✨💟")
+
 	const res = await fetch(`/api/users/favorites/${plant_id}`, {
 		method: 'PUT',
 		headers: { "Content-Type": 'application/json' }
@@ -123,7 +123,7 @@ export const thunkAddFav = (plant_id) => async (dispatch) => {
 }
 
 export const thunkDeleteFav = (plant_id) => async (dispatch) => {
-	console.log("in the fav thunks to delete 🐱‍💻🔆")
+
 	const res = await fetch(`/api/users/favorites/${plant_id}`, {
 		method: 'DELETE',
 	})
