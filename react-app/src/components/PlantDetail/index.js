@@ -102,6 +102,7 @@ export default function PlantDetail() {
                             <p className='price'>{`$${plant?.price}`}</p>
                         </div>
                         <p className='plant-detail-description'>{plant?.description}</p>
+                        <p className='plant-detail-description'>{`Currently Available: ${plant?.quantity}`}</p>
                         <div className='make-colors-small'>
                             <div className='plant-detail-pot-colors'>
                                 <div className='plant-detail-stone'>
