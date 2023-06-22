@@ -1,7 +1,8 @@
 .order-logo {
     font-family: "Raleway", sans-serif;
     font-size: 14px;
-    color: #224229;
+    color: #224229ab;
+    font-weight: 500;
 }
 
 .order-title {
@@ -25,4 +26,5 @@
     padding: 1rem 3rem 2rem 3rem;
     grid-gap: 1rem;
     gap: 1rem;
+    background-color: #FCF9F3;
 }

@@ -24,6 +24,15 @@
     padding: 1rem 0;
 }
 
+.item-div-empty {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    border-top: 1px solid white;
+    padding: 1rem 0;
+    width: 15rem;
+}
+
 .cart-item-change {
     display: flex;
     gap: 1rem;
@@ -51,6 +60,37 @@
     height: 100%;
     overflow-y: scroll;
     padding: .5rem;
+}
+
+.products-div::-webkit-scrollbar {
+    width: 0.5rem;
+    /* Width of the scrollbar */
+    background-color: white;
+    border-radius: 50px;
+    /* Background color of the scrollbar track */
+}
+
+.products-div::-webkit-scrollbar-thumb {
+    background-color: #589165;
+    /* Color of the scrollbar thumb */
+    border-radius: 50px;
+    height: 10px;
+    /* Rounded shape for the scrollbar thumb */
+}
+
+.products-div::-webkit-scrollbar-track {
+    background-color: #ffffff;
+    border-radius: 50px;
+    /* Background color of the scrollbar track */
+}
+
+.products-div::-webkit-scrollbar-button {
+    display: none;
+    /* Hide the scrollbar buttons (arrows) */
+}
+
+.products-div::-webkit-scrollbar-track-piece {
+    height: .2rem;
 }
 
 .input-cart-small {
@@ -145,29 +185,12 @@
 }
 
 
-#modal-content.inactive {
-    transform: translateX(100%);
-}
-
-#modal-content.animate2 {
-    animation: slideOut 0.4s ease-in-out;
-}
-
-@keyframes slideOut {
-    from {
-        transform: translateX(0);
-    }
-
-    to {
-        transform: translateX(100%);
-    }
-}
-
 
 .empty-cart-title {
     font-family: "Raleway", sans-serif;
     color: white;
     margin-top: 2rem;
+    text-align: center;
 }
 
 .top-wrapper {

@@ -65,3 +65,38 @@
 .mid-navbar p {
   cursor: pointer;
 }
+
+.nav-button {
+  position: relative;
+  padding: .2rem 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: border-bottom-color 0.3s ease-in-out;
+}
+
+.nav-button::before,
+.nav-button::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background-color: #224229;
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-button::before {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-button::after {
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.nav-button:hover::before,
+.nav-button:hover::after {
+  width: 100%;
+  transition-delay: 0.05s;
+}

@@ -20,10 +20,10 @@ function Navigation({ isLoaded }) {
 					<p className="site-name" >be-leaf</p>
 				</NavLink>
 				<li className='mid-navbar'>
-					<p onClick={(e) => history.push("/plants")}>ALL PLANTS</p>
-					<p onClick={(e) => history.push("/pet-safe-plants")}>PET-FRIENDLY PLANTS</p>
-					<p onClick={(e) => history.push("/giant-plants")}>GIANT PLANTS</p>
-					<p onClick={handleReview}>REVIEWS</p>
+					<p className="nav-button" onClick={(e) => history.push("/plants")}>ALL PLANTS</p>
+					<p className="nav-button" onClick={(e) => history.push("/pet-safe-plants")}>PET-FRIENDLY PLANTS</p>
+					<p className="nav-button" onClick={(e) => history.push("/giant-plants")}>GIANT PLANTS</p>
+					<p className="nav-button" onClick={handleReview}>REVIEWS</p>
 				</li>
 				{isLoaded && (
 					<li>

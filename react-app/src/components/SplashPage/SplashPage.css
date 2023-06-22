@@ -13,9 +13,11 @@
     font-family: "lustria", serif;
     font-size: 3.2rem;
     color: #FCF9F3;
+
 }
 
 .splash-message {
+
     font-family: 'Raleway', sans-serif;
     font-size: 22px;
     font-weight: 500;
@@ -44,4 +46,9 @@
     color: #224229;
     font-weight: 600;
     cursor: pointer;
+}
+
+.splash-button:hover {
+    color: #FCF9F3;
+    background-color: #224229;
 }

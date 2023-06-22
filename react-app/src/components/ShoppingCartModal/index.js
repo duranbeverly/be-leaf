@@ -107,7 +107,10 @@ export default function ShoppingCartModal({ plants }) {
                         <h1 className="cart-title">Your Cart</h1>
                         <div className="products-div">
                             <p className="empty-cart-title">Your Cart is Empty !</p>
-                            <img className="review-index-img" alt="Palm Plant" src="https://be-leaf.s3.amazonaws.com/plant3.jpg"></img>
+                            <div className="item-div-empty">
+                                <img className="review-index-img" alt="Palm Plant" src="https://be-leaf.s3.amazonaws.com/plant3.jpg"></img>
+
+                            </div>
                         </div>
 
                     </div>

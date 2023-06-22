@@ -143,6 +143,10 @@ a::after {
     width: 25px;
 }
 
+.social-icon:hover {
+    width: 28px;
+}
+
 .social-media-div {
     display: flex;
     gap: 1rem;
