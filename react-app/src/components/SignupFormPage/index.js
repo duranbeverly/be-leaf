@@ -22,13 +22,13 @@ function SignupFormPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("do we have errors? 😒 ", errors)
+
     if (errors && Object.keys(errors).length > 0) {
-      console.log("it seems we have errors - inside the disable ")
-      return alert("fix the errors")
+
+      return ("fix the errors")
     }
 
-    console.log("we didn't have errors going to dispatch 💖🥙")
+
     const data = await dispatch(signUp(firstName, lastName, email, password));
     if (data) {
       setErrors(data.errors)

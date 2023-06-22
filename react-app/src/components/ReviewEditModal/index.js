@@ -17,11 +17,21 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
     const [activeRating, setActiveRating] = useState(0);
     const { closeModal } = useModal();
     const [isLoading, setIsLoading] = useState(false)
+    const [fileName, setFileName] = useState("Upload Image")
+    const [invisible, setInvisible] = useState("invisible")
     const [errors, setErrors] = useState({})
 
     if (!user) {
         history.push("/")
     }
+
+    useEffect(() => {
+
+        if (stars && errors.stars) {
+            delete errors.stars
+        }
+
+    }, [stars])
 
     useEffect(() => {
         dispatch(thunkGetSingleReview(reviewId)).then((data) => {
@@ -52,6 +62,10 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
 
         if (!image) {
             newErrors.image = "Please choose an image";
+        } else {
+            if (errors.image) {
+                delete errors.image
+            }
         }
 
         if (!stars) {
@@ -59,16 +73,20 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
         }
 
         if (!plantName) {
-            newErrors.plant = "Choose a plant for the review"
+            newErrors.plant = "Please choose a plant"
+        }
+
+        if (!review) {
+            newErrors.review = "Please leave a review"
         }
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
-            alert("Please fix the errors you have")
+            return;
         }
 
         let correctPlant = plants.find((plant) => plant.name == plantName)
-        console.log("Hey gois here is my plant id 🍟 ", correctPlant.id)
+
         // in here send a formData and then close the modal
         // the new review should appear on top
         // remember to close the modal
@@ -95,7 +113,7 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
     if (isLoading) {
         return (
             <div className="review-form">
-                <h1>Loading Changes...</h1>
+                <h1 className="review-title">Loading Changes...</h1>
             </div>
         )
     }
@@ -104,7 +122,7 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
         <form className="review-form" onSubmit={handleSubmit}>
             <h2 className="review-title">Leave a Review</h2>
             <label className="review-label">
-                Stars:
+                <p className="stars-title">Stars:</p>
                 {errors.stars && <p className="errors">{errors.stars}</p>}
                 <div className="rating-input">
                     <div
@@ -177,8 +195,26 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
                     className="form-dropdown"
                     placeholder="Select"
                     value={plantName}
-                    onChange={(e) => setPlantName(e.target.value)}
+                    onChange={(e) => {
+                        let plant = e.target.value
+                        if (!plant) {
+                            setErrors(prev => {
+                                let err = { ...prev }
+                                err.plant = "Choose a plant"
+                                return err
+
+                            })
+                        } else {
+                            setErrors(prev => {
+                                let err = { ...prev }
+                                delete err.plant
+                                return err
+                            })
+                        }
+                        setPlantName(e.target.value)
+                    }}
                 >
+                    <option value="select">Select</option>
                     {plants && plants.map(plant => (
                         <option key={plant.id} value={plant.name}>{plant.name}</option>
                     ))}
@@ -217,7 +253,11 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
             {errors.image && <p className="errors">{errors.image}</p>}
             <label className="form-label">
                 <div className="file-button">
-                    Upload Image
+                    <div className="file-check">
+                        {fileName}
+                        <span><i id={invisible} class="fa-solid fa-circle-check"></i></span>
+
+                    </div>
                     <i className="fa-light fa-cloud-arrow-up"></i>
                 </div>
                 <input
@@ -231,6 +271,8 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
                             setErrors(prev => {
                                 let err = { ...prev }
                                 err.image = "Choose a valid image file: pdf, png, jpg, jpeg, gif"
+                                setInvisible("invisible")
+                                setFileName("Upload Image")
                                 return err
                             })
                         } else {
@@ -240,6 +282,8 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
                                 return err
                             })
                         }
+                        setFileName(file.name)
+                        setInvisible("visible")
                         setImage(e.target.files[0])
                     }}
                 ></input>

@@ -18,6 +18,8 @@ export default function CreatePlant() {
     const [isPetSafe, setIsPetSafe] = useState(false)
     const [previewImage, setPreviewImage] = useState("")
     const [errors, setErrors] = useState({});
+    const [fileName, setFileName] = useState("Upload Image")
+    const [invisible, setInvisible] = useState("invisible")
     const [isLoading, setIsLoading] = useState(false)
     const sessionUser = useSelector((state) => state.session.user)
 
@@ -216,7 +218,11 @@ export default function CreatePlant() {
                 {errors.image && <p className="errors">{errors.image}</p>}
                 <label className="form-label">
                     <div className="file-button">
-                        Upload Image
+                        <div className="file-check">
+                            {fileName}
+                            <span><i id={invisible} class="fa-solid fa-circle-check"></i></span>
+
+                        </div>
                         <i className="fa-light fa-cloud-arrow-up"></i>
 
                     </div>
@@ -231,6 +237,8 @@ export default function CreatePlant() {
                                 setErrors(prev => {
                                     let err = { ...prev }
                                     err.image = "Choose a valid image file: pdf, png, jpg, jpeg, gif"
+                                    setInvisible("invisible")
+                                    setFileName("Upload Image")
                                     return err
                                 })
                             } else {
@@ -240,7 +248,9 @@ export default function CreatePlant() {
                                     return err
                                 })
                             }
-                            setPreviewImage(e.target.files[0])
+                            setFileName(file.name)
+                            setInvisible("visible")
+                            setPreviewImage(file)
                         }}
                     />
                 </label>
