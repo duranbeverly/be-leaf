@@ -34,7 +34,7 @@ export default function PlantDetail() {
     let plant = useSelector(state => state.plants?.all_plants[plantId])
 
     const handleMinus = () => {
-        if (counter > 0) {
+        if (counter > 1) {
             setCounter((prev) => prev - 1)
         }
     }
