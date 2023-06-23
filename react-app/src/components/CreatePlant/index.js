@@ -219,7 +219,7 @@ export default function CreatePlant() {
                     <div className="file-button">
                         <div className="file-check">
                             {fileName}
-                            <span><i id={invisible} class="fa-solid fa-circle-check"></i></span>
+                            <span><i id={invisible} className="fa-solid fa-circle-check"></i></span>
 
                         </div>
                         <i className="fa-light fa-cloud-arrow-up"></i>
