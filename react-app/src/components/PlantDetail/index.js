@@ -25,9 +25,13 @@ export default function PlantDetail() {
     useEffect(() => {
         setIsLoading(true)
 
-        dispatch(fetchPlants()).then(() => dispatch(thunkGetSinglePlant(plantId))).then(() => dispatch(fetchCartItems()).then(() => setIsLoading(false)))
+        dispatch(fetchPlants()).then(() => dispatch(thunkGetSinglePlant(plantId))).then(() => setIsLoading(false))
 
-    }, [dispatch, plantId])
+        if (user) {
+            setIsLoading(true)
+            dispatch(fetchCartItems()).then(() => setIsLoading(false))
+        }
+    }, [dispatch, plantId, user])
     // we need to get the plant details from the state lets try that
     let plant = useSelector(state => state.plants?.all_plants[plantId])
 
