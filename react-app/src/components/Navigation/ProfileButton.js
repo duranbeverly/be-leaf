@@ -13,8 +13,12 @@ function ProfileButton({ user }) {
   let allPlants = useSelector((state) => state.plants?.all_plants)
 
   useEffect(() => {
-    dispatch(fetchCartItems()).then(() => dispatch(fetchPlants())).then(() => setIsLoading(false))
-  }, [dispatch])
+    dispatch(fetchPlants()).then(() => setIsLoading(false));
+
+    if (user) {
+      dispatch(fetchCartItems());
+    }
+  }, [dispatch, user])
 
 
 
