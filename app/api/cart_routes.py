@@ -40,7 +40,7 @@ def add_to_cart():
     needed: user_id, plant_id, quantity
     """
     data = request.get_json()
-    print("now create backend 🎁💛", data)
+
 
     form_plant_id = data["plant_id"]
     form_user_id = data["user_id"]
@@ -73,7 +73,7 @@ def add_to_cart():
 
         cart_item.quantity += form_quantity
         db.session.commit()
-        print("we had that item in cart ✨😎", cart_item.to_dict() )
+
         return jsonify({"current_item": cart_item.to_dict()})
 
     # if item is not in cart then create a new entry
@@ -85,7 +85,7 @@ def add_to_cart():
     db.session.add(res)
     db.session.commit()
 
-    print("alas the end what do we have ✔🐱‍👤", res.to_dict())
+
     return {"current_item": res.to_dict()}
 
 
@@ -102,7 +102,7 @@ def change_quantity():
     # grab the variables from the request
     data = request.get_json()
 
-    print("DARE I SAY WE MADE IT TO THE BACKEND 🍟", data)
+
 
     form_plant_id = data["plant_id"]
     form_quantity = data["quantity"]
@@ -124,7 +124,7 @@ def change_quantity():
     db.session.commit()
 
     # return the new current_item
-    print("what are we going to send for the store (still in backend ) ✨😜", cart_item.to_dict())
+
     return {"current_item": cart_item.to_dict()}
 
 
@@ -187,10 +187,10 @@ def delete_cart():
     """
     Delete all items in a cart by user Id
     """
-    print("did we make it to the backend? 🎁🐱‍👤")
+
     user = current_user
 
-    print("user ? ", user )
+  
 
     all_cart_items = Cart.query.filter(Cart.user_id == user.id).delete()
 

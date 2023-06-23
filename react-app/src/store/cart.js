@@ -29,7 +29,7 @@ const deleteCart = () => ({
 })
 
 export const fetchCartItems = () => async (dispatch) => {
-    console.log("we are in the thunk to grab cart items 🍎🍊")
+
     const res = await fetch('/api/cart')
 
     const data = await res.json()
@@ -42,7 +42,7 @@ export const fetchCartItems = () => async (dispatch) => {
 }
 
 export const thunkCreateCartItem = (cartItem) => async (dispatch) => {
-    console.log("we are in the thunk to create 🐱‍🚀 ", cartItem)
+
     const res = await fetch('/api/cart', {
         method: "POST",
         body: JSON.stringify(cartItem),
@@ -52,7 +52,7 @@ export const thunkCreateCartItem = (cartItem) => async (dispatch) => {
     })
 
     const data = await res.json()
-    console.log("what we get from the backend 🌯🕳", data)
+
     if (res.ok) {
         dispatch(createCartItem(data))
         return data
@@ -63,7 +63,7 @@ export const thunkCreateCartItem = (cartItem) => async (dispatch) => {
 
 
 export const thunkEditAddCart = (cartItem) => async (dispatch) => {
-    console.log("we are in the thunk to add 😃 ", cartItem)
+
     const res = await fetch('/api/cart', {
         method: "PUT",
         body: JSON.stringify(cartItem),
@@ -116,7 +116,7 @@ export const thunkDeleteCartItem = (id) => async (dispatch) => {
 }
 
 export const thunkDeleteCart = () => async (dispatch) => {
-    console.log("we are in the thunk to delete 🕳🌯")
+
     const res = await fetch(`/api/cart/checkout`, {
         method: "DELETE"
     })
@@ -136,7 +136,7 @@ const initialState = {
 }
 
 export default function reducer(state = initialState, action) {
-    console.log("in the reducer for cart 🥐 ", action.type, action.payload)
+
     switch (action.type) {
         case GET_CART_ITEMS: {
             const allItems = { ...action.payload.all_items }
@@ -146,7 +146,7 @@ export default function reducer(state = initialState, action) {
             }
         }
         case CREATE_CART_ITEM: {
-            console.log("what is the payload? 🌹😎✔", action.payload.current_item)
+
             const newState = {
                 ...state,
                 all_items: {
@@ -159,7 +159,7 @@ export default function reducer(state = initialState, action) {
             return newState
 
         } case EDIT_ITEM_QUANTITY: {
-            console.log("what is the payload? 🌹😎", action.payload.current_item)
+          
             const newState = {
                 ...state,
                 all_items: { ...state.all_items, [action.payload.current_item.id]: { ...action.payload.current_item } },

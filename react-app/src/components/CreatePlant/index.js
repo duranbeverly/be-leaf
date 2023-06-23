@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { logout } from "../../store/session";
 import { thunkCreatePlant } from "../../store/plants";
 import "./CreatePlant.css"
-import { NavLink } from "react-router-dom";
+
 
 
 export default function CreatePlant() {
@@ -92,7 +91,7 @@ export default function CreatePlant() {
                         value={name}
                         onChange={(e) => {
                             let inputValue = e.target.value.trim()
-                            if (inputValue.length > 50 || inputValue.length == 0) {
+                            if (inputValue.length > 50 || inputValue.length === 0) {
                                 setErrors(prev => {
                                     let err = { ...prev }
                                     err.name = "Not a valid name"
@@ -220,7 +219,7 @@ export default function CreatePlant() {
                     <div className="file-button">
                         <div className="file-check">
                             {fileName}
-                            <span><i id={invisible} class="fa-solid fa-circle-check"></i></span>
+                            <span><i id={invisible} className="fa-solid fa-circle-check"></i></span>
 
                         </div>
                         <i className="fa-light fa-cloud-arrow-up"></i>

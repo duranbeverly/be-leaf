@@ -5,19 +5,16 @@ import { useModal } from "../../context/Modal"
 import OpenModalButton from "../OpenModalButton"
 import { thunkEditSubtractCart, thunkEditAddCart, thunkDeleteCartItem, thunkDeleteCart } from "../../store/cart"
 import OrderConfirmed from "../OrderConfirmed"
+
 import "./ShoppingCartModal.css"
 
 
 export default function ShoppingCartModal({ plants }) {
     const dispatch = useDispatch()
-    const [quantity, setQuantity] = useState(0)
-    const [plant, setPlant] = useState()
-    //    the price doesn't change really we just pull it from the cart/plant data
-    const [price, setPrice] = useState()
+    const [isOpen, setIsOpen] = useState(false);
     const [totalPrice, setTotalPrice] = useState(0)
     const { closeModal } = useModal()
-    const [isLoading, setIsLoading] = useState(false)
-    const [errors, setErrors] = useState({})
+    const [isLoading] = useState(false)
     const history = useHistory()
     const cart = useSelector((state) => state.cart.all_items);
 
@@ -55,6 +52,17 @@ export default function ShoppingCartModal({ plants }) {
         }
     }
 
+    useEffect(() => {
+        setIsOpen(true); // Set isOpen to true to trigger the animation on component mount
+        return () => {
+            const modal_content = document.getElementById("modal-content");
+            if (modal_content) {
+                modal_content.classList.remove("active", "animate");
+                modal_content.classList.add("inactive", "animate");
+            }
+        };
+    }, []);
+
     // this useEffect should give us the updated total in the cart
     useEffect(() => {
         let totalPrice = 0;
@@ -70,22 +78,34 @@ export default function ShoppingCartModal({ plants }) {
     useEffect(() => {
         // make it so only for the cart modal appears on right
         const modal = document.getElementById("modal");
+
+        const modal_content = document.getElementById("modal-content")
+
         if (modal) {
             modal.classList.add("modal-right");
+            modal.classList.add("modal-right");
+            if (isOpen) {
+                modal_content.classList.add("active", "animate");
+            } else {
+                modal_content.classList.remove("active", "animate");
+            }
         }
-    }, []);
+    }, [isOpen]);
 
     if (isLoading) return <div className='modal-right'></div>
 
     return (
         <div className="modal-right">
-            {cart && Object.values(cart).length == 0 ? (
+            {cart && Object.values(cart).length === 0 ? (
                 <div className="modal">
                     <div className="top-wrapper">
                         <h1 className="cart-title">Your Cart</h1>
                         <div className="products-div">
                             <p className="empty-cart-title">Your Cart is Empty !</p>
-                            <img className="review-index-img" alt="Palm Plant" src="https://be-leaf.s3.amazonaws.com/plant3.jpg"></img>
+                            <div className="item-div-empty">
+                                <img className="review-index-img" alt="Palm Plant" src="https://be-leaf.s3.amazonaws.com/plant3.jpg"></img>
+
+                            </div>
                         </div>
 
                     </div>
@@ -112,7 +132,7 @@ export default function ShoppingCartModal({ plants }) {
                                 return (
                                     <div key={item.id} className="item-div">
                                         <div className="item-left-div">
-                                            <img className="cart-img" src={item.plant_image}></img>
+                                            <img alt={item.plant_name} className="cart-img" src={item.plant_image}></img>
                                         </div>
                                         <div className="item-right-div">
                                             <div className="cart-item-header">

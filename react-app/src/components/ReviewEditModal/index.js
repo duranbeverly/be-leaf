@@ -11,7 +11,6 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
     // create use states to keep track of plant id, stars, review
     const [stars, setStars] = useState(0)
     const [review, setReview] = useState("")
-    const [plantId, setPlantId] = useState("")
     const [plantName, setPlantName] = useState("")
     const [image, setImage] = useState("")
     const [activeRating, setActiveRating] = useState(0);
@@ -31,7 +30,7 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
             delete errors.stars
         }
 
-    }, [stars])
+    }, [stars, errors.stars])
 
     useEffect(() => {
         dispatch(thunkGetSingleReview(reviewId)).then((data) => {
@@ -41,9 +40,9 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
             setPlantName(data.current_review.plant_name)
             setImage(data.current_review.image)
         })
-    }, [dispatch])
+    }, [dispatch, reviewId])
 
-    plants = Object.values(plants).filter((plant) => plant.user_id != user.id)
+    plants = Object.values(plants).filter((plant) => plant.user_id !== user.id)
 
     const validExtension = (fileName) => {
         const ALLOWED_EXTENSIONS = ["pdf", "png", "jpg", "jpeg", "gif"];
@@ -85,7 +84,7 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
             return;
         }
 
-        let correctPlant = plants.find((plant) => plant.name == plantName)
+        let correctPlant = plants.find((plant) => plant.name === plantName)
 
         // in here send a formData and then close the modal
         // the new review should appear on top
@@ -255,7 +254,7 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
                 <div className="file-button">
                     <div className="file-check">
                         {fileName}
-                        <span><i id={invisible} class="fa-solid fa-circle-check"></i></span>
+                        <span><i id={invisible} className="fa-solid fa-circle-check"></i></span>
 
                     </div>
                     <i className="fa-light fa-cloud-arrow-up"></i>

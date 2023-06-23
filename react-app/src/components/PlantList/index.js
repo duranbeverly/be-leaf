@@ -47,13 +47,13 @@ export default function PlantList() {
                                         }} className="fa-duotone fa-heart"></i>) :
                                         (<i onClick={(e) => {
                                             e.preventDefault()
-                                            {
-                                                if (!userInfo) {
-                                                    return history.push('/login')
-                                                } else {
-                                                    dispatch(thunkAddFav(plantId))
-                                                }
+
+                                            if (!userInfo) {
+                                                return history.push('/login')
+                                            } else {
+                                                dispatch(thunkAddFav(plantId))
                                             }
+
 
                                         }} className="fa-regular fa-heart"></i>)
                                     }

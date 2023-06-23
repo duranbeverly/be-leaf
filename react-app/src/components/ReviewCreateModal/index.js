@@ -11,7 +11,6 @@ export default function ReviewCreateModal({ plants, user }) {
     // create use states to keep track of plant id, stars, review
     const [stars, setStars] = useState(0)
     const [review, setReview] = useState("")
-    const [plantId, setPlantId] = useState("")
     const [plantName, setPlantName] = useState("")
     const [image, setImage] = useState("")
     const [activeRating, setActiveRating] = useState(0);
@@ -31,11 +30,11 @@ export default function ReviewCreateModal({ plants, user }) {
             delete errors.stars
         }
 
-    }, [stars])
+    }, [stars, errors.stars])
 
     // get all the plants so you can pass them in as options to the drop down
 
-    plants = Object.values(plants).filter((plant) => plant.user_id != user.id)
+    plants = Object.values(plants).filter((plant) => plant.user_id !== user.id)
 
     const validExtension = (fileName) => {
         const ALLOWED_EXTENSIONS = ["pdf", "png", "jpg", "jpeg", "gif"];
@@ -77,7 +76,7 @@ export default function ReviewCreateModal({ plants, user }) {
             return;
         }
 
-        let correctPlant = plants.find((plant) => plant.name == plantName)
+        let correctPlant = plants.find((plant) => plant.name === plantName)
 
         // in here send a formData and then close the modal
         // the new review should appear on top
@@ -247,7 +246,7 @@ export default function ReviewCreateModal({ plants, user }) {
                 <div className="file-button">
                     <div className="file-check">
                         {fileName}
-                        <span><i id={invisible} class="fa-solid fa-circle-check"></i></span>
+                        <span><i id={invisible} className="fa-solid fa-circle-check"></i></span>
 
                     </div>
                     <i className="fa-light fa-cloud-arrow-up"></i>

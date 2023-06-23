@@ -32,7 +32,6 @@ def get_favorites(plant_id):
      Returns all favorites by user id
     """
 
-    print("we made it to the backend to add favs 💟✨")
     user = User.query.get(current_user.id)
     plant = Plant.query.get(plant_id)
     plant.plant_favorites.append(user)

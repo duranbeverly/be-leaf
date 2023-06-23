@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { logout } from "../../store/session";
-import { thunkEditPlant, fetchPlants, thunkGetSinglePlant } from "../../store/plants";
-import { NavLink, useParams } from "react-router-dom";
+import { thunkEditPlant, thunkGetSinglePlant } from "../../store/plants";
+import { useParams } from "react-router-dom";
 import "../CreatePlant/CreatePlant.css"
 
 export default function EditPlant() {
@@ -38,7 +37,7 @@ export default function EditPlant() {
             setIsPetSafe(data.current_plant.is_pet_friendly);
             setPreviewImage(data.current_plant.preview_image)
         }).then(() => setIsLoading(false))
-    }, [dispatch])
+    }, [dispatch, plantId])
 
     const validExtension = (fileName) => {
         const ALLOWED_EXTENSIONS = ["pdf", "png", "jpg", "jpeg", "gif"];
@@ -73,8 +72,6 @@ export default function EditPlant() {
 
         setIsLoading(true)
 
-        console.log("we begin ☮")
-        console.log()
 
         dispatch(thunkEditPlant(formData, plantId)).then((data) => {
             if (data.error) {
@@ -111,7 +108,7 @@ export default function EditPlant() {
                         value={name}
                         onChange={(e) => {
                             let inputValue = e.target.value.trim()
-                            if (inputValue.length > 50 || inputValue.length == 0) {
+                            if (inputValue.length > 50 || inputValue.length === 0) {
                                 setErrors(prev => {
                                     let err = { ...prev }
                                     err.name = "Not a valid name"

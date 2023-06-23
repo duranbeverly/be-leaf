@@ -44,7 +44,7 @@ def create_review():
     Create a new review if you are logged in
     """
 
-    print("We are in the backend 💨 ", request.files.get('rating'))
+
     form = ReviewForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     # form.user_id.data = current_user.id
@@ -67,7 +67,7 @@ def create_review():
                 )
                 db.session.add(res)
                 db.session.commit()
-        print("💞 here is what we are returning", res.to_dict())
+      
         return{"current_review": res.to_dict()}
     else:
         return form.errors, 401

@@ -4,6 +4,7 @@
 * {
     margin: 0;
     box-sizing: border-box;
+    caret-color: transparent
 }
 
 .form-wrapper {
@@ -142,6 +143,10 @@ a::after {
     width: 25px;
 }
 
+.social-icon:hover {
+    width: 28px;
+}
+
 .social-media-div {
     display: flex;
     gap: 1rem;
@@ -149,7 +154,7 @@ a::after {
 
 .root {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 
 }
 
