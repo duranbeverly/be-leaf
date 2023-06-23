@@ -15,9 +15,7 @@ export default function PlantDetail() {
 
     let dispatch = useDispatch()
     let allPlants = useSelector((state) => state.plants?.all_plants)
-    let [cart, setCart] = useState(0)
     let [isLoading, setIsLoading] = useState(true)
-    let [plant2, setPlant2] = useState({})
     let [counter, setCounter] = useState(1)
     let user = useSelector((state) => state.session.user)
     let cartInfo = useSelector((state) => state.cart.all_items)
@@ -55,7 +53,7 @@ export default function PlantDetail() {
             "quantity": counter
         }
 
-      
+
         dispatch(thunkCreateCartItem(cartItem)).then(() => setIsLoading(false))
 
     }
@@ -82,18 +80,18 @@ export default function PlantDetail() {
                                 }} className="fa-duotone fa-heart"></i>) :
                                 (<i onClick={(e) => {
                                     e.preventDefault()
-                                    {
-                                        if (!user) {
-                                            return history.push('/login')
-                                        } else {
-                                            dispatch(thunkAddFav(plantId))
-                                        }
+
+                                    if (!user) {
+                                        return history.push('/login')
+                                    } else {
+                                        dispatch(thunkAddFav(plantId))
                                     }
+
 
 
                                 }} className="fa-regular fa-heart"></i>)
                             }
-                            <img className='pic' src={plant?.preview_image} ></img>
+                            <img alt={plant?.name} className='pic' src={plant?.preview_image} ></img>
                         </div>
                     </div>
                     <div className='plant-detail-info'>
@@ -138,7 +136,7 @@ export default function PlantDetail() {
 
                         </div>
                         <div className='plant-detail-buttons'>
-                            <div className="input-cart" onChange={(e) => setCart(e.target.value)}>
+                            <div className="input-cart">
                                 <i className="fa-solid fa-minus" onClick={handleMinus}></i>
                                 <div className='num'>
                                     {counter}

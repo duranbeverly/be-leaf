@@ -18,7 +18,7 @@ export default function PetFriendlyPlants() {
     }
 
 
-    plants = Object.values(plants).filter((plant => plant.is_pet_friendly == true))
+    plants = Object.values(plants).filter((plant => plant.is_pet_friendly === true))
 
     return (
         <div className="plant-index-container">

@@ -150,7 +150,7 @@ function SignupFormPage() {
             value={confirmPassword}
             onChange={(e) => {
               let password2 = e.target.value.trim()
-              if (password2 != password) {
+              if (password2 !== password) {
                 setErrors(prev => {
                   let err = { ...prev }
                   err.confirmPassword = "passwords don't match"

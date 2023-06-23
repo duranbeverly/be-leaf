@@ -1,8 +1,5 @@
-import React, { useState } from "react";
-import { login } from "../../store/session";
-import { NavLink, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import React from "react";
+import { useHistory } from 'react-router-dom';
 import './SplashPage.css'
 
 export default function SplashPage() {
@@ -20,7 +17,7 @@ export default function SplashPage() {
                     <p className="splash-message-body">Your summer oasis awaits.</p>
                     <button onClick={handleSubmit} className="splash-button">SHOP PLANTS</button>
                 </div>
-                <img className="splash-bg-image" src="https://be-leaf.s3.amazonaws.com/plants_landscape4.jpg"></img>
+                <img alt="flowers" className="splash-bg-image" src="https://be-leaf.s3.amazonaws.com/plants_landscape4.jpg"></img>
             </div>
         </>
     )

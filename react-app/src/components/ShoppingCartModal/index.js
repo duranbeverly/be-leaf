@@ -12,14 +12,9 @@ import "./ShoppingCartModal.css"
 export default function ShoppingCartModal({ plants }) {
     const dispatch = useDispatch()
     const [isOpen, setIsOpen] = useState(false);
-    const [quantity, setQuantity] = useState(0)
-    const [plant, setPlant] = useState()
-    //    the price doesn't change really we just pull it from the cart/plant data
-    const [price, setPrice] = useState()
     const [totalPrice, setTotalPrice] = useState(0)
     const { closeModal } = useModal()
-    const [isLoading, setIsLoading] = useState(false)
-    const [errors, setErrors] = useState({})
+    const [isLoading] = useState(false)
     const history = useHistory()
     const cart = useSelector((state) => state.cart.all_items);
 
@@ -101,7 +96,7 @@ export default function ShoppingCartModal({ plants }) {
 
     return (
         <div className="modal-right">
-            {cart && Object.values(cart).length == 0 ? (
+            {cart && Object.values(cart).length === 0 ? (
                 <div className="modal">
                     <div className="top-wrapper">
                         <h1 className="cart-title">Your Cart</h1>
@@ -137,7 +132,7 @@ export default function ShoppingCartModal({ plants }) {
                                 return (
                                     <div key={item.id} className="item-div">
                                         <div className="item-left-div">
-                                            <img className="cart-img" src={item.plant_image}></img>
+                                            <img alt={item.plant_name} className="cart-img" src={item.plant_image}></img>
                                         </div>
                                         <div className="item-right-div">
                                             <div className="cart-item-header">

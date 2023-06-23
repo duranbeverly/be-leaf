@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPlants, thunkDeletePlant } from "../../store/plants";
-import { NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import './UserPlants.css'
 
 export default function UserPlants() {
@@ -25,7 +25,7 @@ export default function UserPlants() {
     if (isLoading) {
         return <div className="plant-index-container"></div>
     }
-    let plants = Object.values(plants1).filter((plant) => plant.user_id == user.id)
+    let plants = Object.values(plants1).filter((plant) => plant.user_id === user.id)
 
 
 
@@ -36,7 +36,6 @@ export default function UserPlants() {
                 {plants && plants.map(plant => {
                     let image = plant.preview_image
                     let name = plant.name
-                    let user = plant.first_name
                     let price = plant.price
                     let plantId = parseInt(plant.id)
 
