@@ -4,12 +4,14 @@ import session from './session'
 import plants from './plants'
 import reviews from './reviews'
 import cart from './cart'
+import images from './images'
 
 const rootReducer = combineReducers({
   session,
   plants,
   reviews,
-  cart
+  cart,
+  images
 });
 
 

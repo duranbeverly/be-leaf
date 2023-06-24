@@ -1,3 +1,24 @@
+.image-carousel .carousel-slider {}
+
+.image-carousel .carousel-status {
+    display: none;
+}
+
+.image-carousel .carousel .thumb.selected {
+    border: 1px solid #224229;
+}
+
+
+/* .image-carousel .carousel-root {
+    display: flex;
+
+} */
+
+.image-carousel .carousel {
+    display: flex;
+    flex-direction: column;
+}
+
 .wrapper {
     padding: 1rem;
     background-color: #FCF9F3;
