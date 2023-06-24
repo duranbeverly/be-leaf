@@ -7,8 +7,10 @@ import './PlantDetail.css'
 import OpenModalButton from '../OpenModalButton';
 import { thunkGetSinglePlant, fetchPlants } from '../../store/plants';
 import ShoppingCartModal from '../ShoppingCartModal';
+import { fetchImages } from '../../store/images';
 import { fetchCartItems, thunkCreateCartItem } from '../../store/cart';
 import { NavLink, useHistory } from 'react-router-dom';
+import ImageCarousel from './ImageCarousel';
 
 export default function PlantDetail() {
     let { plantId } = useParams()
@@ -25,7 +27,7 @@ export default function PlantDetail() {
     useEffect(() => {
         setIsLoading(true)
 
-        dispatch(fetchPlants()).then(() => dispatch(thunkGetSinglePlant(plantId))).then(() => setIsLoading(false))
+        dispatch(fetchPlants()).then(() => dispatch(thunkGetSinglePlant(plantId))).then(() => dispatch(fetchImages())).then(() => setIsLoading(false))
 
         if (user) {
             setIsLoading(true)
@@ -34,6 +36,7 @@ export default function PlantDetail() {
     }, [dispatch, plantId, user])
     // we need to get the plant details from the state lets try that
     let plant = useSelector(state => state.plants?.all_plants[plantId])
+
 
     const handleMinus = () => {
         if (counter > 1) {
@@ -49,20 +52,26 @@ export default function PlantDetail() {
     }
 
     const handleAddToCart = () => {
-        setIsLoading(true)
 
-        let cartItem = {
-            "user_id": user.id,
-            "plant_id": parseInt(plantId),
-            "quantity": counter
+        if (user.id !== plant?.user_id) {
+            setIsLoading(true)
+
+            let cartItem = {
+                "user_id": user.id,
+                "plant_id": parseInt(plantId),
+                "quantity": counter
+            }
+
+
+            dispatch(thunkCreateCartItem(cartItem)).then(() => setIsLoading(false))
+
         }
-
-
-        dispatch(thunkCreateCartItem(cartItem)).then(() => setIsLoading(false))
 
     }
 
     if (isLoading) return <div className='plant-detail-wrapper'></div>
+
+
     return (
 
         <div className='wrapper'>
@@ -75,6 +84,9 @@ export default function PlantDetail() {
             <div className='plant-detail-wrapper'>
                 <div className='plant-detail-bottom'>
                     <div className='plant-detail-pic-div'>
+                        <div className='pics-to-left'>
+                            <ImageCarousel plant={plant} />
+                        </div>
                         <div className='plant-detail-main-pic'>
                             {/* if there is a user this allows you to add to delete to your favorites */}
                             {user && user.favorites[plantId] ?
@@ -95,7 +107,7 @@ export default function PlantDetail() {
 
                                 }} className="fa-regular fa-heart"></i>)
                             }
-                            <img alt={plant?.name} className='pic' src={plant?.preview_image} ></img>
+                            {/* <img alt={plant?.name} className='pic' src={plant?.preview_image} ></img> */}
                         </div>
                     </div>
                     <div className='plant-detail-info'>
@@ -151,7 +163,13 @@ export default function PlantDetail() {
                                 <OpenModalButton
                                     className="cart-button"
                                     buttonText="ADD TO CART"
-                                    modalComponent={<ShoppingCartModal cart={cartInfo} plants={allPlants} />}
+                                    modalComponent={
+                                        user.id !== plant?.user_id ? (
+                                            <ShoppingCartModal cart={cartInfo} plants={allPlants} />
+                                        ) : (
+                                            null
+                                        )
+                                    }
                                     onButtonClick={handleAddToCart}
                                 />
 

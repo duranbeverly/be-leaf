@@ -32,6 +32,12 @@
     box-sizing: border-box;
 }
 
+.plant-index-img:hover {
+    height: 101%;
+    width: 101%;
+    box-sizing: border-box;
+}
+
 .plant-index-card {
     /* width: 5rem;
     height: 5rem; */
