@@ -10,7 +10,7 @@ export default function ImageCarousel({ plant }) {
 
     let images = useSelector(state => state.images.all_images)
     images = Object.values(images).filter((image) => image.plant_id === +plantId)
-    console.log("images? ", images)
+
 
     return (
         <div className="image-carousel">
