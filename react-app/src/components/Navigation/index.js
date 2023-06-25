@@ -16,7 +16,7 @@ function Navigation({ isLoaded }) {
 		<div>
 			<div className='green-top'></div>
 			<ul className='nav-bar'>
-				<NavLink className='nav-list-left' exact to="/">
+				<NavLink className='nav-list-left' to="/">
 					<p className="site-name" >be-leaf</p>
 				</NavLink>
 				<li className='mid-navbar'>

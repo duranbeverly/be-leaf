@@ -176,7 +176,7 @@ export default function PlantDetail() {
                             ) : (
                                 <NavLink
                                     className="cart-button-login"
-                                    exact to='/login'
+                                    to='/login'
                                 >
                                     ADD TO CART
                                 </NavLink>

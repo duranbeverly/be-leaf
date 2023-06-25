@@ -30,7 +30,7 @@ function ProfileButton({ user }) {
     <div className="right-nav-buttons">
       {user ? (
         <>
-          <NavLink className='profile-button' exact to='/user'><i className="fa-regular fa-user" /></NavLink>
+          <NavLink className='profile-button' to='/user'><i className="fa-regular fa-user" /></NavLink>
           <OpenModalButton
             className={'profile-button'}
             buttonText={< i className="fa-regular fa-basket-shopping-simple" />}
@@ -39,9 +39,9 @@ function ProfileButton({ user }) {
         </>
       ) : (
         <>
-          <NavLink className='profile-button' exact to='/login'><i className="fa-regular fa-user" /></NavLink>
+          <NavLink className='profile-button' to='/login'><i className="fa-regular fa-user" /></NavLink>
           <NavLink
-            exact to='/login'>
+            to='/login'>
             < i className="fa-regular fa-basket-shopping-simple" />
           </NavLink>
         </>
