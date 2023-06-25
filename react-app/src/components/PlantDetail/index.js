@@ -85,7 +85,7 @@ export default function PlantDetail() {
                 <div className='plant-detail-bottom'>
                     <div className='plant-detail-pic-div'>
                         <div className='pics-to-left'>
-                            <ImageCarousel plant={plant} />
+                            <ImageCarousel plant_id={plant?.id} preview_image={plant?.preview_image} />
                         </div>
                         <div className='plant-detail-main-pic'>
                             {/* if there is a user this allows you to add to delete to your favorites */}
@@ -176,7 +176,7 @@ export default function PlantDetail() {
                             ) : (
                                 <NavLink
                                     className="cart-button-login"
-                                    exact to='/login'
+                                    to='/login'
                                 >
                                     ADD TO CART
                                 </NavLink>

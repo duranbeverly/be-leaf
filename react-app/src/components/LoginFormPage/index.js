@@ -44,7 +44,7 @@ function LoginFormPage() {
         </div>
         <NavLink
           className={`signup-div ${activeButton === 'signup' ? 'active' : ""}`}
-          exact to="/signup"
+          to="/signup"
         >
           <p className="signup-nav" >Sign up</p>
         </NavLink>

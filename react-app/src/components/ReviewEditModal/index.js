@@ -196,7 +196,7 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
                     value={plantName}
                     onChange={(e) => {
                         let plant = e.target.value
-                        if (!plant) {
+                        if (!plant || plant === 'Select') {
                             setErrors(prev => {
                                 let err = { ...prev }
                                 err.plant = "Choose a plant"
@@ -213,7 +213,7 @@ export default function ReviewEditModal({ plants, user, reviewId }) {
                         setPlantName(e.target.value)
                     }}
                 >
-                    <option value="select">Select</option>
+                    <option>Select</option>
                     {plants && plants.map(plant => (
                         <option key={plant.id} value={plant.name}>{plant.name}</option>
                     ))}
