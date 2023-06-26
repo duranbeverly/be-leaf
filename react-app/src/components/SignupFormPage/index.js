@@ -170,7 +170,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        <button disabled={disabled} className="form-button" type="submit">Sign Up</button>
+        <button disabled={disabled} id={disabled && "disabled"} className="form-button" type="submit">Sign Up</button>
       </form>
     </div>
   );

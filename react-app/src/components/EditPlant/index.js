@@ -53,6 +53,7 @@ export default function EditPlant() {
             return
         }
 
+
         if (!previewImage) {
             newErrors.image = "Please choose an image";
         }
