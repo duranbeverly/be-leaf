@@ -105,7 +105,9 @@ export default function CreatePlant() {
                                 })
                             }
                             setName(e.target.value)
+
                         }}
+                        required
                     ></input>
                 </label>
 
@@ -138,6 +140,7 @@ export default function CreatePlant() {
                             }
                             setPrice(e.target.value)
                         }}
+                        required
                     ></input>
                 </label>
                 <label className="form-label">
@@ -164,6 +167,7 @@ export default function CreatePlant() {
                             }
                             setQuantity(e.target.value)
                         }}
+                        required
                     />
                 </label>
                 <label className="form-label">
@@ -189,6 +193,7 @@ export default function CreatePlant() {
                             }
                             setDescription(e.target.value)
                         }}
+                        required
                     />
                 </label>
                 <div className="form-radio-buttons">
@@ -251,6 +256,7 @@ export default function CreatePlant() {
                             setInvisible("visible")
                             setPreviewImage(file)
                         }}
+                        required
                     />
                 </label>
                 <button className="form-button" type="submit">Create</button>
