@@ -10,8 +10,9 @@ function LoginFormPage() {
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [activeButton] = useState("login")
+  const [activeButton] = useState("login");
   const [errors, setErrors] = useState([]);
+  const [disabled, setDisabled] = useState(true);
 
   if (sessionUser) return <Redirect to="/" />;
 
@@ -25,14 +26,21 @@ function LoginFormPage() {
 
   const demoUser = async (e) => {
     e.preventDefault();
-    let email = "marnie@aa.io"
-    let password = "password"
+    let email = "marnie@aa.io";
+    let password = "password";
     const data = await dispatch(login(email, password));
     if (data) {
       setErrors(data);
     }
-  }
+  };
 
+  const validateForm = () => {
+    if (email.trim() === "" || password.trim() === "") {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  };
 
   return (
     <div className="form-wrapper">
@@ -44,7 +52,7 @@ function LoginFormPage() {
         </div>
         <NavLink
           className={`signup-div ${activeButton === 'signup' ? 'active' : ""}`}
-          to="/signup"
+          exact to="/signup"
         >
           <p className="signup-nav" >Sign up</p>
         </NavLink>
@@ -62,7 +70,10 @@ function LoginFormPage() {
             className="form-input"
             type="text"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              validateForm();
+            }}
             required
           />
         </label>
@@ -72,11 +83,14 @@ function LoginFormPage() {
             className="form-input"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              validateForm();
+            }}
             required
           />
         </label >
-        <button className="form-button" type="submit">Log In</button>
+        <button disabled={disabled} id={disabled && "disabled"} className="form-button" type="submit">Log In</button>
         <button className="demo-button" onClick={demoUser}>Demo User 1</button>
       </form>
     </div>
