@@ -163,6 +163,7 @@ export default function PlantDetail() {
                                 <OpenModalButton
                                     className="cart-button"
                                     buttonText="ADD TO CART"
+                                    id={user.id === plant?.user_id && "disabled"}
                                     modalComponent={
                                         user.id !== plant?.user_id ? (
                                             <ShoppingCartModal cart={cartInfo} plants={allPlants} />
