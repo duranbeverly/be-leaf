@@ -5,12 +5,11 @@ import { useSelector } from "react-redux";
 import { Carousel } from 'react-responsive-carousel';
 import "./PlantDetail.css"
 
-export default function ImageCarousel({ plant_id, preview_image }) {
+const ImageCarousel = React.memo(({ plant_id, preview_image }) => {
     let { plantId } = useParams()
 
     let images = useSelector(state => state.images.all_images)
     images = Object.values(images).filter((image) => image.plant_id === +plantId)
-
 
     return (
         <div className="image-carousel">
@@ -24,5 +23,6 @@ export default function ImageCarousel({ plant_id, preview_image }) {
             </Carousel>
         </div>
     )
+});
 
-}
+export default ImageCarousel;
