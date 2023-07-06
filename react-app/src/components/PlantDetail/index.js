@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { thunkAddFav, thunkDeleteFav } from "../../store/session";
 import './PlantDetail.css'
 import OpenModalButton from '../OpenModalButton';
-import { thunkGetSinglePlant, fetchPlants } from '../../store/plants';
+import { fetchPlants, thunkGetSinglePlant } from '../../store/plants';
 import ShoppingCartModal from '../ShoppingCartModal';
 import { fetchImages } from '../../store/images';
 import { fetchCartItems, thunkCreateCartItem } from '../../store/cart';
@@ -25,15 +25,23 @@ export default function PlantDetail() {
     const history = useHistory();
 
     useEffect(() => {
-        setIsLoading(true)
+        setIsLoading(true);
 
-        dispatch(fetchPlants()).then(() => dispatch(thunkGetSinglePlant(plantId))).then(() => dispatch(fetchImages())).then(() => setIsLoading(false))
-
-        if (user) {
-            setIsLoading(true)
-            dispatch(fetchCartItems()).then(() => setIsLoading(false))
+        if (!allPlants) {
+            dispatch(fetchPlants(plantId))
         }
-    }, [dispatch, plantId, user])
+
+        if (!plant) {
+            dispatch(thunkGetSinglePlant(plantId)).then(() => dispatch(fetchImages()))
+        } else {
+            dispatch(fetchImages())
+        }
+        if (user) {
+            dispatch(fetchCartItems())
+        }
+
+        setIsLoading(false);
+    }, [dispatch]);
     // we need to get the plant details from the state lets try that
     let plant = useSelector(state => state.plants?.all_plants[plantId])
 
@@ -52,22 +60,18 @@ export default function PlantDetail() {
     }
 
     const handleAddToCart = () => {
-
         if (user.id !== plant?.user_id) {
-            setIsLoading(true)
+            setIsLoading(true);
 
             let cartItem = {
-                "user_id": user.id,
-                "plant_id": parseInt(plantId),
-                "quantity": counter
-            }
+                user_id: user.id,
+                plant_id: parseInt(plantId),
+                quantity: counter
+            };
 
-
-            dispatch(thunkCreateCartItem(cartItem)).then(() => setIsLoading(false))
-
+            dispatch(thunkCreateCartItem(cartItem)).then(() => setIsLoading(false));
         }
-
-    }
+    };
 
     if (isLoading) return <div className='plant-detail-wrapper'></div>
 
@@ -92,7 +96,8 @@ export default function PlantDetail() {
                             {user && user.favorites[plantId] ?
                                 (<i onClick={(e) => {
                                     e.preventDefault()
-                                    dispatch(thunkDeleteFav(plantId))
+                                    setIsLoading(true)
+                                    dispatch(thunkDeleteFav(plantId)).then(() => setIsLoading(false));
                                 }} className="fa-duotone fa-heart"></i>) :
                                 (<i onClick={(e) => {
                                     e.preventDefault()
@@ -100,7 +105,8 @@ export default function PlantDetail() {
                                     if (!user) {
                                         return history.push('/login')
                                     } else {
-                                        dispatch(thunkAddFav(plantId))
+                                        setIsLoading(true)
+                                        dispatch(thunkAddFav(plantId)).then(() => setIsLoading(false));
                                     }
 
 
@@ -110,6 +116,7 @@ export default function PlantDetail() {
                             {/* <img alt={plant?.name} className='pic' src={plant?.preview_image} ></img> */}
                         </div>
                     </div>
+                    {/* this is the information about the plant */}
                     <div className='plant-detail-info'>
                         <div className='plant-detail-subheader'>
                             <h3 className='side-title'>{plant?.name}</h3>
@@ -118,6 +125,7 @@ export default function PlantDetail() {
                         <p className='plant-detail-description'>{plant?.description}</p>
                         <p className='plant-detail-description'>{`Currently Available: ${plant?.quantity}`}</p>
                         <div className='make-colors-small'>
+                            {/* code to select a pot color for the plant */}
                             <p className='pot-colors'>Pot Colors:</p>
                             <div className='plant-detail-pot-colors'>
                                 <div
@@ -151,6 +159,7 @@ export default function PlantDetail() {
                             </div>
 
                         </div>
+                        {/* code for adding to cart */}
                         <div className='plant-detail-buttons'>
                             <div className="input-cart">
                                 <i className="fa-solid fa-minus" onClick={handleMinus}></i>

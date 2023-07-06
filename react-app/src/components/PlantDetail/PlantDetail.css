@@ -22,6 +22,7 @@
 .wrapper {
     padding: 1rem;
     background-color: #FCF9F3;
+    margin: 0 1rem;
 }
 
 .plant-detail-wrapper {
@@ -284,3 +285,18 @@
     text-transform: uppercase;
     margin-bottom: .5rem;
 }
+
+.heart-filled {
+    color: #2242299c;
+    background-color: #2242299c;
+}
+
+@media screen and (min-width: 922px) {
+    .wrapper {
+        margin-left: calc(2rem + ((100vw - 922px) / 4));
+        /* Increase margin-left by 2rem for every 4px increase in screen width */
+        margin-right: calc(2rem + ((100vw - 922px) / 4));
+    }
+}
+
+@media screen and (max-width: 800) {}
