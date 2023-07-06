@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchReviews, thunkDeleteReview } from "../../store/reviews"
+import { fetchReviews } from "../../store/reviews"
 import { fetchPlants } from "../../store/plants";
 import OpenModalButton from "../OpenModalButton";
 import ReviewCreateModal from "../ReviewCreateModal";
 import ReviewEditModal from "../ReviewEditModal";
+import ReviewDeleteModal from "../ReviewDeleteModal";
 import './ReviewView.css'
 
 export default function ReviewView() {
@@ -94,7 +95,11 @@ export default function ReviewView() {
                                                 buttonText="Edit"
                                                 modalComponent={<ReviewEditModal plants={plants} user={user} reviewId={reviewId} />}
                                             />
-                                            <button className="delete-button" onClick={(e) => dispatch(thunkDeleteReview(reviewId))}>Delete</button>
+                                            <OpenModalButton
+                                                className="delete-button"
+                                                buttonText="Delete"
+                                                modalComponent={<ReviewDeleteModal reviewId={reviewId} />}
+                                            />
                                         </div>
                                     }
                                 </div>

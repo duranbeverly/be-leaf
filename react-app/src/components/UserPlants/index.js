@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPlants, thunkDeletePlant } from "../../store/plants";
+import { fetchPlants } from "../../store/plants";
 import { useHistory } from "react-router-dom";
+import ConfirmDelete from "../ConfirmDelete";
 import './UserPlants.css'
+import OpenModalButton from "../OpenModalButton";
 
 export default function UserPlants() {
     const dispatch = useDispatch();
@@ -51,7 +53,11 @@ export default function UserPlants() {
                                 </div>
                                 <div className="change-buttons">
                                     <button className="edit-button" onClick={(e) => history.push(`/edit/${plant.id}`)}>Edit</button>
-                                    <button className="delete-button" onClick={(e) => dispatch(thunkDeletePlant(plant.id))}>Delete</button>
+                                    <OpenModalButton
+                                        buttonText="Delete"
+                                        className="delete-button"
+                                        modalComponent={<ConfirmDelete plantId={plant.id} />}
+                                    />
                                 </div>
                             </div>
                         </div>

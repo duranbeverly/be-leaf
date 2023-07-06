@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { thunkAddFav, thunkDeleteFav } from "../../store/session";
-import './PlantDetail.css'
 import OpenModalButton from '../OpenModalButton';
 import { fetchPlants, thunkGetSinglePlant } from '../../store/plants';
 import ShoppingCartModal from '../ShoppingCartModal';
@@ -11,6 +10,7 @@ import { fetchImages } from '../../store/images';
 import { fetchCartItems, thunkCreateCartItem } from '../../store/cart';
 import { NavLink, useHistory } from 'react-router-dom';
 import ImageCarousel from './ImageCarousel';
+import './PlantDetail.css'
 
 export default function PlantDetail() {
     let { plantId } = useParams()
