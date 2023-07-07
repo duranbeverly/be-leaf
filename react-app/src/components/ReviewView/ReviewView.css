@@ -3,6 +3,7 @@
     font-family: 48px;
     color: #224229;
     padding-bottom: 1rem;
+    font-weight: 200;
 }
 
 .review-card {
@@ -17,7 +18,7 @@
     background-color: #FCF9F3;
     flex-direction: column;
     justify-content: center;
-    padding: 1rem 3rem;
+    padding: 1rem 10rem;
 }
 
 .review-index-card {
