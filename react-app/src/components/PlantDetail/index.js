@@ -11,6 +11,7 @@ import { fetchCartItems, thunkCreateCartItem } from '../../store/cart';
 import { NavLink, useHistory } from 'react-router-dom';
 import ImageCarousel from './ImageCarousel';
 import './PlantDetail.css'
+import { ClockLoader } from "react-spinners"
 
 export default function PlantDetail() {
     let { plantId } = useParams()
@@ -73,7 +74,15 @@ export default function PlantDetail() {
         }
     };
 
-    if (isLoading) return <div className='plant-detail-wrapper'></div>
+    if (isLoading) {
+        return (
+            <div className='plant-detail-wrapper' style={{ opacity: 0.5 }}>
+                <div className="center-loading">
+                    <ClockLoader color="#224229" size={30} />
+                </div>
+            </div>
+        )
+    }
 
 
     return (

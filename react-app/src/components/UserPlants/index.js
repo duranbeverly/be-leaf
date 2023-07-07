@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import ConfirmDelete from "../ConfirmDelete";
 import './UserPlants.css'
 import OpenModalButton from "../OpenModalButton";
+import { ClockLoader } from "react-spinners"
 
 export default function UserPlants() {
     const dispatch = useDispatch();
@@ -25,7 +26,11 @@ export default function UserPlants() {
     // plants1 is an object so we need to make it iterable
 
     if (isLoading) {
-        return <div className="plant-index-container"></div>
+        return <div className="plant-index-container" style={{ opacity: 0.5 }}>
+            <div className="center-loading">
+                <ClockLoader color="#224229" size={30} />
+            </div>
+        </div>
     }
     let plants = Object.values(plants1).filter((plant) => plant.user_id === user.id)
 

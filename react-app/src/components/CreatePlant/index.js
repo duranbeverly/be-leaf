@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { thunkCreatePlant } from "../../store/plants";
 import "./CreatePlant.css"
+import { ClockLoader } from "react-spinners"
 
 
 
@@ -89,7 +90,11 @@ export default function CreatePlant() {
     if (isLoading) {
         return (
             <div className="form-wrapper">
-                <h1 className="review-title">Loading Changes...</h1>
+                <div style={{ opacity: 0.5 }}>
+                    <div className="center-loading">
+                        <ClockLoader color="#224229" size={30} />
+                    </div>
+                </div>
             </div>
         )
     }

@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { thunkEditPlant, thunkGetSinglePlant } from "../../store/plants";
 import { useParams } from "react-router-dom";
 import "../CreatePlant/CreatePlant.css"
+import { ClockLoader } from "react-spinners"
 
 export default function EditPlant() {
     const dispatch = useDispatch()
@@ -88,8 +89,10 @@ export default function EditPlant() {
 
     if (isLoading) {
         return (
-            <div className="form-wrapper">
-                <h1 className="review-title">Loading Changes...</h1>
+            <div className="form-wrapper" style={{ opacity: 0.5 }}>
+                <div className="center-loading">
+                    <ClockLoader color="#224229" size={30} />
+                </div>
             </div>
         )
     }
