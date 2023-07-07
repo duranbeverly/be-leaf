@@ -52,7 +52,9 @@ export default function PlantList() {
 
     if (isLoading) {
         return <div className="plant-index-container" style={{ opacity: 0.5 }}>
-            <ClockLoader color="#224229" size={30} />
+            <div className="center-loading">
+                <ClockLoader color="#224229" size={30} />
+            </div>
         </div>
     }
 
