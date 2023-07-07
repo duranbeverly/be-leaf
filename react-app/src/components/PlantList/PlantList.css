@@ -3,12 +3,13 @@
     font-size: 40px;
     color: #224229;
     padding: 1rem;
+    font-weight: 200;
 }
 
 .all-plant-cards {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 2rem 1.8rem;
     justify-content: space-around;
     background-color: #FCF9F3;
     padding-bottom: 1rem;
@@ -20,6 +21,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    margin: 0 10rem;
 }
 
 .plant-card {
