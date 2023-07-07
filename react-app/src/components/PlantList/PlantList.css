@@ -30,6 +30,7 @@
     height: 100%;
     width: 100%;
     box-sizing: border-box;
+    border-radius: 3px;
 }
 
 .plant-index-img:hover {
@@ -97,4 +98,23 @@
 .plant-card:hover .fa-heart {
     visibility: visible;
 
+}
+
+.fade-in {
+    opacity: 0;
+    animation: fade-in 1s ease-in-out forwards;
+    transition: opacity 2s ease;
+    /* Add transition property */
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

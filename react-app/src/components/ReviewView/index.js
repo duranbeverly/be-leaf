@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchReviews, thunkDeleteReview } from "../../store/reviews"
+import { fetchReviews } from "../../store/reviews"
 import { fetchPlants } from "../../store/plants";
 import OpenModalButton from "../OpenModalButton";
 import ReviewCreateModal from "../ReviewCreateModal";
 import ReviewEditModal from "../ReviewEditModal";
+import ReviewDeleteModal from "../ReviewDeleteModal";
 import './ReviewView.css'
+import { ClockLoader } from "react-spinners"
 
 export default function ReviewView() {
     // we first need to get the reviews from the database on first render
@@ -23,7 +25,11 @@ export default function ReviewView() {
 
     let reviews = useSelector((state) => state.reviews.all_reviews)
     if (isLoading) {
-        return <div className="reviews-index-container"></div>
+        return <div className="reviews-index-container" style={{ opacity: 0.5 }}>
+            <div className="center-loading">
+                <ClockLoader color="#224229" size={30} />
+            </div>
+        </div>
     }
 
     reviews = Object.values(reviews).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
@@ -94,7 +100,11 @@ export default function ReviewView() {
                                                 buttonText="Edit"
                                                 modalComponent={<ReviewEditModal plants={plants} user={user} reviewId={reviewId} />}
                                             />
-                                            <button className="delete-button" onClick={(e) => dispatch(thunkDeleteReview(reviewId))}>Delete</button>
+                                            <OpenModalButton
+                                                className="delete-button"
+                                                buttonText="Delete"
+                                                modalComponent={<ReviewDeleteModal reviewId={reviewId} />}
+                                            />
                                         </div>
                                     }
                                 </div>

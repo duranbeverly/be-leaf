@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import "./ReviewCreateModal.css"
 import { thunkCreateReview } from "../../store/reviews";
+import { ClockLoader } from "react-spinners"
 
 export default function ReviewCreateModal({ plants, user }) {
     const dispatch = useDispatch()
@@ -104,8 +105,10 @@ export default function ReviewCreateModal({ plants, user }) {
 
     if (isLoading) {
         return (
-            <div className="review-form">
-                <h1 className="review-title">Loading Changes...</h1>
+            <div className="review-form" style={{ opacity: 0.5 }}>
+                <div className="center-loading">
+                    <ClockLoader color="#224229" size={30} />
+                </div>
             </div>
         )
     }

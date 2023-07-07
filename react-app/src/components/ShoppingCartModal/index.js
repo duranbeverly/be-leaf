@@ -5,8 +5,9 @@ import { useModal } from "../../context/Modal"
 import OpenModalButton from "../OpenModalButton"
 import { thunkEditSubtractCart, thunkEditAddCart, thunkDeleteCartItem, thunkDeleteCart } from "../../store/cart"
 import OrderConfirmed from "../OrderConfirmed"
-
 import "./ShoppingCartModal.css"
+import { ClockLoader } from "react-spinners"
+
 
 
 export default function ShoppingCartModal({ plants }) {
@@ -92,7 +93,12 @@ export default function ShoppingCartModal({ plants }) {
         }
     }, [isOpen]);
 
-    if (isLoading) return <div className='modal-right'></div>
+    if (isLoading) return <div className='modal-right' style={{ opacity: 0.5 }}>
+        <div className="center-loading">
+            <ClockLoader color="#224229" size={30} />
+        </div>
+
+    </div>
 
     return (
         <div className="modal-right">

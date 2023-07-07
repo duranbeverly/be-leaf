@@ -1,0 +1,56 @@
+.confirm-delete-div {
+    background-color: #FCF9F3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.5rem;
+    margin: 1.5rem 3rem;
+    height: 10rem;
+    width: 20rem;
+    border-radius: 6px;
+    align-items: center;
+}
+
+.del-title {
+    font-family: "Lustria", serif;
+    font-size: 16px;
+    color: #224229;
+    font-weight: 500;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #224229;
+}
+
+.button-div {
+    display: flex;
+    gap: 1rem;
+}
+
+.not-confirm {
+    border-radius: 25px;
+    background-color: #224229;
+    color: #FCF9F3;
+    font-family: "Raleway", sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    border: none;
+    height: 2.5rem;
+    width: 8rem;
+    padding: .5rem;
+    cursor: pointer;
+
+}
+
+.confirm {
+
+    border-radius: 25px;
+    background-color: #FCF9F3;
+    color: #224229;
+    font-family: "Raleway", sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid #224229;
+    height: 2.5rem;
+    width: 8rem;
+    padding: .5rem;
+    cursor: pointer;
+}

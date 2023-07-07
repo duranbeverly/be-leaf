@@ -17,6 +17,7 @@ import User from "./components/User";
 import Footer from "./components/Footer";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
+import { ClockLoader } from "react-spinners"
 
 function App() {
   const dispatch = useDispatch();
@@ -29,55 +30,69 @@ function App() {
     <>
       <Navigation isLoaded={isLoaded} />
 
-      {isLoaded && (
-        <Switch>
-          <Route exact path="/">
-            <SplashPage />
-            <Footer />
-          </Route>
-          <Route exact path="/login" >
-            <LoginFormPage />
-            <Footer />
-          </Route>
-          <Route exact path="/signup">
-            <SignupFormPage />
-            <Footer />
-          </Route>
-          <Route exact path="/plants/new">
-            <CreatePlant />
-          </Route>
-          <Route exact path="/plants/:plantId">
-            <PlantDetail />
-          </Route>
-          <Route exact path="/plants">
-            <PlantList />
-          </Route>
-          <Route exact path="/user-plants">
-            <UserPlants />
-          </Route>
-          <Route exact path="/user">
-            <User />
-          </Route>
-          <Route exact path="/edit/:plantId">
-            <EditPlant />
-          </Route>
-          <Route exact path="/reviews">
-            <ReviewView />
-          </Route>
-          <Route exact path="/giant-plants">
-            <GiantsPlants />
-          </Route>
-          <Route exact path="/pet-safe-plants">
-            <PetFriendlyPlants />
-          </Route>
-          <Route exact path="/favorites">
-            <FavoritesView />
-          </Route>
-          <Route path="*">
-            <div className="form-title">Page does not exist</div>
-          </Route>
-        </Switch>
-      )}
+      {!isLoaded ?
+        <div style={{ opacity: 0.5 }}>
+          <div className="center-loading">
+            <ClockLoader color="#224229" size={30} />
+          </div>
+        </div>
+
+        : (
+          <Switch>
+            <Route exact path="/">
+              <SplashPage />
+              <Footer />
+            </Route>
+            <Route exact path="/login" >
+              <LoginFormPage />
+              <Footer />
+            </Route>
+            <Route exact path="/signup">
+              <SignupFormPage />
+              <Footer />
+            </Route>
+            <Route exact path="/plants/new">
+              <CreatePlant />
+            </Route>
+            <Route exact path="/plants/:plantId">
+              <PlantDetail />
+            </Route>
+            <Route exact path="/plants">
+              <PlantList />
+            </Route>
+            <Route exact path="/user-plants">
+              <UserPlants />
+            </Route>
+            <Route exact path="/user">
+              <User />
+            </Route>
+            <Route exact path="/edit/:plantId">
+              <EditPlant />
+            </Route>
+            <Route exact path="/reviews">
+              <ReviewView />
+            </Route>
+            <Route exact path="/giant-plants">
+              <GiantsPlants />
+            </Route>
+            <Route exact path="/pet-safe-plants">
+              <PetFriendlyPlants />
+            </Route>
+            <Route exact path="/favorites">
+              <FavoritesView />
+            </Route>
+            <Route path="*">
+              <div className="wrapper-lost">
+                <div className="form-title not-found" >
+                  <div className="title-lost">
+                    Page does not exist
+                  </div>
+                  <img src="https://res.cloudinary.com/dnzxq7dgk/image/upload/v1688693275/sad_cactus_jzzu1s.png"></img>
+                </div>
+              </div>
+            </Route>
+          </Switch>
+        )}
     </>
   );
 }

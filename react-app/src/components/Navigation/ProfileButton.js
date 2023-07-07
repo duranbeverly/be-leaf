@@ -5,6 +5,7 @@ import { fetchCartItems } from "../../store/cart";
 import OpenModalButton from "../OpenModalButton";
 import ShoppingCartModal from "../ShoppingCartModal";
 import { fetchPlants } from "../../store/plants";
+import { ClockLoader } from "react-spinners"
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -23,7 +24,11 @@ function ProfileButton({ user }) {
 
 
   if (isLoading) {
-    return <div className="right-nav-buttons"></div>
+    return <div className="right-nav-buttons" style={{ opacity: 0.5 }}>
+      <div className="center-loading">
+        <ClockLoader color="#224229" size={30} />
+      </div>
+    </div>
   }
 
   return (

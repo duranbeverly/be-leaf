@@ -190,7 +190,7 @@ def delete_cart():
 
     user = current_user
 
-  
+
 
     all_cart_items = Cart.query.filter(Cart.user_id == user.id).delete()
 
