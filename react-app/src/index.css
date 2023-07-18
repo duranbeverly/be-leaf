@@ -171,10 +171,12 @@ a::after {
 
 
 html,
-body,
-#root {
+#root,
+body {
     height: 100%;
+    background-color: #FCF9F3;
 }
+
 
 
 .errors {
