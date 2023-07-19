@@ -299,4 +299,30 @@
     }
 }
 
-@media screen and (max-width: 800) {}
+@media (max-width: 940px) {}
+
+@media screen and (max-width: 840px) {
+
+    .plant-detail-bottom {
+        flex-direction: column;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .input-cart {
+        font-size: 15px;
+        height: 40px;
+    }
+
+    .fa-minus {
+        font-size: 10px;
+    }
+
+    .fa-plus {
+        font-size: 10px;
+    }
+
+    .cart-button {
+        height: 40px;
+    }
+}
