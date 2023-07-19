@@ -17,7 +17,13 @@ export default function ShoppingCartModal({ plants }) {
     const { closeModal } = useModal()
     const [isLoading] = useState(false)
     const history = useHistory()
+    const [isModalActive, setIsModalActive] = useState(true);
     const cart = useSelector((state) => state.cart.all_items);
+
+    const handleCloseModal = () => {
+        setIsModalActive(false);
+        closeModal();
+    };
 
 
     // when you click on the fa-minus icon below you should be brought to this function which should subtract 1 to the previous cart quantity and then make a dispatch to update the amount in the database
@@ -105,7 +111,10 @@ export default function ShoppingCartModal({ plants }) {
             {cart && Object.values(cart).length === 0 ? (
                 <div className="modal">
                     <div className="top-wrapper">
-                        <h1 className="cart-title">Your Cart</h1>
+                        <div className="column">
+                            <h1 className="cart-title">Your Cart</h1>
+                            <i className="fa-solid fa-xmark" onClick={closeModal}></i>
+                        </div>
                         <div className="products-div">
                             <p className="empty-cart-title">Your Cart is Empty !</p>
                             <div className="item-div-empty">
@@ -129,7 +138,10 @@ export default function ShoppingCartModal({ plants }) {
             ) : (
                 <div className="modal">
                     <div className="top-wrapper">
-                        <h1 className="cart-title">Your Cart</h1>
+                        <div className="column">
+                            <h1 className="cart-title">Your Cart</h1>
+                            <i className="fa-solid fa-xmark" onClick={closeModal}></i>
+                        </div>
                         <div className="products-div">
                             <div>
 

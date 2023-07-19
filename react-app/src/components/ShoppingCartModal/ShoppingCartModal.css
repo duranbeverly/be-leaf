@@ -169,6 +169,17 @@
     animation: slideIn 0.4s ease-in-out;
 }
 
+.column {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.fa-xmark {
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
 /* Add animation when the modal-right becomes active */
 @keyframes slideIn {
     from {
@@ -180,6 +191,15 @@
     }
 }
 
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
 
 
 
@@ -192,4 +212,12 @@
 
 .top-wrapper {
     height: 55vh;
+}
+
+
+
+@media (max-width: 580px) {
+    .item-right-div {
+        width: 10rem;
+    }
 }

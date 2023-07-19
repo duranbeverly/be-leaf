@@ -100,3 +100,9 @@
   width: 100%;
   transition-delay: 0.05s;
 }
+
+@media(max-width: 840px) {
+  .nav-hidden {
+    display: none;
+  }
+}

@@ -52,3 +52,9 @@
     color: #FCF9F3;
     background-color: #224229;
 }
+
+@media (max-width: 840px) {
+    .splash-title {
+        font-size: 2rem;
+    }
+}
