@@ -137,3 +137,21 @@
     display: flex;
     justify-content: flex-end;
 }
+
+@media (max-width: 670px) {
+    .review-title-div {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .review-index-title {
+        font-size: 25px;
+    }
+
+    .small-button {
+        font-size: 12px;
+        width: 7.5rem;
+        margin-bottom: .5rem;
+    }
+}

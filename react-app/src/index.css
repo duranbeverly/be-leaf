@@ -149,7 +149,7 @@ a::after {
 }
 
 .social-icon:hover {
-    width: 28px;
+    scale: 1.1;
 }
 
 .social-media-div {
