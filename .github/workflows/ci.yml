@@ -59,9 +59,11 @@ jobs:
         run: python scripts/check_image_links.py
       - name: Probe icon kit (temporary)
         run: |
-          k=$(curl -s -H "Referer: https://be-leaf.onrender.com/" https://kit.fontawesome.com/b3a790e284.js | head -c 3000 | tr -d '\n' | tr ',' ' ')
-          echo "::warning title=FA kit::$(echo "$k" | grep -oE '"(license|version|method|status|domains|minify|token)":[^ ]{0,60}' | tr '\n' ' ')"
-          echo "::warning title=FA kit head::$(echo "$k" | head -c 400)"
+          for ref in "" "https://be-leaf.onrender.com/" "https://www.beverlyduran.com/" "http://localhost:3000/"; do
+            code=$(curl -s -o k.js -w "%{http_code}" ${ref:+-H "Referer: $ref"} ${ref:+-H "Origin: ${ref%/}"} https://kit.fontawesome.com/b3a790e284.js)
+            echo "::warning title=kit ref=[$ref]::$code $(head -c 1500 k.js | tr -d '\n' | grep -oE '(license|version|status|domains|method)[^,]{0,40}' | tr '\n' ' ') $(head -c 120 k.js | tr -d '\n')"
+          done
+          echo "::warning title=cdnjs::$(curl -s -o /dev/null -w '%{http_code}' https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css)"
       - name: Server log
         if: always()
         run: cat server.log || true
