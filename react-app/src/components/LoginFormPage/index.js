@@ -2,19 +2,21 @@ import React, { useState } from "react";
 import { login } from "../../store/session";
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 import './LoginForm.css';
 
 export default function LoginFormPage() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [activeButton] = useState("login");
   const [errors, setErrors] = useState([]);
-  const [disabled, setDisabled] = useState(true);
+  const disabled = email.trim() === "" || password.trim() === "";
 
-  if (sessionUser) return <Redirect to="/" />;
+  // send people back to where they were (e.g. after tapping a favorite heart)
+  if (sessionUser) return <Redirect to={location.state?.from || "/"} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,14 +36,6 @@ export default function LoginFormPage() {
     }
   };
 
-  const validateForm = () => {
-    if (email.trim() === "" || password.trim() === "") {
-      setDisabled(true);
-    } else {
-      setDisabled(false);
-    }
-  };
-
   return (
     <div className="form-wrapper">
       <div className="session-nav">
@@ -52,7 +46,7 @@ export default function LoginFormPage() {
         </div>
         <NavLink
           className={`signup-div ${activeButton === 'signup' ? 'active' : ""}`}
-          exact to="/signup"
+          exact to={{ pathname: "/signup", state: location.state }}
         >
           <p className="signup-nav" >Sign up</p>
         </NavLink>
@@ -61,7 +55,7 @@ export default function LoginFormPage() {
         <h1 className="form-title">Log In</h1>
         <ul>
           {errors.map((error, idx) => (
-            <li className="errors" key={idx}>{error}</li>
+            <li className="errors" key={idx}>{error.split(" : ").pop()}</li>
           ))}
         </ul>
         <label className="form-label">
@@ -72,7 +66,6 @@ export default function LoginFormPage() {
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
-              validateForm();
             }}
             required
           />
@@ -85,12 +78,11 @@ export default function LoginFormPage() {
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
-              validateForm();
             }}
             required
           />
         </label >
-        <button disabled={disabled} id={disabled && "disabled"} className="form-button" type="submit">Log In</button>
+        <button disabled={disabled} id={disabled ? "disabled" : undefined} className="form-button" type="submit">Log In</button>
         <button className="demo-button" onClick={demoUser}>Demo User 1</button>
       </form>
     </div>

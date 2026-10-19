@@ -1,16 +1,11 @@
 import React from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
 	const sessionUser = useSelector(state => state.session.user);
-	const history = useHistory()
-
-	const handleReview = () => {
-		history.push("/reviews")
-	}
 
 	return (
 		<div>
@@ -20,10 +15,10 @@ function Navigation({ isLoaded }) {
 					<p className="site-name" >be-leaf</p>
 				</NavLink>
 				<li className='mid-navbar'>
-					<p className="nav-button" onClick={(e) => history.push("/plants")}>ALL PLANTS</p>
-					<p className="nav-button nav-hidden" onClick={(e) => history.push("/pet-safe-plants")}>PET-FRIENDLY PLANTS</p>
-					<p className="nav-button nav-hidden" onClick={(e) => history.push("/giant-plants")}>GIANT PLANTS</p>
-					<p className="nav-button nav-hidden" onClick={handleReview}>REVIEWS</p>
+					<NavLink className="nav-button" to="/plants">ALL PLANTS</NavLink>
+					<NavLink className="nav-button" to="/pet-safe-plants">PET-FRIENDLY PLANTS</NavLink>
+					<NavLink className="nav-button" to="/giant-plants">GIANT PLANTS</NavLink>
+					<NavLink className="nav-button" to="/reviews">REVIEWS</NavLink>
 				</li>
 				{isLoaded && (
 					<li>

@@ -22,8 +22,7 @@ class User(db.Model, UserMixin):
     user_favorites = db.relationship(
         "Plant",
         secondary=favorites,
-        back_populates="plant_favorites",
-        cascade="delete, all")
+        back_populates="plant_favorites")
 
     @property
     def password(self):

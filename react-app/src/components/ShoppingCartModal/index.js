@@ -7,6 +7,7 @@ import { thunkEditSubtractCart, thunkEditAddCart, thunkDeleteCartItem, thunkDele
 import OrderConfirmed from "../OrderConfirmed"
 import "./ShoppingCartModal.css"
 import { ClockLoader } from "react-spinners"
+import { showFallbackImage } from "../../utils/images";
 
 
 
@@ -50,7 +51,8 @@ export default function ShoppingCartModal({ plants }) {
             quantity
         }
         // check that the amount you want to add to the cart does not exceed the available amount of that plant
-        let plantAvailable = plants[plantId].quantity
+        // the server double checks stock, so allow the click if plants haven't loaded
+        let plantAvailable = plants?.[plantId]?.quantity ?? Infinity
         if (currentItem.quantity < plantAvailable) {
 
             currentItem.quantity += 1
@@ -116,7 +118,7 @@ export default function ShoppingCartModal({ plants }) {
                             <i className="fa-solid fa-xmark" onClick={closeModal}></i>
                         </div>
                         <div className="products-div">
-                            <p className="empty-cart-title">Your Cart is Empty !</p>
+                            <p className="empty-cart-title">Your cart is empty!</p>
                             <div className="item-div-empty">
                                 <img className="review-index-img" alt="Palm Plant" src="https://be-leaf.s3.amazonaws.com/plant3.jpg"></img>
 
@@ -150,7 +152,7 @@ export default function ShoppingCartModal({ plants }) {
                                 return (
                                     <div key={item.id} className="item-div">
                                         <div className="item-left-div">
-                                            <img alt={item.plant_name} className="cart-img" src={item.plant_image}></img>
+                                            <img alt={item.plant_name} className="cart-img" src={item.plant_image} onError={showFallbackImage}></img>
                                         </div>
                                         <div className="item-right-div">
                                             <div className="cart-item-header">
@@ -180,7 +182,7 @@ export default function ShoppingCartModal({ plants }) {
                             <div className="price-div">
                                 <p className="cart-item-name">Subtotal:</p>
                                 {/* here you must add price plus quantity for al cart items */}
-                                <p className="cart-item-name">{totalPrice.toFixed(2)}</p>
+                                <p className="cart-item-name">{`$${totalPrice.toFixed(2)}`}</p>
                             </div>
                             <OpenModalButton
                                 className="cart-button-checkout"

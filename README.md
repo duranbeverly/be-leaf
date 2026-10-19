@@ -1,7 +1,7 @@
 # Be-Leaf
 
 ## Overview
-* This is a website app that allows users to sell and purchase plants.It provides a platform for plant enthusiasts to connect, discover new plants, and engage in transactions.
+* This is a website app that allows users to sell and purchase plants. It provides a platform for plant enthusiasts to connect, discover new plants, and engage in transactions.
 
 * **Live demo:** https://be-leaf.onrender.com/ (use the demo login; the free server can take up to a minute to wake up).
 
@@ -15,7 +15,7 @@
 <!-- TODO: List any MAJOR libraries/frameworks (e.g. React, Tailwind) with links to their homepages. -->
  * React: https://react.dev/
  * Redux: https://redux.js.org/
- * SQAlchemy: https://www.sqlalchemy.org/
+ * SQLAlchemy: https://www.sqlalchemy.org/
  * Flask: https://flask.palletsprojects.com/en/2.3.x/
  * WTForms: https://wtforms.readthedocs.io/en/3.0.x/
 
@@ -32,7 +32,7 @@
 * Adding purchases to a cart: Users can add plants to their cart while browsing and proceed to checkout later.
 * Favoriting plants: Users can mark plants as favorites to easily access them later.
 
-##Contact
+## Contact
   * Beverly Duran:
     * LinkedIn: https://www.linkedin.com/in/beverly-duran/
     * GitHub: https://github.com/duranbeverly

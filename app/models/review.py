@@ -14,7 +14,7 @@ class Review(db.Model):
     rating = db.Column(db.Integer, nullable=False)
     review = db.Column(db.String(255), nullable=False)
     image = db.Column(db.String, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
     # relationships
     users = db.relationship("User", back_populates="reviews")

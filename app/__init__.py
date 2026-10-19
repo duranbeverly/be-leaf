@@ -27,6 +27,12 @@ def load_user(id):
     return User.query.get(int(id))
 
 
+@login.unauthorized_handler
+def unauthorized_api():
+    # answer API calls from logged-out users with a plain 401 instead of a redirect
+    return {'errors': ['Unauthorized']}, 401
+
+
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
 

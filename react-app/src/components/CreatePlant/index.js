@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { thunkCreatePlant } from "../../store/plants";
+import { useHistory, Redirect } from 'react-router-dom';
+import { thunkCreatePlant, fetchUploadsEnabled, formatServerErrors } from "../../store/plants";
 import "./CreatePlant.css"
 import { ClockLoader } from "react-spinners"
 
@@ -21,11 +21,13 @@ export default function CreatePlant() {
     const [fileName, setFileName] = useState("Upload Image")
     const [invisible, setInvisible] = useState("invisible")
     const [isLoading, setIsLoading] = useState(false)
+    const [imageUrl, setImageUrl] = useState("")
+    const [uploadsEnabled, setUploadsEnabled] = useState(null)
     const sessionUser = useSelector((state) => state.session.user)
 
-    if (!sessionUser) {
-        history.push("/")
-    }
+    useEffect(() => {
+        fetchUploadsEnabled().then(setUploadsEnabled)
+    }, [])
 
     const validExtension = (fileName) => {
         const ALLOWED_EXTENSIONS = ["pdf", "png", "jpg", "jpeg", "gif"];
@@ -37,7 +39,8 @@ export default function CreatePlant() {
         e.preventDefault();
         const newErrors = {};
 
-        if (Object.keys(errors).length > 0) {
+        const { form, ...fieldErrors } = errors
+        if (Object.keys(fieldErrors).length > 0) {
             return
         }
 
@@ -57,16 +60,15 @@ export default function CreatePlant() {
             newErrors.quantity = "Please choose a quantity"
         }
 
-        if (!previewImage) {
-            newErrors.image = "Please choose an image";
-        }
-
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
         }
         const formData = new FormData();
-        formData.append("preview_image", previewImage)
+        if (previewImage && uploadsEnabled) {
+            formData.append("preview_image", previewImage)
+        }
+        formData.append("image_url", imageUrl.trim())
         formData.append("name", name)
         formData.append("description", description)
         formData.append("price", price)
@@ -77,14 +79,18 @@ export default function CreatePlant() {
         setIsLoading(true)
 
         dispatch(thunkCreatePlant(formData)).then((data) => {
-            if (data.error) {
-                setErrors(data.error);
+            if (!data.current_plant) {
+                setErrors(formatServerErrors(data.errors));
                 setIsLoading(false);
             } else {
                 history.push(`/plants/${data.current_plant.id}`)
             }
         })
 
+    }
+
+    if (!sessionUser) {
+        return <Redirect to={{ pathname: "/login", state: { from: "/plants/new" } }} />
     }
 
     if (isLoading) {
@@ -103,6 +109,7 @@ export default function CreatePlant() {
         <div className="form-wrapper">
             <form className="form-container" onSubmit={handleSubmit} encType="multipart/form-data">
                 <h1 className="form-title">Create a Plant Listing</h1>
+                {errors.form && <p className="errors">{errors.form}</p>}
                 <label className="form-label">
                     Name
                     {errors.name && <p className="errors">{errors.name}</p>}
@@ -115,7 +122,7 @@ export default function CreatePlant() {
                             if (inputValue.length > 50 || inputValue.length === 0) {
                                 setErrors(prev => {
                                     let err = { ...prev }
-                                    err.name = "Not a valid name"
+                                    err.name = "Name must be 1 to 50 characters"
                                     return err
                                 })
                             } else {
@@ -148,7 +155,7 @@ export default function CreatePlant() {
                                         err.price = "That price is way too high you need to cut it 💢"
                                         return err
                                     } else {
-                                        err.price = "Not a valid price"
+                                        err.price = "Enter a price between $0.01 and $100"
                                         return err
                                     }
                                 })
@@ -173,10 +180,10 @@ export default function CreatePlant() {
                         value={quantity}
                         onChange={(e) => {
                             let quantity = e.target.value.trim()
-                            if (!quantity || quantity < 0 || quantity > 100 || isNaN(Number(quantity))) {
+                            if (!quantity || !Number.isInteger(Number(quantity)) || quantity < 1 || quantity > 100) {
                                 setErrors(prev => {
                                     let err = { ...prev }
-                                    err.quantity = "Not a valid quantity"
+                                    err.quantity = "Enter a whole number from 1 to 100"
                                     return err
                                 })
                             } else {
@@ -202,7 +209,7 @@ export default function CreatePlant() {
                             if (!description || description.length <= 10 || description.length > 255) {
                                 setErrors(prev => {
                                     let err = { ...prev }
-                                    err.description = "Not a valid description"
+                                    err.description = "Description must be 11 to 255 characters"
                                     return err
                                 })
                             } else {
@@ -241,6 +248,7 @@ export default function CreatePlant() {
 
                 </div>
                 {errors.image && <p className="errors">{errors.image}</p>}
+                {uploadsEnabled &&
                 <label className="form-label">
                     <div className="file-button">
                         <div className="file-check">
@@ -248,7 +256,7 @@ export default function CreatePlant() {
                             <span><i id={invisible} className="fa-solid fa-circle-check"></i></span>
 
                         </div>
-                        <i className="fa-light fa-cloud-arrow-up"></i>
+                        <i className="fa-solid fa-cloud-arrow-up"></i>
 
                     </div>
                     <input
@@ -278,6 +286,32 @@ export default function CreatePlant() {
                             setPreviewImage(file)
                         }}
                     // required
+                    />
+                </label>
+                }
+                {uploadsEnabled === false &&
+                    <p className="form-note">Photo uploads are turned off in this demo. Paste an image URL, or leave it blank to use a default plant photo.</p>
+                }
+                <label className="form-label">
+                    {uploadsEnabled ? "Or paste an image URL" : "Image URL (optional)"}
+                    <input
+                        className="form-input"
+                        type="url"
+                        placeholder="https://..."
+                        value={imageUrl}
+                        onChange={(e) => {
+                            let url = e.target.value.trim()
+                            if (url && !/^https?:\/\/\S+$/.test(url)) {
+                                setErrors(prev => ({ ...prev, image: "Enter a full image URL starting with http:// or https://" }))
+                            } else {
+                                setErrors(prev => {
+                                    let err = { ...prev }
+                                    delete err.image
+                                    return err
+                                })
+                            }
+                            setImageUrl(e.target.value)
+                        }}
                     />
                 </label>
                 <button className="form-button" type="submit">Create</button>

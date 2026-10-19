@@ -6,6 +6,8 @@ import uuid
 BUCKET_NAME = os.environ.get("S3_BUCKET")
 S3_LOCATION = f"https://{BUCKET_NAME}.s3.amazonaws.com/"
 ALLOWED_EXTENSIONS = {"pdf", "png", "jpg", "jpeg", "gif"}
+# used when photo uploads are turned off and no image URL was given
+DEFAULT_PLANT_IMAGE = "https://be-leaf.s3.amazonaws.com/plant6.jpg"
 
 s3 = boto3.client(
    "s3",
@@ -17,6 +19,9 @@ def get_unique_filename(filename):
     ext = filename.rsplit(".", 1)[1].lower()
     unique_filename = uuid.uuid4().hex
     return f"{unique_filename}.{ext}"
+
+def uploads_enabled():
+    return bool(BUCKET_NAME)
 
 def upload_file_to_s3(file, acl="public-read"):
     if not BUCKET_NAME:
@@ -38,10 +43,12 @@ def upload_file_to_s3(file, acl="public-read"):
     return {"url": f"{S3_LOCATION}{file.filename}"}
 
 def remove_file_from_s3(image_url):
+    # only touch files this app uploaded to its own bucket
+    if not BUCKET_NAME or not image_url or not image_url.startswith(S3_LOCATION):
+        return True
     # AWS needs the image file name, not the URL,
     # so we split that out of the URL
     key = image_url.rsplit("/", 1)[1]
-    print(key)
     try:
         s3.delete_object(
         Bucket=BUCKET_NAME,

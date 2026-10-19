@@ -229,3 +229,15 @@ body {
     display: flex;
     justify-content: center;
 }
+
+/* keep forms and the 404 page inside small phone screens */
+.form-container,
+.session-nav,
+.not-found {
+    max-width: calc(100vw - 2rem);
+    box-sizing: border-box;
+}
+
+.not-found img {
+    max-width: 100%;
+}

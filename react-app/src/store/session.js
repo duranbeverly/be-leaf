@@ -107,34 +107,25 @@ export const signUp = (first_name, last_name, email, password) => async (dispatc
 	}
 };
 
-export const thunkAddFav = (plant_id) => async (dispatch) => {
-
-	const res = await fetch(`/api/users/favorites/${plant_id}`, {
-		method: 'PUT',
-		headers: { "Content-Type": 'application/json' }
-	})
-	const data = await res.json();
-	if (res.ok) {
-		dispatch(addFav(data))
-		return data;
-	} else {
-		return
-	}
-}
-
-export const thunkDeleteFav = (plant_id) => async (dispatch) => {
-
-	const res = await fetch(`/api/users/favorites/${plant_id}`, {
-		method: 'DELETE',
-	})
-	const data = await res.json();
-	if (res.ok) {
-		dispatch(deleteFav(data))
-		return data;
-	} else {
+const updateFav = async (plant_id, method, dispatch, action) => {
+	try {
+		const res = await fetch(`/api/users/favorites/${plant_id}`, {
+			method,
+			headers: { "Content-Type": 'application/json' }
+		})
+		const data = await res.json();
+		if (res.ok && data.user) {
+			dispatch(action(data.user))
+		}
 		return data
+	} catch (e) {
+		return { errors: ["Could not update favorites. Please try again."] }
 	}
 }
+
+export const thunkAddFav = (plant_id) => (dispatch) => updateFav(plant_id, 'PUT', dispatch, addFav)
+
+export const thunkDeleteFav = (plant_id) => (dispatch) => updateFav(plant_id, 'DELETE', dispatch, deleteFav)
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
@@ -143,9 +134,8 @@ export default function reducer(state = initialState, action) {
 		case REMOVE_USER:
 			return { user: null };
 		case ADD_FAV:
-			return { ...action.newUser }
 		case DELETE_FAV:
-			return { ...action.newUser }
+			return { ...state, user: action.newUser }
 		default:
 			return state;
 	}

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import { logout } from "../../store/session";
 import "./User.css"
 import { NavLink } from "react-router-dom";
@@ -11,32 +11,30 @@ export default function User() {
     let dispatch = useDispatch()
     let history = useHistory()
     let user = useSelector((state) => state.session.user)
-    const [email, setEmail] = useState(user.email);
-    const [firstName, setFirstName] = useState(user.first_name);
-    const [lastName, setLastName] = useState(user.last_name);
-
-    if (!user) {
-        history.push("/")
-    }
 
     const handleLogout = (e) => {
         e.preventDefault()
-        dispatch(logout()).then(history.push('/'));
+        dispatch(logout()).then(() => history.push('/'));
     };
+
+    if (!user) {
+        return <Redirect to={{ pathname: "/login", state: { from: "/user" } }} />
+    }
+
     return (
         <div className="user-wrapper">
             <div className="side-bar">
                 <div className="account-side-bar">
                     <NavLink to="/plants/new" className="sell-text">Sell a Plant</NavLink>
-                    <i className="fa-solid fa-hand-holding-seedling"></i>
+                    <i className="fa-solid fa-seedling"></i>
                 </div>
                 <div className="account-side-bar">
                     <NavLink to="/user-plants" className="sell-text">View My Plants</NavLink>
-                    <i className="fa-solid fa-cactus"></i>
+                    <i className="fa-solid fa-leaf"></i>
                 </div>
                 <div className="account-side-bar">
                     <NavLink to="/favorites" className="sell-text">Favorites</NavLink>
-                    <i className="fa-sharp fa-solid fa-circle-heart"></i>
+                    <i className="fa-solid fa-heart"></i>
                 </div>
                 <div className="account-side-bar">
                     <button className="logout-button" onClick={handleLogout}>Log out</button>
@@ -50,9 +48,8 @@ export default function User() {
                         <input
                             type="text"
                             className="form-input"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
+                            value={user.email}
+                            readOnly
                         />
                     </label>
                     <label className="form-label">
@@ -60,9 +57,8 @@ export default function User() {
                         <input
                             type="text"
                             className="form-input"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                            required
+                            value={user.first_name}
+                            readOnly
                         />
                     </label>
                     <label className="form-label">
@@ -70,9 +66,8 @@ export default function User() {
                         <input
                             type="text"
                             className="form-input"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                            required
+                            value={user.last_name}
+                            readOnly
                         />
                     </label>
 

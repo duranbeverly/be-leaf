@@ -88,20 +88,6 @@
 }
 
 
-.fa-heart {
-    visibility: hidden;
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    color: #224229;
-    cursor: pointer;
-}
-
-.plant-card:hover .fa-heart {
-    visibility: visible;
-
-}
-
 .fade-in {
     opacity: 0;
     animation: fade-in 1s ease-in-out forwards;
@@ -118,5 +104,11 @@
     100% {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@media (max-width: 840px) {
+    .plant-index-container {
+        margin: 0 1rem;
     }
 }

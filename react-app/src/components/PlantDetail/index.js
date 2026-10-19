@@ -2,9 +2,9 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { thunkAddFav, thunkDeleteFav } from "../../store/session";
+import FavoriteHeart from "../FavoriteHeart";
 import OpenModalButton from '../OpenModalButton';
-import { fetchPlants, thunkGetSinglePlant } from '../../store/plants';
+import { fetchPlants } from '../../store/plants';
 import ShoppingCartModal from '../ShoppingCartModal';
 import { fetchImages } from '../../store/images';
 import { fetchCartItems, thunkCreateCartItem } from '../../store/cart';
@@ -25,27 +25,28 @@ export default function PlantDetail() {
     const [selectedColor, setSelectedColor] = useState(null);
     const history = useHistory();
 
+    // we need to get the plant details from the state lets try that
+    let plant = useSelector(state => state.plants?.all_plants?.[plantId])
+
     useEffect(() => {
+        let isMounted = true
         setIsLoading(true);
 
-        if (!allPlants) {
-            dispatch(fetchPlants(plantId))
-        }
-
-        if (!plant) {
-            dispatch(thunkGetSinglePlant(plantId)).then(() => dispatch(fetchImages()))
-        } else {
+        // on a refresh the store is empty, so wait for the plants before deciding
+        // whether this plant exists
+        Promise.all([
+            dispatch(fetchPlants()),
             dispatch(fetchImages())
-        }
+        ]).catch(() => null).then(() => {
+            if (isMounted) setIsLoading(false)
+        })
+
         if (user) {
             dispatch(fetchCartItems())
         }
 
-        setIsLoading(false);
-    }, [dispatch]);
-    // we need to get the plant details from the state lets try that
-    let plant = useSelector(state => state.plants?.all_plants[plantId])
-
+        return () => { isMounted = false }
+    }, [dispatch, plantId]);
 
     const handleMinus = () => {
         if (counter > 1) {
@@ -62,15 +63,13 @@ export default function PlantDetail() {
 
     const handleAddToCart = () => {
         if (user.id !== plant?.user_id) {
-            setIsLoading(true);
-
             let cartItem = {
                 user_id: user.id,
                 plant_id: parseInt(plantId),
                 quantity: counter
             };
 
-            dispatch(thunkCreateCartItem(cartItem)).then(() => setIsLoading(false));
+            dispatch(thunkCreateCartItem(cartItem));
         }
     };
 
@@ -85,6 +84,19 @@ export default function PlantDetail() {
     }
 
 
+    if (!plant) {
+        return (
+            <div className="wrapper-lost">
+                <div className="form-title not-found">
+                    <div className="title-lost">
+                        We couldn't find that plant
+                    </div>
+                    <NavLink className="cart-button-login" to="/plants">SEE ALL PLANTS</NavLink>
+                </div>
+            </div>
+        )
+    }
+
     return (
 
         <div className='wrapper'>
@@ -98,30 +110,11 @@ export default function PlantDetail() {
                 <div className='plant-detail-bottom'>
                     <div className='plant-detail-pic-div'>
                         <div className='pics-to-left'>
-                            <ImageCarousel plant_id={plant?.id} preview_image={plant?.preview_image} />
+                            <ImageCarousel plant_id={plant?.id} preview_image={plant?.preview_image} name={plant?.name} />
                         </div>
                         <div className='plant-detail-main-pic'>
                             {/* if there is a user this allows you to add to delete to your favorites */}
-                            {user && user.favorites[plantId] ?
-                                (<i onClick={(e) => {
-                                    e.preventDefault()
-                                    setIsLoading(true)
-                                    dispatch(thunkDeleteFav(plantId)).then(() => setIsLoading(false));
-                                }} className="fa-duotone fa-heart"></i>) :
-                                (<i onClick={(e) => {
-                                    e.preventDefault()
-
-                                    if (!user) {
-                                        return history.push('/login')
-                                    } else {
-                                        setIsLoading(true)
-                                        dispatch(thunkAddFav(plantId)).then(() => setIsLoading(false));
-                                    }
-
-
-
-                                }} className="fa-regular fa-heart"></i>)
-                            }
+                            <FavoriteHeart plantId={plantId} />
                             {/* <img alt={plant?.name} className='pic' src={plant?.preview_image} ></img> */}
                         </div>
                     </div>
@@ -181,7 +174,7 @@ export default function PlantDetail() {
                                 <OpenModalButton
                                     className="cart-button"
                                     buttonText="ADD TO CART"
-                                    id={user.id === plant?.user_id && "disabled"}
+                                    id={user.id === plant?.user_id ? "disabled" : undefined}
                                     modalComponent={
                                         user.id !== plant?.user_id ? (
                                             <ShoppingCartModal cart={cartInfo} plants={allPlants} />

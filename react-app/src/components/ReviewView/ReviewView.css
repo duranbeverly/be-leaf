@@ -137,3 +137,9 @@
     display: flex;
     justify-content: flex-end;
 }
+
+@media (max-width: 840px) {
+    .reviews-index-container {
+        padding: 1rem;
+    }
+}

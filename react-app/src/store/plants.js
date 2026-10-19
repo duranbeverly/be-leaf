@@ -65,9 +65,9 @@ export const thunkCreatePlant = (formData) => async (dispatch) => {
         body: formData
     })
 
-    const data = await res.json();
+    const data = await res.json().catch(() => ({ errors: null }));
 
-    if (res.ok) {
+    if (res.ok && data.current_plant) {
 
         dispatch(createPlant(data))
         return data
@@ -82,8 +82,8 @@ export const thunkEditPlant = (formData, id) => async (dispatch) => {
         body: formData
     })
 
-    const data = await res.json();
-    if (res.ok) {
+    const data = await res.json().catch(() => ({ errors: null }));
+    if (res.ok && data.current_plant) {
         dispatch(editPlant(data))
         return data
     } else {
@@ -169,4 +169,27 @@ export default function reducer(state = initialState, action) {
         default:
             return state;
     }
+}
+
+// Photo uploads only work when the server has an S3 bucket configured
+export const fetchUploadsEnabled = async () => {
+    try {
+        const res = await fetch('/api/plants/uploads-enabled')
+        const data = await res.json()
+        return Boolean(data.enabled)
+    } catch (e) {
+        return false
+    }
+}
+
+// The server sends WTForms errors as { field: [messages] }; the forms show one string per field
+export const formatServerErrors = (errors) => {
+    if (!errors) return { form: "Something went wrong. Please try again." }
+    if (typeof errors === "string") return { form: errors }
+    const res = {}
+    Object.entries(errors).forEach(([field, messages]) => {
+        const message = Array.isArray(messages) ? messages.join(" ") : String(messages)
+        res[field === "preview_image" || field === "image_url" ? "image" : field] = message
+    })
+    return res
 }

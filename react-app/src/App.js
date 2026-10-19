@@ -87,7 +87,7 @@ function App() {
                   <div className="title-lost">
                     Page does not exist
                   </div>
-                  <img src="https://res.cloudinary.com/dnzxq7dgk/image/upload/v1688693275/sad_cactus_jzzu1s.png"></img>
+                  <img alt="sad cactus" src="https://res.cloudinary.com/dnzxq7dgk/image/upload/v1688693275/sad_cactus_jzzu1s.png"></img>
                 </div>
               </div>
             </Route>

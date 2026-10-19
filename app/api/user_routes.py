@@ -23,19 +23,24 @@ def user(id):
     Query for a user by id and returns that user in a dictionary
     """
     user = User.query.get(id)
+    if user is None:
+        return {'errors': ['User not found']}, 404
     return user.to_dict()
 
 @user_routes.route('/favorites/<int:plant_id>', methods = ['PUT'])
 @login_required
-def get_favorites(plant_id):
+def add_favorite(plant_id):
     """
-     Returns all favorites by user id
+    Adds a plant to the current user's favorites and returns the updated user
     """
-
     user = User.query.get(current_user.id)
     plant = Plant.query.get(plant_id)
-    plant.plant_favorites.append(user)
-    db.session.commit()
+    if plant is None:
+        return {'errors': ['Plant not found']}, 404
+
+    if user not in plant.plant_favorites:
+        plant.plant_favorites.append(user)
+        db.session.commit()
 
     return {'user': user.to_dict()}
 
@@ -43,11 +48,15 @@ def get_favorites(plant_id):
 @login_required
 def delete_fav(plant_id):
     """
-    Delete favorite by fav id
+    Removes a plant from the current user's favorites and returns the updated user
     """
     user = User.query.get(current_user.id)
     plant = Plant.query.get(plant_id)
-    plant.plant_favorites.remove(user)
+    if plant is None:
+        return {'errors': ['Plant not found']}, 404
 
-    db.session.commit()
+    if user in plant.plant_favorites:
+        plant.plant_favorites.remove(user)
+        db.session.commit()
+
     return {'user': user.to_dict()}

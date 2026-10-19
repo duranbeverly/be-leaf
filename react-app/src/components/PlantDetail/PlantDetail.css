@@ -271,10 +271,6 @@
 
 }
 
-.plant-detail-pic-div:hover .fa-heart {
-    visibility: visible;
-}
-
 .pot-colors {
     font-family: "Raleway", sans-serif;
     font-size: 11px;
@@ -284,11 +280,6 @@
     padding-top: 8px;
     text-transform: uppercase;
     margin-bottom: .5rem;
-}
-
-.heart-filled {
-    color: #2242299c;
-    background-color: #2242299c;
 }
 
 @media screen and (min-width: 922px) {
@@ -307,6 +298,11 @@
         flex-direction: column;
         align-items: center;
         gap: .5rem;
+    }
+
+    .plant-detail-pic-div,
+    .plant-detail-info {
+        width: 100%;
     }
 
     .input-cart {

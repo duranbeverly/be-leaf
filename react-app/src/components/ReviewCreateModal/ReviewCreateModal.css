@@ -93,3 +93,11 @@
 }
 
 
+
+@media (max-width: 580px) {
+    .review-form {
+        width: calc(100vw - 2rem);
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+}

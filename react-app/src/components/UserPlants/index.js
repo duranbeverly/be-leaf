@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPlants } from "../../store/plants";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect, NavLink } from "react-router-dom";
 import ConfirmDelete from "../ConfirmDelete";
 import './UserPlants.css'
 import OpenModalButton from "../OpenModalButton";
 import { ClockLoader } from "react-spinners"
+import { showFallbackImage } from "../../utils/images";
 
 export default function UserPlants() {
     const dispatch = useDispatch();
@@ -14,14 +15,14 @@ export default function UserPlants() {
     let user = useSelector((state) => state.session.user)
     let history = useHistory()
 
-    if (!user) {
-        history.push("/")
-    }
-
     useEffect(() => {
         dispatch(fetchPlants()).then(() => setIsLoading(false))
     }, [dispatch])
 
+
+    if (!user) {
+        return <Redirect to={{ pathname: "/login", state: { from: "/user-plants" } }} />
+    }
 
     // plants1 is an object so we need to make it iterable
 
@@ -44,13 +45,12 @@ export default function UserPlants() {
                     let image = plant.preview_image
                     let name = plant.name
                     let price = plant.price
-                    let plantId = parseInt(plant.id)
 
                     return (
                         <div className="plant-card" key={plant.id} >
-                            <div className="plant-index-card" to={`/plants/${plantId}`}>
+                            <div className="plant-index-card">
                                 <div className="img-container">
-                                    <img alt={name} src={image} className="plant-index-img"></img>
+                                    <img alt={name} src={image} className="plant-index-img" onError={showFallbackImage}></img>
                                 </div>
                                 <div className="plant-index-top">
                                     <p className="plant-index-name">{name}</p>
@@ -68,8 +68,9 @@ export default function UserPlants() {
                         </div>
                     )
                 })}
-
-
+                {plants.length === 0 &&
+                    <NavLink className="sell-text" to="/plants/new">You haven't listed any plants yet. Sell a plant</NavLink>
+                }
             </div>
 
         </div >

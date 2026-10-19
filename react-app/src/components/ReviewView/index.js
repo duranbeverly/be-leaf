@@ -8,6 +8,7 @@ import ReviewEditModal from "../ReviewEditModal";
 import ReviewDeleteModal from "../ReviewDeleteModal";
 import './ReviewView.css'
 import { ClockLoader } from "react-spinners"
+import { showFallbackImage, FALLBACK_PLANT_IMAGE } from "../../utils/images";
 
 export default function ReviewView() {
     // we first need to get the reviews from the database on first render
@@ -89,7 +90,7 @@ export default function ReviewView() {
                                         <p className="plant-name-review">{plantName}</p>
                                         <p className="review-text">{reviewText}</p>
                                         <div className="review-img-container">
-                                            <img className="review-index-img" src={image} alt={plantName}></img>
+                                            <img className="review-index-img" src={image || FALLBACK_PLANT_IMAGE} alt={plantName} onError={showFallbackImage}></img>
 
                                         </div>
                                     </div>

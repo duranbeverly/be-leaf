@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 import { NavLink } from 'react-router-dom';
 import { signUp } from "../../store/session";
 import './SignupForm.css';
@@ -8,6 +8,7 @@ import './SignupForm.css';
 function SignupFormPage() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -17,21 +18,32 @@ function SignupFormPage() {
   const [disabled, setDisabled] = useState(true)
   const [errors, setErrors] = useState({});
 
-  if (sessionUser) return <Redirect to="/" />;
+  if (sessionUser) return <Redirect to={location.state?.from || "/"} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
 
-    if (errors && Object.keys(errors).length > 0) {
-
-      return ("fix the errors")
+    const { form, ...fieldErrors } = errors || {};
+    if (Object.keys(fieldErrors).length > 0) {
+      return
+    }
+    if (password !== confirmPassword) {
+      setErrors({ confirmPassword: "Passwords don't match" })
+      return
     }
 
 
     const data = await dispatch(signUp(firstName, lastName, email, password));
     if (data) {
-      setErrors(data.errors)
+      // the server sends a list like ["email : Email address is already in use."]
+      const serverErrors = {};
+      data.forEach((error) => {
+        const [field, ...message] = error.split(" : ");
+        if (message.length) serverErrors[field === "email" || field === "password" ? field : "form"] = message.join(" : ");
+        else serverErrors.form = error;
+      });
+      setErrors(serverErrors);
     }
 
   };
@@ -49,7 +61,7 @@ function SignupFormPage() {
       <div className="session-nav">
         <NavLink
           className={`login-div ${activeButton === 'login' ? 'active' : ""}`}
-          to="/login"
+          to={{ pathname: "/login", state: location.state }}
         >
           <p className="login-nav" >Log in</p>
         </NavLink>
@@ -57,12 +69,13 @@ function SignupFormPage() {
           className={`signup-div ${activeButton === 'signup' ? 'active' : ""}`}
 
         >
-          <p className="signup-nav" to="/signup">Sign up</p>
+          <p className="signup-nav">Sign up</p>
         </div>
       </div>
 
       <form className="form-container" onSubmit={handleSubmit}>
         <h1 className="form-title" >Sign Up</h1>
+        {errors && errors.form && <p className="errors">{errors.form}</p>}
         <label className="form-label">
           EMAIL
           {errors && errors.email && <p className="errors">{errors.email}</p>}
@@ -153,7 +166,7 @@ function SignupFormPage() {
               if (password2 !== password) {
                 setErrors(prev => {
                   let err = { ...prev }
-                  err.confirmPassword = "passwords don't match"
+                  err.confirmPassword = "Passwords don't match"
                   setDisabled(true)
                   return err
                 })
@@ -170,7 +183,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        <button disabled={disabled} id={disabled && "disabled"} className="form-button" type="submit">Sign Up</button>
+        <button disabled={disabled} id={disabled ? "disabled" : undefined} className="form-button" type="submit">Sign Up</button>
       </form>
     </div>
   );

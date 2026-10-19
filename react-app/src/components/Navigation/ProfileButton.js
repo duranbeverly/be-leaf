@@ -35,19 +35,21 @@ function ProfileButton({ user }) {
     <div className="right-nav-buttons">
       {user ? (
         <>
-          <NavLink className='profile-button' to='/user'><i className="fa-regular fa-user" /></NavLink>
+          <NavLink className='profile-button' to='/user' aria-label="My account"><i className="fa-regular fa-user" /></NavLink>
           <OpenModalButton
             className={'profile-button'}
-            buttonText={< i className="fa-regular fa-basket-shopping-simple" />}
+            buttonText={< i className="fa-solid fa-basket-shopping" aria-label="Cart" />}
             modalComponent={<ShoppingCartModal cart={cart} plants={allPlants} />}
           />
         </>
       ) : (
         <>
-          <NavLink className='profile-button' to='/login'><i className="fa-regular fa-user" /></NavLink>
+          <NavLink className='profile-button' to='/login' aria-label="Log in"><i className="fa-regular fa-user" /></NavLink>
           <NavLink
-            to='/login'>
-            < i className="fa-regular fa-basket-shopping-simple" />
+            className='profile-button'
+            to='/login'
+            aria-label="Log in to see your cart">
+            < i className="fa-solid fa-basket-shopping" />
           </NavLink>
         </>
 

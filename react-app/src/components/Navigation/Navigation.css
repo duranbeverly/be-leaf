@@ -49,7 +49,7 @@
   background-color: none;
 }
 
-.fa-basket-shopping-simple {
+.fa-basket-shopping {
   font-size: 18px;
   color: #224229;
   background-color: none;
@@ -67,6 +67,9 @@
 }
 
 .nav-button {
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
   position: relative;
   padding: .2rem 0;
   box-sizing: border-box;
@@ -101,8 +104,19 @@
   transition-delay: 0.05s;
 }
 
+/* on small screens the links move to their own row under the logo and icons */
 @media(max-width: 840px) {
-  .nav-hidden {
-    display: none;
+  .nav-bar {
+    flex-wrap: wrap;
+    row-gap: .75rem;
+  }
+
+  .mid-navbar {
+    order: 3;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .5rem 1.25rem;
+    font-size: 12px;
   }
 }

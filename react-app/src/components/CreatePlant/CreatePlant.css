@@ -62,3 +62,10 @@ input #file-upload-button {
     visibility: visible;
     margin-left: 1rem;
 }
+
+.form-note {
+    font-family: "Raleway", sans-serif;
+    font-size: 13px;
+    color: #5F7662;
+    margin: .5rem 0;
+}

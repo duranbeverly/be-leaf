@@ -1,16 +1,15 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { thunkAddFav, thunkDeleteFav } from "../../store/session";
-import { NavLink, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import FavoriteHeart from "../FavoriteHeart";
+import { NavLink, Redirect } from "react-router-dom";
 import "./FavoriteView.css"
+import { showFallbackImage } from "../../utils/images";
 
 export default function FavoritesView() {
-    const dispatch = useDispatch();
     let userInfo = useSelector((state) => state.session.user)
-    let history = useHistory()
 
     if (!userInfo) {
-        history.push('/')
+        return <Redirect to={{ pathname: "/login", state: { from: "/favorites" } }} />
     }
 
 
@@ -30,19 +29,9 @@ export default function FavoritesView() {
                             <div className="plant-card" key={plantId}>
                                 <NavLink className="plant-index-card" to={`/plants/${plantId}`}>
                                     <div className="img-container">
-                                        {userInfo && userInfo.favorites[plantId] ?
-                                            (<i onClick={(e) => {
-                                                e.preventDefault()
-                                                dispatch(thunkDeleteFav(plantId))
-                                            }} className="fa-duotone fa-heart"></i>) :
-                                            (<i onClick={(e) => {
-                                                e.preventDefault()
-                                              
-                                                dispatch(thunkAddFav(plantId))
-                                            }} className="fa-regular fa-heart"></i>)
-                                        }
+                                        <FavoriteHeart plantId={plantId} />
 
-                                        <img alt={name} src={image} className="plant-index-img"></img>
+                                        <img alt={name} src={image} className="plant-index-img" onError={showFallbackImage}></img>
 
                                     </div>
                                     <div className="plant-index-top">
@@ -56,7 +45,8 @@ export default function FavoritesView() {
                     })
                 ) : (
                     <div>
-                        <h2 className="fav-empty-title"> Oh No! You don't have any favorites! </h2>
+                        <h2 className="fav-empty-title">Oh no! You don't have any favorites yet.</h2>
+                        <NavLink className="sell-text" to="/plants">Tap the heart on any plant to save it here.</NavLink>
                     </div>
                 )
                 }

@@ -4,8 +4,9 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useSelector } from "react-redux";
 import { Carousel } from 'react-responsive-carousel';
 import "./PlantDetail.css"
+import { showFallbackImage, FALLBACK_PLANT_IMAGE } from "../../utils/images";
 
-const ImageCarousel = React.memo(({ plant_id, preview_image }) => {
+const ImageCarousel = React.memo(({ plant_id, preview_image, name }) => {
     let { plantId } = useParams()
 
     let images = useSelector(state => state.images.all_images)
@@ -14,10 +15,10 @@ const ImageCarousel = React.memo(({ plant_id, preview_image }) => {
     return (
         <div className="image-carousel">
             <Carousel>
-                <img alt={plant_id} src={preview_image}></img>
+                <img alt={name || "plant"} src={preview_image} onError={showFallbackImage}></img>
                 {images && images.map((image) => {
                     return (
-                        <img key={image.id} alt={image.id} src={image.image || "https://be-leaf.s3.amazonaws.com/plant6.jpg"}></img>
+                        <img key={image.id} alt={name || "plant"} src={image.image || FALLBACK_PLANT_IMAGE} onError={showFallbackImage}></img>
                     )
                 })}
             </Carousel>

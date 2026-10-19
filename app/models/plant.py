@@ -17,7 +17,7 @@ class Plant(db.Model):
     is_giant = db.Column(db.Boolean, nullable=False, default=False)
     is_pet_friendly = db.Column(db.Boolean, nullable=False, default=False)
     preview_image = db.Column(db.String(500), nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
     # relationships
     users = db.relationship("User", back_populates="plants")
@@ -27,8 +27,7 @@ class Plant(db.Model):
     plant_favorites = db.relationship(
         "User",
         secondary=favorites,
-        back_populates="user_favorites",
-        cascade="delete, all"
+        back_populates="user_favorites"
     )
 
 

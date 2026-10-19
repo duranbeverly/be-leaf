@@ -43,7 +43,7 @@ def add_to_cart():
 
 
     form_plant_id = data["plant_id"]
-    form_user_id = data["user_id"]
+    form_user_id = current_user.id
     form_quantity = data["quantity"]
 
 
@@ -52,15 +52,15 @@ def add_to_cart():
 
     # check that the plant exists
     if plant is None:
-        return {"message": "Plant does not exist"}
+        return {"message": "Plant does not exist"}, 404
 
 
      # find the plant quantity available
     plant_quantity = plant.quantity
 
      # check that the quantity is not more than the quantity available for that plant
-    if form_quantity > plant_quantity:
-        return {"message": "You can't buy more than is available"}
+    if form_quantity < 1 or form_quantity > plant_quantity:
+        return {"message": "You can't buy more than is available"}, 400
 
     # check if this plant is already in this users cart
     cart_item = Cart.query.filter(Cart.plant_id == form_plant_id, Cart.user_id == form_user_id).first()
@@ -68,8 +68,8 @@ def add_to_cart():
 
     # check that the new quantity does not exceed the quantity available
     if(cart_item):
-        if form_quantity > plant_quantity:
-            return {"message": "there are not that many plants of this kind in stock"}
+        if cart_item.quantity + form_quantity > plant_quantity:
+            return {"message": "there are not that many plants of this kind in stock"}, 400
 
         cart_item.quantity += form_quantity
         db.session.commit()
@@ -110,14 +110,17 @@ def change_quantity():
     # first find the cart item in the carts table with the correct user_id and plant_id
     user = current_user
 
-    cart_item = Cart.query.filter(Cart.user_id == user.id and Cart.plant_id == form_plant_id).first()
+    cart_item = Cart.query.filter(Cart.user_id == user.id, Cart.plant_id == form_plant_id).first()
+
+    if cart_item is None:
+        return {"message": "Cart item not found"}, 404
 
     # get the plant product so you know what quantity total is available
     plant = Plant.query.get(form_plant_id)
 
     # check that the quantity they want to add plus the quantity already in the cart does not exceed to total quantity of the item
     if form_quantity  > plant.quantity:
-        return {"message": "You can't buy more than is available"}
+        return {"message": "You can't buy more than is available"}, 400
 
     # now change the quantity in the cart item and commit
     cart_item.quantity = form_quantity
@@ -148,7 +151,10 @@ def subtract_quantity():
     cart_item = Cart.query.filter(Cart.user_id == user.id, Cart.plant_id == form_plant_id).first()
 
     if cart_item is None:
-        return {"message": "Cart item not found"}
+        return {"message": "Cart item not found"}, 404
+
+    if form_quantity < 1:
+        return {"message": "Quantity must be at least 1"}, 400
 
     # subtract the quantity from the cart item and commit
     cart_item.quantity = form_quantity
@@ -167,10 +173,10 @@ def delete_cart_item(form_cart_id):
     # find the correct cart item by id
     cart_item = Cart.query.get(form_cart_id)
 
-    if not cart_item:
+    if not cart_item or cart_item.user_id != current_user.id:
         return {
             "message": "cart item not found"
-        }
+        }, 404
 
     # delete the cart item and commit
     db.session.delete(cart_item)

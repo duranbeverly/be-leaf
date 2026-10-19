@@ -1,0 +1,57 @@
+.fav-heart {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: rgba(252, 249, 243, 0.85);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, transform 0.15s ease-in-out;
+}
+
+.fav-heart svg {
+    fill: none;
+    stroke: #224229;
+    stroke-width: 2;
+    transition: fill 0.15s ease-in-out;
+}
+
+.fav-heart:hover {
+    transform: scale(1.08);
+}
+
+.fav-heart:focus-visible {
+    opacity: 1;
+    outline: 2px solid #224229;
+    outline-offset: 2px;
+}
+
+.fav-heart-on svg {
+    fill: #224229;
+}
+
+.fav-heart:disabled {
+    cursor: wait;
+}
+
+/* saved hearts always show; empty ones show when the card is hovered */
+.fav-heart-on,
+.plant-card:hover .fav-heart,
+.plant-detail-pic-div:hover .fav-heart {
+    opacity: 1;
+}
+
+/* touch screens have no hover, so always show the heart */
+@media (hover: none) {
+    .fav-heart {
+        opacity: 1;
+    }
+}

@@ -5,6 +5,7 @@ import { useModal } from "../../context/Modal";
 import "./ReviewCreateModal.css"
 import { thunkCreateReview } from "../../store/reviews";
 import { ClockLoader } from "react-spinners"
+import { fetchUploadsEnabled, formatServerErrors } from "../../store/plants";
 
 export default function ReviewCreateModal({ plants, user }) {
     const dispatch = useDispatch()
@@ -20,6 +21,11 @@ export default function ReviewCreateModal({ plants, user }) {
     const [invisible, setInvisible] = useState("invisible")
     const [isLoading, setIsLoading] = useState(false)
     const [errors, setErrors] = useState({})
+    const [uploadsEnabled, setUploadsEnabled] = useState(false)
+
+    useEffect(() => {
+        fetchUploadsEnabled().then(setUploadsEnabled)
+    }, [])
 
     if (!user) {
         history.push("/")
@@ -49,16 +55,9 @@ export default function ReviewCreateModal({ plants, user }) {
 
         const newErrors = {};
 
-        if (Object.keys(errors).length > 0) {
+        const { form, ...fieldErrors } = errors
+        if (Object.keys(fieldErrors).length > 0) {
             return
-        }
-
-        if (!image) {
-            newErrors.image = "Please choose an image";
-        } else {
-            if (errors.image) {
-                delete errors.image
-            }
         }
 
         if (!stars) {
@@ -88,13 +87,15 @@ export default function ReviewCreateModal({ plants, user }) {
         formData.append("plant_id", correctPlant.id)
         formData.append("rating", stars)
         formData.append("review", review)
-        formData.append("image", image)
+        if (image instanceof File && uploadsEnabled) {
+            formData.append("image", image)
+        }
 
         setIsLoading(true)
 
         dispatch(thunkCreateReview(formData)).then((data) => {
-            if (data.error) {
-                setErrors(data.error);
+            if (!data.current_review) {
+                setErrors(formatServerErrors(data.errors));
                 setIsLoading(false);
             } else {
                 closeModal()
@@ -229,7 +230,7 @@ export default function ReviewCreateModal({ plants, user }) {
                         if (!review || review.length <= 10 || review.length > 255) {
                             setErrors(prev => {
                                 let err = { ...prev }
-                                err.review = "Not a valid review"
+                                err.review = "Review must be 11 to 255 characters"
                                 return err
                             })
                         } else {
@@ -245,7 +246,9 @@ export default function ReviewCreateModal({ plants, user }) {
 
                 </textarea>
             </label>
+            {errors.form && <p className="errors">{errors.form}</p>}
             {errors.image && <p className="errors">{errors.image}</p>}
+            {uploadsEnabled &&
             <label className="form-label">
                 <div className="file-button">
                     <div className="file-check">
@@ -253,7 +256,7 @@ export default function ReviewCreateModal({ plants, user }) {
                         <span><i id={invisible} className="fa-solid fa-circle-check"></i></span>
 
                     </div>
-                    <i className="fa-light fa-cloud-arrow-up"></i>
+                    <i className="fa-solid fa-cloud-arrow-up"></i>
                 </div>
                 <input
                     className='input-file'
@@ -283,6 +286,7 @@ export default function ReviewCreateModal({ plants, user }) {
                     }}
                 ></input>
             </label>
+            }
             <button className="review-button" type="submit">Submit Review</button>
 
         </form>

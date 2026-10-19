@@ -3,13 +3,30 @@ from sqlalchemy import or_, and_
 from flask_login import current_user, login_required
 from app.models import Plant, db, User, PlantImage
 from app.forms import PlantForm, EditPlantForm
-from app.api.AWS_helpers import upload_file_to_s3, get_unique_filename, remove_file_from_s3
+from werkzeug.datastructures import FileStorage
+from app.api.AWS_helpers import upload_file_to_s3, get_unique_filename, remove_file_from_s3, uploads_enabled, DEFAULT_PLANT_IMAGE
 
 # we will make this route prefix /api/plants
 # the giant plants will be found at /api/plants/giant-plants
 # the pet safe plants will be called /api/plants/pet-safe
 
 plant_routes = Blueprint("plants", __name__)
+
+
+def uploaded_file(form):
+    """
+    The preview image file from the form, or None when no real file was sent
+    """
+    image = form.data.get("preview_image")
+    return image if isinstance(image, FileStorage) and image.filename else None
+
+
+@plant_routes.route('/uploads-enabled')
+def get_uploads_enabled():
+    """
+    Tells the forms whether photo uploads (S3) are turned on
+    """
+    return {"enabled": uploads_enabled()}
 
 @plant_routes.route('')
 def get_all_plants():
@@ -57,7 +74,7 @@ def get_plant_info(plantId):
     """
     plant_info = Plant.query.get(plantId)
     if plant_info is None:
-        return {"message": "Plant not found"}
+        return {"errors": {"plant": ["Plant not found"]}}, 404
     res = {"current_plant": plant_info.to_dict()}
     return res
 
@@ -73,36 +90,35 @@ def create_plant():
     form['csrf_token'].data = request.cookies['csrf_token']
     form.user_id.data = current_user.id
 
-    # plant_id = None
-
     if form.validate():
-        if "preview_image" in form.data and form.data["preview_image"] != None:
-            image = form.data["preview_image"]
+        # use the uploaded photo when uploads are on, otherwise the image URL
+        # the user gave us, otherwise a default plant photo
+        preview_image = form.data["image_url"] or DEFAULT_PLANT_IMAGE
+        image = uploaded_file(form)
+        if image and uploads_enabled():
             image.filename = get_unique_filename(image.filename)
             upload = upload_file_to_s3(image)
             if 'url' not in upload:
-                return upload
-            else:
+                return {"errors": {"image": [upload["errors"]]}}, 400
+            preview_image = upload['url']
 
-                res = Plant (
-                    name=form.data["name"],
-                    user_id=form.data["user_id"],
-                    description=form.data["description"],
-                    price=form.data["price"],
-                    quantity=form.data["quantity"],
-                    preview_image=upload['url'],
-                    is_giant=form.data["is_giant"],
-                    is_pet_friendly=form.data["is_pet_friendly"]
-                )
-                plant_id = res.id
-                db.session.add(res)
-                db.session.commit()
-
+        res = Plant(
+            name=form.data["name"],
+            user_id=current_user.id,
+            description=form.data["description"],
+            price=form.data["price"],
+            quantity=form.data["quantity"],
+            preview_image=preview_image,
+            is_giant=form.data["is_giant"],
+            is_pet_friendly=form.data["is_pet_friendly"]
+        )
+        db.session.add(res)
+        db.session.commit()
 
         return {"current_plant": res.to_dict()}
 
     else:
-        return form.errors, 401
+        return {"errors": form.errors}, 400
 
 @plant_routes.route('/<int:id>', methods=['PUT'])
 @login_required
@@ -113,10 +129,11 @@ def edit_plant(id):
     # check to see if current user is owner of plant
     plant = Plant.query.get(id)
 
+    if plant is None:
+        return {"errors": {"plant": ["Plant not found"]}}, 404
+
     if current_user.id != plant.user_id:
-        return {
-            "message": "You can not edit this plant"
-        }
+        return {"errors": {"plant": ["You can not edit this plant"]}}, 403
 
     # validate the information by creating a PlantForm
     form = EditPlantForm()
@@ -124,17 +141,19 @@ def edit_plant(id):
     form.user_id.data = current_user.id
 
     if form.validate():
-        # delete the image on AWS if it exists
-        if "preview_image" in form.data and form.data["preview_image"] != None:
-            remove_file_from_s3(plant.preview_image)
-
-            image = form.data["preview_image"]
+        # only replace the photo when a new file was uploaded (and uploads are on)
+        # or a new image URL was given
+        image = uploaded_file(form)
+        if image and uploads_enabled():
             image.filename = get_unique_filename(image.filename)
             upload = upload_file_to_s3(image)
             if 'url' not in upload:
-                return upload
-            else:
-                plant.preview_image = upload["url"]
+                return {"errors": {"image": [upload["errors"]]}}, 400
+            remove_file_from_s3(plant.preview_image)
+            plant.preview_image = upload["url"]
+        elif form.data["image_url"] and form.data["image_url"] != plant.preview_image:
+            remove_file_from_s3(plant.preview_image)
+            plant.preview_image = form.data["image_url"]
 
         plant.name = form.data["name"]
         plant.price = form.data["price"]
@@ -143,10 +162,10 @@ def edit_plant(id):
         plant.is_giant = form.data["is_giant"]
         plant.is_pet_friendly = form.data["is_pet_friendly"]
         db.session.commit()
-       
+
         return {"current_plant": plant.to_dict()}
     else:
-        return form.errors, 400
+        return {"errors": form.errors}, 400
 
 
 @plant_routes.route('/<int:id>', methods=['DELETE'])
@@ -159,15 +178,11 @@ def delete_plant(id):
     plant = Plant.query.get(id)
 
     if not plant:
-        return {
-            "message": "plant not found..."
-        }
+        return {"errors": {"plant": ["Plant not found"]}}, 404
 
     # make sure the current user owns the plant
     if current_user.id != plant.user_id:
-        return{
-            "message": "unauthorized action, you do not own this plant"
-        }
+        return {"errors": {"plant": ["You do not own this plant"]}}, 403
 
     # now remove image from Aws
     remove_file_from_s3(plant.preview_image)
