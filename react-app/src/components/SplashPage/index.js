@@ -17,7 +17,16 @@ export default function SplashPage() {
                     <p className="splash-message-body">Your summer oasis awaits.</p>
                     <button onClick={handleSubmit} className="splash-button">SHOP PLANTS</button>
                 </div>
-                <img alt="flowers" className="splash-bg-image" src="https://be-leaf.s3.amazonaws.com/plants_landscape4.jpg"></img>
+                <img
+                    alt="flowers"
+                    className="splash-bg-image"
+                    src="/img/hero-1920.webp"
+                    srcSet="/img/hero-960.webp 960w, /img/hero-1920.webp 1920w"
+                    sizes="100vw"
+                    fetchpriority="high"
+                    decoding="async"
+                    onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.srcset = ""; e.currentTarget.src = "https://be-leaf.s3.amazonaws.com/plants_landscape4.jpg"; }}
+                />
             </div>
         </>
     )

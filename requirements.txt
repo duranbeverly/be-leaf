@@ -13,3 +13,5 @@ python-dotenv==1.0.1
 sqlalchemy==1.4.54
 werkzeug==2.3.8
 wtforms==3.1.2
+flask-compress==1.15
+pillow==11.0.0

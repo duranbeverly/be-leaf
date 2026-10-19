@@ -7,6 +7,7 @@ services:
     plan: free
     buildCommand: >-
       pip install -r requirements.txt &&
+      python scripts/optimize_hero.py &&
       npm install --prefix react-app &&
       npm run build --prefix react-app &&
       flask db upgrade &&

@@ -34,7 +34,10 @@ jobs:
           pip install -r requirements.txt
           npm install --prefix react-app
       - name: Build the frontend
-        run: npm run build --prefix react-app
+        run: |
+          python scripts/optimize_hero.py
+          test -f react-app/public/img/hero-1920.webp
+          npm run build --prefix react-app
       - name: Migrate and seed
         run: |
           flask db upgrade

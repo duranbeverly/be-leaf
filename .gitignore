@@ -7,3 +7,4 @@ node_modules/
 react-app/build/
 *.db
 .DS_Store
+react-app/public/img/hero-*.webp
