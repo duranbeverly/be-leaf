@@ -101,3 +101,19 @@
         box-sizing: border-box;
     }
 }
+
+@media (max-width: 768px) {
+    .review-form {
+        width: min(30rem, calc(100vw - 2rem));
+        padding: 1rem;
+    }
+
+    .review-input,
+    .form-dropdown {
+        font-size: 16px;
+    }
+
+    .review-button {
+        height: 2.75rem;
+    }
+}

@@ -28,3 +28,16 @@
     padding-top: .5rem;
 
 }
+
+@media (max-width: 768px) {
+    .change-buttons {
+        gap: .5rem;
+    }
+
+    .edit-button,
+    .delete-button {
+        flex: 1;
+        height: 32px;
+        font-size: 12px;
+    }
+}

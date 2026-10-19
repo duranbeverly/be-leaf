@@ -322,3 +322,73 @@
         height: 40px;
     }
 }
+
+/* phones: full-width carousel, details below, roomy cart controls */
+@media (max-width: 768px) {
+    .wrapper {
+        margin: 0;
+        padding: .5rem 16px 1.5rem;
+    }
+
+    .plant-detail-top {
+        height: auto;
+        min-height: 3rem;
+        flex-wrap: wrap;
+        gap: .5rem;
+        padding: .5rem 0;
+    }
+
+    .plant-detail-header,
+    .plant-detail-name,
+    .plant-detail-heading-division {
+        font-size: 14px;
+    }
+
+    .plant-detail-bottom {
+        gap: 1.25rem;
+    }
+
+    .plant-detail-info {
+        gap: 1.25rem;
+    }
+
+    .side-title,
+    .price {
+        font-size: 21px;
+    }
+
+    .plant-detail-subheader {
+        gap: 1rem;
+    }
+
+    .plant-detail-buttons {
+        gap: .75rem;
+        width: 100%;
+    }
+
+    .input-cart {
+        flex-shrink: 0;
+        width: 120px;
+        height: 48px;
+        font-size: 16px;
+        justify-content: space-between;
+    }
+
+    .input-cart .fa-minus,
+    .input-cart .fa-plus {
+        font-size: 13px;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .plant-detail-buttons .cart-button,
+    .plant-detail-buttons .cart-button-login {
+        flex: 1;
+        width: auto;
+        min-width: 0;
+        height: 48px;
+    }
+}

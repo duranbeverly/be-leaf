@@ -112,3 +112,59 @@
         margin: 0 1rem;
     }
 }
+
+/* phones: two-column grid with compact cards */
+@media (max-width: 768px) {
+    .plant-index-container {
+        margin: 0;
+        padding: 0 16px 1rem;
+    }
+
+    .plant-index-title {
+        font-size: 26px;
+        padding: 1rem 0 .75rem;
+    }
+
+    .all-plant-cards {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px 12px;
+        padding: 0;
+    }
+
+    .plant-card,
+    .img-container {
+        width: 100%;
+    }
+
+    .img-container {
+        height: auto;
+        aspect-ratio: 3 / 4;
+        overflow: hidden;
+    }
+
+    .plant-index-img,
+    .plant-index-img:hover {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .plant-index-top {
+        flex-direction: column;
+        gap: .15rem;
+        padding-top: .4rem;
+    }
+
+    .plant-index-name,
+    .plant-index-price {
+        font-size: 13px;
+        line-height: 1.3;
+    }
+
+    .plant-index-username {
+        text-align: left;
+        padding-top: .15rem;
+    }
+}

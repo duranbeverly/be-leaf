@@ -54,3 +54,19 @@
     padding: .5rem;
     cursor: pointer;
 }
+
+@media (max-width: 768px) {
+    .confirm-delete-div {
+        width: auto;
+        max-width: 20rem;
+        height: auto;
+        margin: 1.5rem 1rem;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    .not-confirm,
+    .confirm {
+        height: 2.75rem;
+    }
+}

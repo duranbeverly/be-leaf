@@ -120,3 +120,46 @@
     font-size: 12px;
   }
 }
+
+/* phones: keep the links on one row that scrolls sideways if needed */
+@media (max-width: 768px) {
+  .nav-bar {
+    padding: .75rem 16px;
+  }
+
+  .site-name {
+    font-size: 26px;
+  }
+
+  .mid-navbar {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    gap: 1.25rem;
+    font-size: 11px;
+    letter-spacing: .02em;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mid-navbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mid-navbar > * {
+    flex-shrink: 0;
+  }
+
+  .right-nav-buttons {
+    gap: .25rem;
+  }
+
+  .right-nav-buttons button,
+  .right-nav-buttons .fa-basket-shopping {
+    min-width: 40px;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

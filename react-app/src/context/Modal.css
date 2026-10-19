@@ -23,3 +23,13 @@
   position: absolute;
   background-color: white;
 }
+
+/* phones: modals stay inside the screen and scroll when tall */
+@media (max-width: 768px) {
+  #modal-content {
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100vh - 2rem);
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+  }
+}

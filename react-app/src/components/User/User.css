@@ -52,3 +52,28 @@
         padding: 1.5rem 1rem;
     }
 }
+
+@media (max-width: 768px) {
+    .user-wrapper {
+        align-items: stretch;
+        padding: 1.5rem 16px;
+        gap: 1.5rem;
+    }
+
+    .side-bar {
+        width: 100%;
+        max-width: 28rem;
+        align-self: center;
+        gap: 0;
+    }
+
+    .account-side-bar {
+        align-items: center;
+        min-height: 44px;
+        border-bottom: 1px solid #EDEBE6;
+    }
+
+    .user-wrapper .form-wrapper {
+        padding: 0;
+    }
+}

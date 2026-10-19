@@ -143,3 +143,41 @@
         padding: 1rem;
     }
 }
+
+@media (max-width: 768px) {
+    .reviews-index-container {
+        padding: 1rem 16px;
+    }
+
+    .review-index-title {
+        font-size: 26px;
+    }
+
+    .review-card {
+        padding: 1rem 0 2rem;
+    }
+
+    .review-img-container,
+    .review-index-img {
+        width: 5rem;
+        flex-shrink: 0;
+    }
+
+    .review-right {
+        min-width: 0;
+    }
+
+    .top-right-review {
+        gap: .75rem;
+    }
+
+    .review-title-div {
+        flex-wrap: wrap;
+        gap: .75rem;
+        align-items: center;
+    }
+
+    .small-button {
+        height: 2.75rem;
+    }
+}

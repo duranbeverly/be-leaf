@@ -58,3 +58,39 @@
         font-size: 2rem;
     }
 }
+
+/* phones: hero fills most of the first screen with the message centered on it */
+@media (max-width: 768px) {
+    .image-container {
+        height: 72vh;
+        height: min(78svh, 640px);
+        flex-shrink: 0;
+    }
+
+    .splash-bg-image {
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .splash-message {
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0 16px;
+        font-size: 17px;
+        text-align: center;
+        text-shadow: 0 1px 8px rgba(0, 0, 0, .35);
+    }
+
+    .splash-title {
+        font-size: 2.1rem;
+        line-height: 1.15;
+        max-width: 18ch;
+    }
+
+    .splash-button {
+        width: 160px;
+        height: 48px;
+        text-shadow: none;
+    }
+}
