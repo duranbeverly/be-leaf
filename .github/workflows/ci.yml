@@ -57,13 +57,15 @@ jobs:
             -d '{"email":"demo@aa.io","password":"password"}' localhost:8000/api/auth/login | grep -q '"email"'
       - name: Check image links (warnings only)
         run: python scripts/check_image_links.py
-      - name: Probe icon kit (temporary)
+      - name: Favorites, plant form and cart work as the demo user
+        run: bash scripts/smoke_favorites.sh
+      - name: Check icon names exist in Font Awesome Free (warnings only)
         run: |
-          for ref in "" "https://be-leaf.onrender.com/" "https://www.beverlyduran.com/" "http://localhost:3000/"; do
-            code=$(curl -s -o k.js -w "%{http_code}" ${ref:+-H "Referer: $ref"} ${ref:+-H "Origin: ${ref%/}"} https://kit.fontawesome.com/b3a790e284.js)
-            echo "::warning title=kit ref=[$ref]::$code $(head -c 1500 k.js | tr -d '\n' | grep -oE '(license|version|status|domains|method)[^,]{0,40}' | tr '\n' ' ') $(head -c 120 k.js | tr -d '\n')"
+          curl -sf https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css -o fa.css || exit 0
+          for icon in $(grep -rhoE 'fa-[a-z0-9-]+' react-app/src | sort -u); do
+            case $icon in fa-solid|fa-regular|fa-brands|fa-2xl) continue;; esac
+            grep -qE "\.$icon[:{,]" fa.css || echo "::warning title=Missing icon::$icon"
           done
-          echo "::warning title=cdnjs::$(curl -s -o /dev/null -w '%{http_code}' https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css)"
       - name: Server log
         if: always()
         run: cat server.log || true
