@@ -1,6 +1,9 @@
-.env
 __pycache__/
-*.py[cod]
-.venv
+*.pyc
+.env
+.venv/
+venv/
+node_modules/
+react-app/build/
+*.db
 .DS_Store
-.vscode/

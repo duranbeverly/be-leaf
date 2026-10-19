@@ -19,6 +19,8 @@ def get_unique_filename(filename):
     return f"{unique_filename}.{ext}"
 
 def upload_file_to_s3(file, acl="public-read"):
+    if not BUCKET_NAME:
+        return {"errors": "Photo uploads are turned off in this demo. Try editing an existing plant instead."}
     try:
         s3.upload_fileobj(
             file,

@@ -3,7 +3,12 @@
 ## Overview
 * This is a website app that allows users to sell and purchase plants.It provides a platform for plant enthusiasts to connect, discover new plants, and engage in transactions.
 
-* Here is a link to the live demo: https://be-leaf-in-yourself.onrender.com/
+* **Live demo:** https://be-leaf-in-yourself.onrender.com/ (use the demo login; the free server can take up to a minute to wake up).
+
+### 2026 update
+* Python 3.12, Flask 2.3, Flask-SQLAlchemy 3 and current security releases; the front end moved from Create React App to **Vite** and React 18.
+* Continuous integration on GitHub Actions: installs, builds, migrates and seeds a real Postgres database, then checks the home page, the plants API and the demo login on every push.
+* One-click deploy with `render.yaml` (Render free web service + Neon free Postgres). Photo uploads use S3 only when `S3_BUCKET` is set.
 
 ### Built With
 

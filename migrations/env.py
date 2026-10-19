@@ -1,6 +1,7 @@
 from __future__ import with_statement
 
 import logging
+from sqlalchemy import text
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -87,7 +88,7 @@ def run_migrations_online():
         )
         # Create a schema (only in production)
         if environment == "production":
-            connection.execute(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA}")
+            connection.execute(text(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA}"))
 
         # Set search path to your schema (only in production)
         with context.begin_transaction():

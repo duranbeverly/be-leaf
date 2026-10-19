@@ -1,0 +1,37 @@
+# One-click deploy on Render's free plan. The database lives on Neon (free Postgres
+# that never expires); paste its connection string into DATABASE_URL when Render asks.
+services:
+  - type: web
+    name: be-leaf
+    runtime: python
+    plan: free
+    buildCommand: >-
+      pip install -r requirements.txt &&
+      npm install --prefix react-app &&
+      npm run build --prefix react-app &&
+      flask db upgrade &&
+      flask seed all
+    startCommand: gunicorn app:app
+    healthCheckPath: /api/plants
+    envVars:
+      - key: FLASK_APP
+        value: app
+      - key: FLASK_ENV
+        value: production
+      - key: SCHEMA
+        value: beleaf_schema
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: NODE_VERSION
+        value: "20"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      # Optional: set these to turn photo uploads back on.
+      - key: S3_BUCKET
+        sync: false
+      - key: S3_KEY
+        sync: false
+      - key: S3_SECRET
+        sync: false
