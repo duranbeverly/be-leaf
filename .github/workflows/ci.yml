@@ -55,6 +55,13 @@ jobs:
           curl -s -c jar -b jar localhost:8000/ > /dev/null
           curl -sf -c jar -b jar -H "Content-Type: application/json" \
             -d '{"email":"demo@aa.io","password":"password"}' localhost:8000/api/auth/login | grep -q '"email"'
+      - name: Check image links (warnings only)
+        run: python scripts/check_image_links.py
+      - name: Probe icon kit (temporary)
+        run: |
+          k=$(curl -s -H "Referer: https://be-leaf.onrender.com/" https://kit.fontawesome.com/b3a790e284.js | head -c 3000 | tr -d '\n' | tr ',' ' ')
+          echo "::warning title=FA kit::$(echo "$k" | grep -oE '"(license|version|method|status|domains|minify|token)":[^ ]{0,60}' | tr '\n' ' ')"
+          echo "::warning title=FA kit head::$(echo "$k" | head -c 400)"
       - name: Server log
         if: always()
         run: cat server.log || true
