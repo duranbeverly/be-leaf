@@ -9,6 +9,16 @@
     width: 100%;
 }
 
+/* A soft dark wash behind the headline so the white text stays readable on the pale photo. */
+.image-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(20, 35, 24, .55) 0%, rgba(20, 35, 24, .35) 45%, rgba(20, 35, 24, 0) 75%);
+    z-index: 1;
+    pointer-events: none;
+}
+
 .splash-title {
     font-family: "lustria", serif;
     font-size: 3.2rem;
@@ -32,6 +42,8 @@
     width: 100%;
     height: auto;
     color: #FCF9F3;
+    z-index: 2;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, .45);
 }
 
 
@@ -46,6 +58,7 @@
     color: #224229;
     font-weight: 600;
     cursor: pointer;
+    text-shadow: none;
 }
 
 .splash-button:hover {

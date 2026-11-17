@@ -29,6 +29,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
+      <main>
 
       {!isLoaded ?
         <div style={{ opacity: 0.5 }}>
@@ -93,6 +94,7 @@ function App() {
             </Route>
           </Switch>
         )}
+      </main>
     </>
   );
 }

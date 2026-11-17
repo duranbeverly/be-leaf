@@ -273,7 +273,7 @@
 
 .pot-colors {
     font-family: "Raleway", sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 500;
     grid-area: color;
     letter-spacing: .1em;
@@ -311,11 +311,11 @@
     }
 
     .fa-minus {
-        font-size: 10px;
+        font-size: 12px;
     }
 
     .fa-plus {
-        font-size: 10px;
+        font-size: 12px;
     }
 
     .cart-button {

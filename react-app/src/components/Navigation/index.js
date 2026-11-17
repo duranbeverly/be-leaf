@@ -8,8 +8,9 @@ function Navigation({ isLoaded }) {
 	const sessionUser = useSelector(state => state.session.user);
 
 	return (
-		<div>
+		<header>
 			<div className='green-top'></div>
+			<nav aria-label="Main">
 			<ul className='nav-bar'>
 				<NavLink className='nav-list-left' to="/">
 					<p className="site-name" >be-leaf</p>
@@ -26,8 +27,8 @@ function Navigation({ isLoaded }) {
 					</li>
 				)}
 			</ul>
-
-		</div>
+			</nav>
+		</header>
 	);
 }
 

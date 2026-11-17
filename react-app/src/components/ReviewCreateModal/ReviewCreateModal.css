@@ -39,7 +39,7 @@
     background: white;
     margin: .2rem 0 .5rem 0;
     font-family: "Raleway", sans-serif;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .form-dropdown:focus {
@@ -56,7 +56,7 @@
     color: #224229;
     padding: 0 1rem;
     font-family: "Raleway", sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     padding: .5rem;
 }
 
@@ -87,7 +87,7 @@
 
 .stars-title {
     font-family: 'Raleway', sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     color: #224229;
     font-weight: 500;
 }

@@ -36,7 +36,7 @@
 
 .form-label {
     font-family: 'Raleway', sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     color: #224229;
     font-weight: 500;
 
@@ -51,7 +51,7 @@
     color: #224229;
     padding: .5rem;
     font-family: "Raleway", sans-serif;
-    font-size: 11px;
+    font-size: 14px;
 }
 
 .form-input:focus {
@@ -182,7 +182,7 @@ body {
 .errors {
     color: rgb(182, 70, 70);
     font-family: "Raleway", sans-serif;
-    font-size: 10px;
+    font-size: 12px;
     text-decoration: none;
     list-style: none;
 }

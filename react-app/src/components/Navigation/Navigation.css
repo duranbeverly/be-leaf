@@ -136,7 +136,7 @@
     justify-content: flex-start;
     overflow-x: auto;
     gap: 1.25rem;
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: .02em;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
